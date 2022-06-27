@@ -1,3 +1,9 @@
+.place-info {
+    padding-bottom: 1rem;
+    margin: auto;
+    min-width: 400px
+}
+
 .input-comment-section {
     width: 50%;
     max-width: 1500px;
@@ -6,7 +12,12 @@
     vertical-align: center;
 }
 
-.posts-section{
+.comment-list{
+    overflow: auto;
+    background-color: #fdf7f0;
+}
+
+.posts-section {
     width: 100%;
     height: 600px;
     max-width: 1500px;
@@ -16,17 +27,17 @@
     overflow: auto;
 }
 
-.post-btn{
+.post-btn {
     vertical-align: center;
     margin-left: 10px;
 }
 
-.enroll-btn{
-    height : 90px;
-    width : 90px;
+.enroll-btn {
+    height: 90px;
+    width: 90px;
 }
 
-.delete-comment{
-    float:right;
-    color:red; !important;
+.delete-comment {
+    float: right;
+    color: red;
 }
