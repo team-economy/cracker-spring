@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header">
+<head th:replace="fragments/communityHeader :: communityHeader"></head>
+
+<body>
+<nav th:replace="fragments/navbar :: navbar"/>
+<section class="input-comment-section">
+    <div>
+        <article>
+            <div>
+                <div>
+                    <h3></h3>
+                    <p></p>
+                    <p></p>
+                    <p></p>
+                    <div>
+                        <span></span>
+                    </div>
+                </div>
+            </div>
+        </article>
+    </div>
+</section>
+
+<section class = "posts-section">
+    <article>
+        <figure>
+        </figure>
+        <div>
+            <p>
+                <textarea></textarea>
+            </p>
+        </div>
+        <div>
+            <div>
+                <a></a>
+            </div>
+        </div>
+    </article>
+</section>
+
+<section>
+    <div>
+        <div>
+            <article>
+                <div>
+                    <a>
+                        <img src="profile_pics/profile_placeholder.png" alt="Image">
+                    </a>
+                </div>
+                <div>
+                    <div>
+                        <p>
+                            <strong>홍길동</strong> <small>@username</small> <small>10분 전</small>
+                            <br>
+                            글을 적는 칸
+                        </p>
+                    </div>
+                </div>
+            </article>
+        </div>
+    </div>
+</section>
+
+<footer>
+    <div th:replace="fragments/footer :: footer" />
+</footer>
+</body>
