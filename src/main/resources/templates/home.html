@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <th:block th:replace="fragments/header :: header"></th:block>
-    <th:block th:replace="fragments/indexHeader :: indexHeader"></th:block>
+    <th:block th:replace="fragments/homeHeader :: homeHeader"></th:block>
 </head>
 <body>
 <div class="user-info">
@@ -53,17 +53,6 @@
 
 <section class="index map-section">
     <div id="map">
-        <script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=4sjdn8t06u&callback=initMap"></script>
-        <script type="text/javascript">
-            var map = null;
-
-            function initMap() {
-                map = new naver.maps.Map('map', {
-                    center: new naver.maps.LatLng(37.3595704, 127.105399),
-                    zoom: 10
-                });
-            }
-        </script>
     </div>
     <div class="index map-placelist">
         <div class="media-content">
