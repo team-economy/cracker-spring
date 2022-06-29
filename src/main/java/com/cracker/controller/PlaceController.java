@@ -27,13 +27,4 @@ public class PlaceController {
 
         return placeCreateResponseDto;
     }
-
-//    public String savePlace(@RequestParam Map<String, Object> param) {
-//        String name = (String) param.get("name");
-//        String addr = (String) param.get("addr");
-//        String addrRoad = (String) param.get("addrRoad");
-//        String coordX = (String) param.get("coordX");
-//        String coordY = (String) param.get("coordY");
-//        String phoneNum = (String) param.get("phoneNum");
-//        String cate = (String) param.get("cate");
 }
