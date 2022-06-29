@@ -172,22 +172,24 @@ function save_place() {
     let phone = radio_button.split(',')[5];
     let category = radio_button.split(',')[6];
 
+    let param = {
+        "name": place,
+        addr: addr,
+        addrRoad: addr_road,
+        coordX: x,
+        coordY: y,
+        phoneNum: phone,
+        cate: category
+    }
     console.log(place)
     console.log(addr)
     console.log(addr_road)
 
     $.ajax({
         type: "POST",
-        url: `/place/save`,
-        data: {
-            place_give: place,
-            addr_give: addr,
-            addr_road_give: addr_road,
-            x_give: x,
-            y_give: y,
-            phone_give: phone,
-            category_give: category
-        },
+        url: `/places/create`,
+        data: JSON.stringify(param),
+        contentType : "application/json",
         success: function (response) {
             if (response["msg"] == "저장 완료!!") {
                 alert(response["msg"])
