@@ -9,7 +9,7 @@ public class TestController {
 
     @GetMapping("/")
     public String hello(Model model){
-        model.addAttribute("data", "hello!!");
-        return "user";
+//        model.addAttribute("data", "hello!!");
+        return "home";
     }
 }
