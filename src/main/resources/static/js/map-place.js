@@ -121,37 +121,42 @@ function get_address() {
     let matjip_name = $("#input-post").val()
     $("#input-post").val("");
     $("#place_list").empty();
+
     $.ajax({
         type: "GET",
-        url: `/place/search?place_give=${matjip_name}`,
-        data: {},
-        success: function (response) {
-            if (response["result"] == "success") {
-                if (response["msg"] == "input empty") {
-                    alert("맛집이름을 입력해 주세요!")
-                } else if (response["msg"] == "no result") {
-                    alert("일치하는 정보가 없습니다.")
-                } else {
-                    $("#modal-post").addClass("is-active");
-                    let places = response["places"]
-                    for (let i = 0; i < places.length; i++) {
-                        let place = places[i]
+        url: `https://dapi.kakao.com/v2/local/search/keyword?query=${matjip_name}`,
+        beforeSend: function (header) {
+            header.setRequestHeader("Authorization",'KakaoAK b2cd5fe8152984068e62cf5b85fbb75a');
+        },
+        success: function(response) {
 
-                        let html_temp = `<div class="form-check">
-                                            <input class="form-check-input" type="radio" name="place" id="place${i}" 
-                                            value="${place['place_name']},${place['address_name']},${place['road_address_name']},${place['x']},${place['y']},${place['phone']},${place['category_name']}">
-                                            <label class="form-check-label" for="${place['place_name']}" id="label">
-                                                <p id="place_name"><b>${place['place_name']}</b></a>
-                                                <p>${place['category_name']}</p>
-                                                <p>${place['address_name']} | ${place['road_address_name']}</p>
+            let result = response['documents'];
+
+            if (result == "") {
+                alert("일치하는 정보가 없습니다.");
+            } else {
+                $("#modal-post").addClass("is-active");
+                for(let i = 0; i < result.length; i++) {
+                    let info = result[i];
+
+                    let html_temp = `<div class="form-check">
+                                            <input class="form-check-input" type="radio" name="place" id="place${i}"
+                                            value="${info['place_name']},${info['address_name']},${info['road_address_name']},${info['x']},${info['y']},${info['phone']},${info['category_name']}">
+                                            <label class="form-check-label" for="${info['place_name']}" id="label">
+                                                <p id="place_name"><b>${info['place_name']}</b></a>
+                                                <p>${info['category_name']}</p>
+                                                <p>${info['address_name']} | ${info['road_address_name']}</p>
                                             </label>
-                                        </div>`
-                        $("#place_list").append(html_temp);
-                    }
+                                      </div>`
+                    $("#place_list").append(html_temp);
                 }
             }
+
+        },
+        error: function(response) {
+            alert("검색어를 입력하세요");
         }
-    })
+    });
 }
 
 // 맞집 저장
