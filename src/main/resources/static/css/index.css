@@ -1,0 +1,125 @@
+/* modal */
+
+.modal-section {
+    z-index: 10000000;
+}
+
+.modal-content {
+    width: 600px;
+    max-width: 80%;
+}
+
+.modal-list {
+    height: 300px;
+    overflow: auto;
+}
+
+.button.save-button {
+    background-color: #3A3845;
+    border-color: transparent;
+    color: #FDF6EC !important;
+}
+
+.button.cancel-button {
+    background-color: #FDF6EC;
+    border-color: #FDF6EC;
+    color: #3A3845 !important;
+}
+
+.iw-inner {
+    padding: 10px;
+    font-size: smaller;
+}
+
+.place-phone {
+    color: #3A3845;
+}
+
+.community-delete {
+    text-align: right;
+}
+
+/* map and place list */
+
+.index.map-section {
+    width: 100%;
+    height: 600px;
+    max-width: 1500px;
+    margin: 80px auto 0px auto;
+    background-color: #F3E9DD;
+}
+
+.user.map-section {
+    width: 100%;
+    height: 600px;
+    max-width: 1500px;
+    margin: 80px auto 0px auto;
+    background-color: #F3E9DD;
+}
+
+body {
+    background-color: #F3E9DD;;
+}
+
+#map {
+    float: left;
+    width: 60%;
+    height: 90%;
+
+    margin-top: 20px;
+    margin-bottom: 20px;
+    background-color: #F3E9DD;
+
+    z-index: 0;
+}
+
+.media-content {
+    margin-bottom: 20px;
+}
+
+.place-input {
+    width: 80%;
+    margin-left: 10px;
+}
+
+.user.place-input {
+    width: 85%;
+    margin-left: 20px;
+}
+
+.find-btn {
+    margin-left: 10px;
+}
+
+.user.find-btn {
+    margin-left: 20px;
+}
+
+.index.map-placelist {
+    float: left;
+    width: 35%;
+
+    margin-left: 50px;
+}
+
+.user.map-placelist {
+    width: 50%;
+    margin: auto;
+}
+
+.matjip-list {
+    height: 500px;
+    overflow: auto;
+    position: relative;
+}
+
+/*커뮤니티 삭제 버튼*/
+.community-btn {
+    background-color: #A0BCC2 !important;
+    font-family: 'Gowun Batang', serif;
+}
+
+.delete-place-btn {
+    background-color: #ECA6A6 !important;
+    font-family: 'Gowun Batang', serif;
+}
