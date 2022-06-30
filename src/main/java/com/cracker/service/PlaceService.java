@@ -46,4 +46,10 @@ public class PlaceService {
                 .cate(place.getCate())
                 .build();
     }
+
+    @Transactional
+    public Long deletePlace(Long id) {
+        placeRepository.deleteById(id);
+        return id;
+    }
 }

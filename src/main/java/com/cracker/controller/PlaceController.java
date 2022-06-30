@@ -35,4 +35,10 @@ public class PlaceController {
         PlaceListRequestDto responsePlaceDto = placeService.findPlace(id);
         return placeService.findPlace(id);
     }
+
+    @DeleteMapping("/places/{id}")
+    public String deletePlace(@PathVariable("id") Long id) {
+        long retId = placeService.deletePlace(id);
+        return "delete";
+    }
 }
