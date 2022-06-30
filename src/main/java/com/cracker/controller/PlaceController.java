@@ -3,6 +3,7 @@ package com.cracker.controller;
 import com.cracker.domain.Place;
 import com.cracker.dto.PlaceCreateRequestDto;
 import com.cracker.dto.PlaceCreateResponseDto;
+import com.cracker.dto.PlaceDeleteResponseDto;
 import com.cracker.dto.PlaceListRequestDto;
 import com.cracker.service.PlaceService;
 import lombok.Builder;
@@ -38,8 +39,11 @@ public class PlaceController {
     }
 
     @DeleteMapping("/places/{id}")
-    public String deletePlace(@PathVariable("id") Long id) {
+    public PlaceDeleteResponseDto deletePlace(@PathVariable("id") Long id) {
         long retId = placeService.deletePlace(id);
-        return "delete";
+        PlaceDeleteResponseDto placeDeleteResponseDto = new PlaceDeleteResponseDto();
+        placeDeleteResponseDto.setMsg("삭제 완료!!");
+
+        return placeDeleteResponseDto;
     }
 }

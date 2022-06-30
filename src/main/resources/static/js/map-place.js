@@ -27,13 +27,12 @@ function get_place() {
         url: "/places",
         data: {},
         success: function (response) {
-            let matjips = response["matjip_list"]
-            console.log(matjips.name)
-            for (let i = 0; i < matjips.length; i++) {
-                let matjip = matjips[i]
+            console.log(response)
+            for (let i = 0; i < response.length; i++) {
+                let matjip = response[i]
                 make_card(i, matjip)
-                let marker = make_marker(matjip, matjip["marker_pic_real"])
-                add_info(i, marker, matjip)
+                // let marker = make_marker(matjip, matjip["marker_pic_real"])
+                // add_info(i, marker, matjip)
             }
         }
     });
@@ -96,7 +95,7 @@ function make_card(i, matjip) {
                                     <p class="card-text">도로명 주소 : ${matjip['addrRoad']}</p>
                                     <p class="community-delete">
                                     <button class="button is-success" style="background-color: #A0BCC2; font-family: 'Gowun Batang', serif" onclick="location.href='/community/${matjip['name']}'">커뮤니티
-                                    </button>&nbsp&nbsp&nbsp<button class="button is-danger" style="background-color: #ECA6A6; font-family: 'Gowun Batang', serif"" onclick="delete_place('${place_addr}')">삭제</button>
+                                    </button>&nbsp&nbsp&nbsp<button class="button is-danger" style="background-color: #ECA6A6; font-family: 'Gowun Batang', serif"" onclick="delete_place('${matjip['id']}')">삭제</button>
                                     </p>
                                 </div>
                             </div>`
@@ -206,13 +205,11 @@ function save_place() {
 
 
 // 맛집 삭제
-function delete_place(addr) {
+function delete_place(id) {
     $.ajax({
         type: "DELETE",
-        url: `/place/delete`,
-        data: {
-            addr_give: addr
-        },
+        url: `/places/${id}`,
+        data: {},
         success: function (response) {
             if (response["msg"] == "삭제 완료!!") {
                 alert(response["msg"])
