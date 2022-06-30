@@ -24,11 +24,11 @@ function get_place() {
     infowindows = []
     $.ajax({
         type: "GET",
-        url: `{{ 맛집리스트 가져오기 }}`,
+        url: "/places/{id}",
         data: {},
         success: function (response) {
             let matjips = response["matjip_list"]
-            console.log(matjips.length)
+            console.log(matjips.name)
             for (let i = 0; i < matjips.length; i++) {
                 let matjip = matjips[i]
                 make_card(i, matjip)
@@ -173,7 +173,7 @@ function save_place() {
     let category = radio_button.split(',')[6];
 
     let param = {
-        "name": place,
+        name: place,
         addr: addr,
         addrRoad: addr_road,
         coordX: x,

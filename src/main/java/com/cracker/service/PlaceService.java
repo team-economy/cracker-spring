@@ -3,6 +3,7 @@ package com.cracker.service;
 import com.cracker.controller.PlaceController;
 import com.cracker.domain.Place;
 import com.cracker.dto.PlaceCreateRequestDto;
+import com.cracker.dto.PlaceListRequestDto;
 import com.cracker.repository.PlaceRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -27,5 +28,22 @@ public class PlaceService {
         .build();
 
         return placeRepository.save(place).getId();
+    }
+
+    @Transactional
+    public PlaceListRequestDto findPlace(Long id) {
+        Place place = placeRepository.findById(id).orElseThrow(
+                () -> new NullPointerException("no list found")
+        );
+
+        return PlaceListRequestDto.builder()
+                .name(place.getName())
+                .addr(place.getAddr())
+                .addrRoad(place.getAddrRoad())
+                .coordX(place.getCoordX())
+                .coordY(place.getCoordY())
+                .phoneNum(place.getPhoneNum())
+                .cate(place.getCate())
+                .build();
     }
 }

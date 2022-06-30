@@ -1,45 +1,24 @@
-package com.cracker.domain;
+package com.cracker.dto;
 
+import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
-import javax.persistence.*;
-
-@Entity
-@Setter
 @Getter
-@NoArgsConstructor
-public class Place {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
-
-    @Column(nullable = false)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+public class PlaceListRequestDto {
     private String name;
-
-    @Column
     private String addr;
-
-    @Column
     private String addrRoad;
-
-    @Column(nullable = false)
     private String coordX;
-
-    @Column(nullable = false)
     private String coordY;
-
-    @Column
     private String phoneNum;
-
-    @Column
     private String cate;
 
     @Builder
-    public Place(String name, String addr, String addrRoad,
-                 String coordX, String coordY,String phoneNum, String cate) {
+    public PlaceListRequestDto(String name, String addr, String addrRoad, String coordX,
+                               String coordY, String phoneNum, String cate) {
         this.name = name;
         this.addr = addr;
         this.addrRoad = addrRoad;
@@ -47,6 +26,7 @@ public class Place {
         this.coordY = coordY;
         this.phoneNum = phoneNum;
         this.cate = cate;
+
     }
 
 }

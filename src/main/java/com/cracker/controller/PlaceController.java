@@ -3,8 +3,10 @@ package com.cracker.controller;
 import com.cracker.domain.Place;
 import com.cracker.dto.PlaceCreateRequestDto;
 import com.cracker.dto.PlaceCreateResponseDto;
+import com.cracker.dto.PlaceListRequestDto;
 import com.cracker.service.PlaceService;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 
@@ -26,5 +28,11 @@ public class PlaceController {
         placeCreateResponseDto.setMsg("저장 완료!!");
 
         return placeCreateResponseDto;
+    }
+
+    @GetMapping("/places/{id}")
+    public PlaceListRequestDto readPlace(@PathVariable("id") Long id) {
+        PlaceListRequestDto responsePlaceDto = placeService.findPlace(id);
+        return placeService.findPlace(id);
     }
 }
