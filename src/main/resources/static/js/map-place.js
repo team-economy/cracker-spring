@@ -24,16 +24,15 @@ function get_place() {
     infowindows = []
     $.ajax({
         type: "GET",
-        url: `{{ 맛집리스트 가져오기 }}`,
+        url: "/places",
         data: {},
         success: function (response) {
-            let matjips = response["matjip_list"]
-            console.log(matjips.length)
-            for (let i = 0; i < matjips.length; i++) {
-                let matjip = matjips[i]
+            console.log(response)
+            for (let i = 0; i < response.length; i++) {
+                let matjip = response[i]
                 make_card(i, matjip)
-                let marker = make_marker(matjip, matjip["marker_pic_real"])
-                add_info(i, marker, matjip)
+                // let marker = make_marker(matjip, matjip["marker_pic_real"])
+                // add_info(i, marker, matjip)
             }
         }
     });
@@ -55,10 +54,10 @@ function make_marker(matjip, user_marker) {
 // 마커 클릭 시 정보 출력
 function add_info(i, marker, matjip) {
     let html_temp = `<div class="iw-inner">
-                                    <h5><b>${matjip['matjip_name']}</b></h5>
-                                    <p class="card-text">지번 주소 : <i>${matjip['matjip_address']}</i></p>
-                                    <p class="card-text">도로명 주소 : <i>${matjip['matjip_road_address']}</i></p>
-                                    <p class="card-text">전화번호 : <span class="place-phone">${matjip['phone']}</span></p>
+                                    <h5><b>${matjip['place']}</b></h5>
+                                    <p class="card-text">지번 주소 : <i>${matjip['addr']}</i></p>
+                                    <p class="card-text">도로명 주소 : <i>${matjip['addrRoad']}</i></p>
+                                    <p class="card-text">전화번호 : <span class="place-phone">${matjip['phoneNum']}</span></p>
                                     </div>`;
     let infowindow = new naver.maps.InfoWindow({
         content: html_temp,
@@ -91,12 +90,12 @@ function make_card(i, matjip) {
     let place_addr = matjip["matjip_address"]
     let html_temp = `<div class="card" id="card-${i}">
                                 <div class="card-body" style="background-color: #FDF6EC">
-                                    <h5 class="card-title"><a href="javascript:click2center(${i})" class="matjip-title">${matjip['matjip_name']}</a></h5>
-                                    <p class="card-text">지번 주소 : ${matjip['matjip_address']}</p>
-                                    <p class="card-text">도로명 주소 : ${matjip['matjip_road_address']}</p>
+                                    <h5 class="card-title"><a href="javascript:click2center(${i})" class="matjip-title">${matjip['name']}</a></h5>
+                                    <p class="card-text">지번 주소 : ${matjip['addr']}</p>
+                                    <p class="card-text">도로명 주소 : ${matjip['addrRoad']}</p>
                                     <p class="community-delete">
-                                    <button class="button is-success" style="background-color: #A0BCC2; font-family: 'Gowun Batang', serif" onclick="location.href='/community/${matjip['matjip_name']}'">커뮤니티
-                                    </button>&nbsp&nbsp&nbsp<button class="button is-danger" style="background-color: #ECA6A6; font-family: 'Gowun Batang', serif"" onclick="delete_place('${place_addr}')">삭제</button>
+                                    <button class="button is-success" style="background-color: #A0BCC2; font-family: 'Gowun Batang', serif" onclick="location.href='/community/${matjip['name']}'">커뮤니티
+                                    </button>&nbsp&nbsp&nbsp<button class="button is-danger" style="background-color: #ECA6A6; font-family: 'Gowun Batang', serif"" onclick="delete_place('${matjip['id']}')">삭제</button>
                                     </p>
                                 </div>
                             </div>`
@@ -172,22 +171,24 @@ function save_place() {
     let phone = radio_button.split(',')[5];
     let category = radio_button.split(',')[6];
 
+    let param = {
+        name: place,
+        addr: addr,
+        addrRoad: addr_road,
+        coordX: x,
+        coordY: y,
+        phoneNum: phone,
+        cate: category
+    }
     console.log(place)
     console.log(addr)
     console.log(addr_road)
 
     $.ajax({
         type: "POST",
-        url: `/place/save`,
-        data: {
-            place_give: place,
-            addr_give: addr,
-            addr_road_give: addr_road,
-            x_give: x,
-            y_give: y,
-            phone_give: phone,
-            category_give: category
-        },
+        url: `/places/create`,
+        data: JSON.stringify(param),
+        contentType : "application/json",
         success: function (response) {
             if (response["msg"] == "저장 완료!!") {
                 alert(response["msg"])
@@ -204,13 +205,11 @@ function save_place() {
 
 
 // 맛집 삭제
-function delete_place(addr) {
+function delete_place(id) {
     $.ajax({
         type: "DELETE",
-        url: `/place/delete`,
-        data: {
-            addr_give: addr
-        },
+        url: `/places/${id}`,
+        data: {},
         success: function (response) {
             if (response["msg"] == "삭제 완료!!") {
                 alert(response["msg"])
