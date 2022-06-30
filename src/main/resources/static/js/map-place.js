@@ -24,7 +24,7 @@ function get_place() {
     infowindows = []
     $.ajax({
         type: "GET",
-        url: "/places/{id}",
+        url: "/places",
         data: {},
         success: function (response) {
             let matjips = response["matjip_list"]
@@ -55,10 +55,10 @@ function make_marker(matjip, user_marker) {
 // 마커 클릭 시 정보 출력
 function add_info(i, marker, matjip) {
     let html_temp = `<div class="iw-inner">
-                                    <h5><b>${matjip['matjip_name']}</b></h5>
-                                    <p class="card-text">지번 주소 : <i>${matjip['matjip_address']}</i></p>
-                                    <p class="card-text">도로명 주소 : <i>${matjip['matjip_road_address']}</i></p>
-                                    <p class="card-text">전화번호 : <span class="place-phone">${matjip['phone']}</span></p>
+                                    <h5><b>${matjip['place']}</b></h5>
+                                    <p class="card-text">지번 주소 : <i>${matjip['addr']}</i></p>
+                                    <p class="card-text">도로명 주소 : <i>${matjip['addrRoad']}</i></p>
+                                    <p class="card-text">전화번호 : <span class="place-phone">${matjip['phoneNum']}</span></p>
                                     </div>`;
     let infowindow = new naver.maps.InfoWindow({
         content: html_temp,
@@ -91,11 +91,11 @@ function make_card(i, matjip) {
     let place_addr = matjip["matjip_address"]
     let html_temp = `<div class="card" id="card-${i}">
                                 <div class="card-body" style="background-color: #FDF6EC">
-                                    <h5 class="card-title"><a href="javascript:click2center(${i})" class="matjip-title">${matjip['matjip_name']}</a></h5>
-                                    <p class="card-text">지번 주소 : ${matjip['matjip_address']}</p>
-                                    <p class="card-text">도로명 주소 : ${matjip['matjip_road_address']}</p>
+                                    <h5 class="card-title"><a href="javascript:click2center(${i})" class="matjip-title">${matjip['name']}</a></h5>
+                                    <p class="card-text">지번 주소 : ${matjip['addr']}</p>
+                                    <p class="card-text">도로명 주소 : ${matjip['addrRoad']}</p>
                                     <p class="community-delete">
-                                    <button class="button is-success" style="background-color: #A0BCC2; font-family: 'Gowun Batang', serif" onclick="location.href='/community/${matjip['matjip_name']}'">커뮤니티
+                                    <button class="button is-success" style="background-color: #A0BCC2; font-family: 'Gowun Batang', serif" onclick="location.href='/community/${matjip['name']}'">커뮤니티
                                     </button>&nbsp&nbsp&nbsp<button class="button is-danger" style="background-color: #ECA6A6; font-family: 'Gowun Batang', serif"" onclick="delete_place('${place_addr}')">삭제</button>
                                     </p>
                                 </div>

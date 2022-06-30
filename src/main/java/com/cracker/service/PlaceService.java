@@ -9,6 +9,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -31,21 +33,25 @@ public class PlaceService {
     }
 
     @Transactional
-    public PlaceListRequestDto findPlace(Long id) {
-        Place place = placeRepository.findById(id).orElseThrow(
-                () -> new NullPointerException("no list found")
-        );
-
-        return PlaceListRequestDto.builder()
-                .name(place.getName())
-                .addr(place.getAddr())
-                .addrRoad(place.getAddrRoad())
-                .coordX(place.getCoordX())
-                .coordY(place.getCoordY())
-                .phoneNum(place.getPhoneNum())
-                .cate(place.getCate())
-                .build();
+    public List<Place> placeList() {
+        return placeRepository.findAll();
     }
+
+//    public PlaceListRequestDto findPlace(Long id) {
+//        Place place = placeRepository.findById(id).orElseThrow(
+//                () -> new NullPointerException("no list found")
+//        );
+
+//        return PlaceListRequestDto.builder()
+//                .name(place.getName())
+//                .addr(place.getAddr())
+//                .addrRoad(place.getAddrRoad())
+//                .coordX(place.getCoordX())
+//                .coordY(place.getCoordY())
+//                .phoneNum(place.getPhoneNum())
+//                .cate(place.getCate())
+//                .build();
+//    }
 
     @Transactional
     public Long deletePlace(Long id) {

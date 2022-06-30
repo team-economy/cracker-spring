@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -30,10 +31,10 @@ public class PlaceController {
         return placeCreateResponseDto;
     }
 
-    @GetMapping("/places/{id}")
-    public PlaceListRequestDto readPlace(@PathVariable("id") Long id) {
-        PlaceListRequestDto responsePlaceDto = placeService.findPlace(id);
-        return placeService.findPlace(id);
+    @GetMapping("/places")
+    public List<Place> readPlace() {
+        List<Place> places = placeService.placeList();
+        return placeService.placeList();
     }
 
     @DeleteMapping("/places/{id}")
