@@ -59,12 +59,12 @@ public class UserController {
     @PostMapping("/signup")
     public String join(@RequestBody SignUpRequestDto signUpRequestDto) {
         userService.registerUser(signUpRequestDto);
-        return "login";
+        return "redirect:/";
     }
 
     @PostMapping("/logout")
     public String logout(HttpServletResponse response) throws IOException, ServletException {
         response.addHeader(JwtProperties.HEADER_STRING, JwtProperties.TOKEN_PREFIX);
-        return "로그아웃 완료";
+        return "login";
     }
 }

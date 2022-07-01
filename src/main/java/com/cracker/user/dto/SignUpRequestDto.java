@@ -14,7 +14,7 @@ public class SignUpRequestDto {
     private String pw;
     private String name;
     private String pic = String.valueOf(resource);
-    private String marker_pic;
+    private String marker_pic = "classpath:/";
     private String role;
     private String adminToken;
 
