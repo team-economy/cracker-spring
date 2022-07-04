@@ -1,70 +1,55 @@
 package com.cracker.user.controller;
 
-import com.cracker.user.config.auth.PrincipalDetails;
-import com.cracker.user.config.jwt.JwtProperties;
-import com.cracker.user.dto.SignUpRequestDto;
+import com.cracker.user.dto.AuthDto;
+import com.cracker.user.dto.TokenDto;
+import com.cracker.user.dto.UserRequestDto;
 import com.cracker.user.model.Users;
+import com.cracker.user.service.UserAuthService;
 import com.cracker.user.service.UserService;
-import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.stereotype.Controller;
+import com.cracker.user.utils.HttpStatusChangeInt;
+import com.cracker.user.utils.ResponseDetails;
+import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.*;
-
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
+import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
 import java.util.List;
 
-@Controller
-@RequiredArgsConstructor
+@RestController
+@AllArgsConstructor
 // @CrossOrigin  // CORS 허용
 public class UserController {
-
     private final UserService userService;
-    private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final UserAuthService userAuthService;
 
-    // 모든 사람이 접근 가능
-    @GetMapping("/")
-    public String home() {
-        return "home";
+    @PostMapping("api/user/signup")
+    public String signup(@RequestBody UserRequestDto requestDto) {
+        userService.registerUser(requestDto);
+        return "success signup";
     }
 
     // Tip : JWT를 사용하면 UserDetailsService를 호출하지 않기 때문에 @AuthenticationPrincipal 사용 불가능.
     // 왜냐하면 @AuthenticationPrincipal은 UserDetailsService에서 리턴될 때 만들어지기 때문이다.
-
     // 유저 혹은 매니저 혹은 어드민이 접근 가능
-    @GetMapping("/user")
-    public String user(Authentication authentication) {
-        PrincipalDetails principal = (PrincipalDetails) authentication.getPrincipal();
-        return "<h1>user</h1>";
+
+    @PostMapping("api/user/login")
+    public ResponseEntity<?> login(@RequestBody AuthDto.LoginDTO loginDTO) throws AccessDeniedException {
+        TokenDto tokenDto = userAuthService.login(loginDTO);
+        int httpStatus = HttpStatusChangeInt.ChangeStatusCode("OK");
+        ResponseDetails responseDetails = new ResponseDetails(new Date(), tokenDto, httpStatus);
+        return new ResponseEntity<>(responseDetails, HttpStatus.OK);
     }
 
-    @GetMapping("/admin/list")
-    public List<Users> userslist() {
+    @GetMapping("api/user/list")
+    public List<Users> findUsers() {
         return userService.findUsers();
     }
 
-    @DeleteMapping("/user/delete/{id}")
-    public Long deleteUser(@PathVariable Long id) {
-        userService.deleteUser(id);
-        return id;
-    }
-
-    @GetMapping("/login")
-    public String login() {
-        return "login";
-    }
-
-    @PostMapping("/signup")
-    public String join(@RequestBody SignUpRequestDto signUpRequestDto) {
-        userService.registerUser(signUpRequestDto);
-        return "redirect:/";
-    }
-
-    @PostMapping("/logout")
-    public String logout(HttpServletResponse response) throws IOException, ServletException {
-        response.addHeader(JwtProperties.HEADER_STRING, JwtProperties.TOKEN_PREFIX);
-        return "login";
+    @PostMapping("api/user/logout")
+    public ResponseEntity<?> logoutToken(HttpServletRequest request) throws AccessDeniedException {
+        userAuthService.logout(request);
+        return new ResponseEntity<>(HttpStatus.RESET_CONTENT);
     }
 }

@@ -1,70 +1,60 @@
 package com.cracker.user.config;
 
 import com.cracker.user.config.jwt.JwtAuthenticationFilter;
-import com.cracker.user.config.jwt.JwtAuthorizationFilter;
-import com.cracker.user.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.cracker.user.config.jwt.JwtTokenProvider;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 
-// https://github.com/spring-projects/spring-security/issues/10822 참고
-@Configuration
-@EnableWebSecurity // 시큐리티 활성화 -> 기본 스프링 필터체인에 등록
-public class SecurityConfig {
+@RequiredArgsConstructor
+@EnableWebSecurity
+public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Autowired
-    private UserRepository userRepository;
+    private final JwtTokenProvider jwtTokenProvider;
 
-    @Autowired
-    private CorsConfig corsConfig;
+    // authenticationManager를 Bean 등록합니다.
 
-    @Bean
-    SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        return http
-                // csrf 토큰 검사 비활성화
-                .csrf().disable()
-                // http session 사용 비활성화
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
-                // form을 통한 로그인 비활성화
-                .formLogin().disable()
-                // http Basic 방식 사용 비활성화
-                .httpBasic().disable()
-                // 커스텀 필터 적용
-                .apply(new MyCustomDsl())
-                .and()
-                // 인증 범위 설정
-                .authorizeRequests(authorize -> authorize
-                        // page를 user가 볼 수 있을 때 access 가능한 Role 범위
-                        .antMatchers("/**")
-                        .access("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
-                        // page를 admin이 볼 수 있을 때 access 가능한 Role 범위
-                        .antMatchers("/admin/**")
-                        .access("hasRole('ROLE_ADMIN')")
-                        // 이외는 모두 허가
-                        .antMatchers("/login").permitAll()
-                        .antMatchers("/signup").permitAll()
-                )
-                .build();
+    @Bean(name = "userAuthenticationManagerBean")
+    @Override
+    public AuthenticationManager authenticationManagerBean() throws Exception {
+        return super.authenticationManagerBean();
     }
 
-// /api/v1/login /api/v1/signup
-    // Custom Filter
-    public class MyCustomDsl extends AbstractHttpConfigurer<MyCustomDsl, HttpSecurity> {
-        @Override
-        public void configure(HttpSecurity http) throws Exception {
-            AuthenticationManager authenticationManager = http.getSharedObject(AuthenticationManager.class);
-            http
-                    .addFilter(corsConfig.corsFilter())
-                    .addFilter(new JwtAuthenticationFilter(authenticationManager))
-                    .addFilter(new JwtAuthorizationFilter(authenticationManager, userRepository));
-        }
+    @Bean
+    public PasswordEncoder encodePassword() {
+        return new BCryptPasswordEncoder();
+    }
+
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        http.headers().frameOptions().disable();
+        http.csrf().disable()
+            // 일반적인 루트가 아닌 다른 방식으로 요청시 거절, header에 id, pw가 아닌 token(jwt)을 달고 간다. 그래서 basic이 아닌 bearer를 사용한다.
+            .httpBasic().disable()
+            .authorizeRequests()// 요청에 대한 사용권한 체크
+            .antMatchers("/test").authenticated()
+            .antMatchers(HttpMethod.POST, "/api/user/login").permitAll()
+            .antMatchers("/api/user/logout").permitAll()
+            .antMatchers(HttpMethod.POST, "/api/user").permitAll()
+//                .antMatchers("/admin/**").hasRole("ADMIN")
+//                .antMatchers("/user/**").hasRole("USER")
+            .antMatchers("/h2-console/**").permitAll()
+            .anyRequest().permitAll()
+            .and()
+            .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider),
+                    UsernamePasswordAuthenticationFilter.class);
+        // JwtAuthenticationFilter를 UsernamePasswordAuthenticationFilter 전에 넣는다
+        // + 토큰에 저장된 유저정보를 활용하여야 하기 때문에 CustomUserDetailService 클래스를 생성합니다.
+        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS); //세션을 사용하지 않는다고 설정
     }
 }

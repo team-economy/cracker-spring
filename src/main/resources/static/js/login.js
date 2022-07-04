@@ -3,7 +3,7 @@
  */
 
 //회원 가입
-function sign_up() {
+function sign_up(requestDto) {
     let user_mail = $("#input-user_mail").val()
     let user_name = $("#input-user_name").val()
     let user_pw = $("#input-password").val()
@@ -49,12 +49,9 @@ function sign_up() {
     }
     $.ajax({
         type: "POST",
-        url: "{{ 회원 정보 저장 ( 회원가입 ) }}",
-        data: {
-            user_mail_give: user_mail,
-            user_name_give: user_name,
-            user_pw_give: user_pw
-        },
+        url: 'api/user/signup',
+        contentType: "application/json",
+        data: JSON.stringify(requestDto),
         success: function (response) {
             alert("회원가입을 축하드립니다!")
             window.location.replace("/login")
@@ -146,7 +143,6 @@ function check_user_dup() {
                 $("#help-name").text("사용할 수 있는 별명입니다.").removeClass("is-danger").addClass("is-success")
             }
             $("#help-mail").removeClass("is-loading")
-
         }
     });
 }
@@ -156,7 +152,13 @@ function check_user_dup() {
  */
 function sign_in() {
     let user_mail = $("#input-user_mail").val()
-    let user_pw = $("#input-password").val()
+    let user_pw = $("#input-user_pw").val()
+
+    let loginDTO =
+        {
+            "email" : user_mail,
+            "pw" : user_pw
+        }
 
     if (user_mail == "") {
         $("#help-mail-login").text("이메일을 입력해주세요.")
@@ -168,24 +170,23 @@ function sign_in() {
 
     if (user_pw == "") {
         $("#help-password-login").text("비밀번호를 입력해주세요.")
-        $("#input-password").focus()
+        $("#input-user_pw").focus()
         return;
     } else {
         $("#help-password-login").text("")
     }
     $.ajax({
         type: "POST",
-        url: "{{ 로그인 }}",
-        data: {
-            user_mail_give: user_mail,
-            user_pw_give: user_pw
-        },
+        url: 'api/user/login',
+        contentType: "application/json",
+        data: JSON.stringify(loginDTO),
         success: function (response) {
             if (response['result'] == 'success') {
                 $.cookie('mytoken', response['token'], {path: '/'});
                 window.location.replace("/")
             } else {
                 alert(response['msg'])
+                console.log("loginDto")
             }
         }
     });
