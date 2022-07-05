@@ -11,7 +11,7 @@ public class UserDomainController {
         return "home";
     }
 
-    @GetMapping("/api/user/")
+    @GetMapping("/login")
     public String login() {
         return "login";
     }

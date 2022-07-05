@@ -43,6 +43,7 @@ public class UserAuthService {
                     new UsernamePasswordAuthenticationToken(loginDTO.getEmail(), loginDTO.getPw())
             );
         } catch (Exception e) {
+            e.printStackTrace();
             throw new AccessDeniedException("로그인 실패,요청 받은 아이디 또는 비밀번호가 맞지 않습니다.");
         }
 

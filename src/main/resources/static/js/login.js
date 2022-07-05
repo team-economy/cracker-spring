@@ -1,13 +1,22 @@
 /**
  * 회원가입
  */
-
 //회원 가입
-function sign_up(requestDto) {
+function sign_up() {
     let user_mail = $("#input-user_mail").val()
     let user_name = $("#input-user_name").val()
-    let user_pw = $("#input-password").val()
+    let user_pw = $("#input-user_pw").val()
     let user_pw2 = $("#input-password2").val()
+
+    requestDto =
+        {
+            "email": user_mail,
+            "pw": user_pw,
+            "nickname": user_name,
+            "pic" : "",
+            "marker_pic" : "",
+            "role": "ROLE_USER"
+        }
 
     if ($("#help-mail").hasClass("is-danger")) {
         alert("이메일을 다시 확인해주세요.")
@@ -47,6 +56,7 @@ function sign_up(requestDto) {
     } else {
         $("#help-password2").text("비밀번호가 일치합니다.").removeClass("is-danger").addClass("is-success")
     }
+
     $.ajax({
         type: "POST",
         url: 'api/user/signup',
@@ -57,7 +67,6 @@ function sign_up(requestDto) {
             window.location.replace("/login")
         }
     });
-
 }
 
 // 이메일, 이름, 비밀번호 조건 확인
@@ -89,6 +98,11 @@ function toggle_sign_up() {
     $("#help-password2").toggleClass("is-hidden")
 }
 
+//관리자 버튼 클릭
+function toggle_admin_sign_up() {
+    $("#admin-sign-up-box").toggleClass("is-hidden")
+}
+
 //이메일 중복 확인
 function check_email_dup() {
     let user_mail = $("#input-user_mail").val()
@@ -103,15 +117,16 @@ function check_email_dup() {
         $("#input-user_mail").focus()
         return;
     }
+
     $("#help-mail").addClass("is-loading")
     $.ajax({
         type: "POST",
-        url: "{{ 이메일 중복 확인 }}",
+        url: '/api/user/checkEmailDup',
         data: {
-            user_mail_give: user_mail
+            email : user_mail
         },
         success: function (response) {
-            if (response["exists"]) {
+            if (response === "exists") {
                 $("#help-mail").text("이미 존재하는 이메일입니다.").removeClass("is-safe").addClass("is-danger")
                 $("#input-user_mail").focus()
             } else {
@@ -128,21 +143,32 @@ function check_user_dup() {
     let user_name = $("#input-user_name").val()
     console.log(user_name)
 
+    if (user_name == "") {
+        $("#help-name").text("별명을 입력해주세요.").removeClass("is-safe").addClass("is-danger")
+        $("#input-user_name").focus()
+        return;
+    }
+    if (!is_name(user_name)) {
+        $("#help-name").text("별명의 형식을 확인해주세요.").removeClass("is-safe").addClass("is-danger")
+        $("#input-user_name").focus()
+        return;
+    }
+
     $("#help-name").addClass("is-loading")
     $.ajax({
         type: "POST",
-        url: "{{ 유저이름 중복 확인 }}",
+        url: '/api/user/checkNicknameDup',
         data: {
-            user_name_give: user_name
+            nickname: user_name
         },
         success: function (response) {
-            if (response["exists"]) {
+            if (response === "exists") {
                 $("#help-name").text("이미 존재하는 별명입니다.").removeClass("is-safe").addClass("is-danger")
                 $("#input-user_name").focus()
             } else {
                 $("#help-name").text("사용할 수 있는 별명입니다.").removeClass("is-danger").addClass("is-success")
             }
-            $("#help-mail").removeClass("is-loading")
+            $("#help-name").removeClass("is-loading")
         }
     });
 }
@@ -175,19 +201,21 @@ function sign_in() {
     } else {
         $("#help-password-login").text("")
     }
+
     $.ajax({
         type: "POST",
-        url: 'api/user/login',
+        url: '/api/user/login',
         contentType: "application/json",
         data: JSON.stringify(loginDTO),
         success: function (response) {
             if (response['result'] == 'success') {
                 $.cookie('mytoken', response['token'], {path: '/'});
                 window.location.replace("/")
+                alert('로그인 성공!')
             } else {
                 alert(response['msg'])
-                console.log("loginDto")
             }
         }
     });
 }
+

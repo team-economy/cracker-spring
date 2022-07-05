@@ -12,6 +12,7 @@ public class UserRequestDto {
     private String nickname;
     private String pic;
     private String marker_pic;
-    private UserRole role;
-    private String adminToken;
+    private String role;
+//    private UserRole role;
+//    private String adminToken;
 }

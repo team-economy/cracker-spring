@@ -15,7 +15,6 @@ import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
-import java.util.List;
 
 @RestController
 @AllArgsConstructor
@@ -24,30 +23,44 @@ public class UserController {
     private final UserService userService;
     private final UserAuthService userAuthService;
 
-    @PostMapping("api/user/signup")
+    @PostMapping("/api/user/signup")
     public String signup(@RequestBody UserRequestDto requestDto) {
         userService.registerUser(requestDto);
         return "success signup";
     }
 
-    // Tip : JWT를 사용하면 UserDetailsService를 호출하지 않기 때문에 @AuthenticationPrincipal 사용 불가능.
-    // 왜냐하면 @AuthenticationPrincipal은 UserDetailsService에서 리턴될 때 만들어지기 때문이다.
-    // 유저 혹은 매니저 혹은 어드민이 접근 가능
-
-    @PostMapping("api/user/login")
+    @PostMapping("/api/user/login")
     public ResponseEntity<?> login(@RequestBody AuthDto.LoginDTO loginDTO) throws AccessDeniedException {
         TokenDto tokenDto = userAuthService.login(loginDTO);
         int httpStatus = HttpStatusChangeInt.ChangeStatusCode("OK");
-        ResponseDetails responseDetails = new ResponseDetails(new Date(), tokenDto, httpStatus);
+        ResponseDetails responseDetails = new ResponseDetails(new Date(), tokenDto, httpStatus, "success");
         return new ResponseEntity<>(responseDetails, HttpStatus.OK);
     }
 
-    @GetMapping("api/user/list")
-    public List<Users> findUsers() {
-        return userService.findUsers();
+    @PostMapping("/api/user/checkEmailDup")
+    public String checkEmailDup(@RequestParam String email) {
+        if (userService.checkEmailDup(email).equals("exists")) {
+            return "exists";
+        } else {
+            return "Email Duplication Checked.";
+        }
     }
 
-    @PostMapping("api/user/logout")
+    @PostMapping("/api/user/checkNicknameDup")
+    public String checkNicknameDup(@RequestParam String nickname) {
+        if (userService.checkNicknameDup(nickname).equals("exists")) {
+            return "exists";
+        } else {
+            return "Email Duplication Checked.";
+        }
+    }
+
+//    @GetMapping("api/user/list")
+//    public List<Users> findUsers() {
+//        return userService.findUsers();
+//    }
+
+    @PostMapping("/api/user/logout")
     public ResponseEntity<?> logoutToken(HttpServletRequest request) throws AccessDeniedException {
         userAuthService.logout(request);
         return new ResponseEntity<>(HttpStatus.RESET_CONTENT);

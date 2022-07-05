@@ -11,4 +11,5 @@ public class ResponseDetails {
     private Date timestamp;
     private Object data;
     private int httpStatus;
+    private String result;
 }

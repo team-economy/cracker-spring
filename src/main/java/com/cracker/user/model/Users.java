@@ -24,23 +24,26 @@ public class Users extends Timestamped {
     @Column(nullable = false, length = 100)
     private String pw;
 
-    @Column(nullable = false, length = 10)
+    @Column(nullable = false, unique = true, length = 10)
     private String nickname;
 
-    @Column(nullable = false, length = 20)
+    @Column(nullable = false, length = 100)
     private String pic;
 
-    @Column(nullable = false, length = 20)
+    @Column(nullable = false, length = 100)
     private String marker_pic;
 
     @Column
     private String status;
 
     @Column
-    @Enumerated(value = EnumType.STRING)
-    private UserRole role = UserRole.ROLE_USER;
+    private String role;
 
-    public Users(String email, String pw, String nickname, String pic, String marker_pic, UserRole role) {
+//    @Column
+//    @Enumerated(value = EnumType.STRING)
+//    private UserRole role = UserRole.ROLE_USER;
+
+    public Users(String email, String pw, String nickname, String pic, String marker_pic, String role) {
         this.email = email;
         this.pw = pw;
         this.nickname = nickname;

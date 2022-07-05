@@ -17,7 +17,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Autowired
     UserRepository userRepository;
 
-
     @Override
     public UserDetails loadUserByUsername(String email) {
         Optional<Users> users = userRepository.findByEmail(email);
