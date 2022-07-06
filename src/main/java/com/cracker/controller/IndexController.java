@@ -5,6 +5,7 @@ import com.cracker.service.PlaceService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.UnsatisfiedServletRequestParameterException;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
@@ -28,8 +29,13 @@ public class IndexController {
         return "community";
     }
 
+    //user page 연결
     @GetMapping("/user/{id}")
-    public String user(@PathVariable Long id){
+    public String user(@PathVariable Long id, Model model)
+    {
+//        User user = userService.userSearch(id);
+//        model.addAttribute("userInfo", user);
         return "user";
+
     }
 }
