@@ -20,7 +20,7 @@ public class CommentService{
     @Transactional
     public long save(CommentCreateRequestDto commentCreateRequestDto){
         Comment comment = Comment.builder()
-                .username(commentCreateRequestDto.getUsername())
+                .username(commentCreateRequestDto.getUserName())
                 .comment(commentCreateRequestDto.getComment())
                 .build();
         return commentRepository.save(comment).getId();
