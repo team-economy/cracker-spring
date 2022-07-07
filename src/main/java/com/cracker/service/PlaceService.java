@@ -37,25 +37,14 @@ public class PlaceService {
         return placeRepository.findAll();
     }
 
-//    public PlaceListRequestDto findPlace(Long id) {
-//        Place place = placeRepository.findById(id).orElseThrow(
-//                () -> new NullPointerException("no list found")
-//        );
-
-//        return PlaceListRequestDto.builder()
-//                .name(place.getName())
-//                .addr(place.getAddr())
-//                .addrRoad(place.getAddrRoad())
-//                .coordX(place.getCoordX())
-//                .coordY(place.getCoordY())
-//                .phoneNum(place.getPhoneNum())
-//                .cate(place.getCate())
-//                .build();
-//    }
-
     @Transactional
     public Long deletePlace(Long id) {
         placeRepository.deleteById(id);
         return id;
+    }
+
+    @Transactional
+    public Place placeSearch(Long id){
+        return placeRepository.getById(id);
     }
 }

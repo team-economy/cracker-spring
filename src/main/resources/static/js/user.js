@@ -1,5 +1,6 @@
 $(document).ready(function () {
     get_user_place()
+    get_place()
 })
 
 // 유저 프로필 이미지 변경
