@@ -7,6 +7,8 @@ function sign_up() {
     let user_name = $("#input-user_name").val()
     let user_pw = $("#input-user_pw").val()
     let user_pw2 = $("#input-password2").val()
+    let user_role = $("#input-role").val()
+    let adminToken = $("#input-adminToken").val()
 
     requestDto =
         {
@@ -15,7 +17,8 @@ function sign_up() {
             "nickname": user_name,
             "pic" : "",
             "marker_pic" : "",
-            "role": "ROLE_USER"
+            "role": user_role,
+            "adminToken" : adminToken
         }
 
     if ($("#help-mail").hasClass("is-danger")) {
@@ -59,7 +62,7 @@ function sign_up() {
 
     $.ajax({
         type: "POST",
-        url: 'api/user/signup',
+        url: 'api/cracker/signup',
         contentType: "application/json",
         data: JSON.stringify(requestDto),
         success: function (response) {
@@ -99,7 +102,7 @@ function toggle_sign_up() {
 }
 
 //관리자 버튼 클릭
-function toggle_admin_sign_up() {
+function admin_sign_up() {
     $("#admin-sign-up-box").toggleClass("is-hidden")
 }
 
@@ -121,7 +124,7 @@ function check_email_dup() {
     $("#help-mail").addClass("is-loading")
     $.ajax({
         type: "POST",
-        url: '/api/user/checkEmailDup',
+        url: '/api/cracker/checkEmailDup',
         data: {
             email : user_mail
         },
@@ -157,7 +160,7 @@ function check_user_dup() {
     $("#help-name").addClass("is-loading")
     $.ajax({
         type: "POST",
-        url: '/api/user/checkNicknameDup',
+        url: '/api/cracker/checkNicknameDup',
         data: {
             nickname: user_name
         },
@@ -201,16 +204,24 @@ function sign_in() {
     } else {
         $("#help-password-login").text("")
     }
-
     $.ajax({
         type: "POST",
-        url: '/api/user/login',
+        url: '/api/cracker/login',
         contentType: "application/json",
         data: JSON.stringify(loginDTO),
         success: function (response) {
+            let token = $.cookie('token');
+            if (token!=null){
+                $.ajaxSetup({
+                    beforeSend: function (xhr) {
+                        xhr.setRequestHeader("Content-type", "application/json");
+                        xhr.setRequestHeader("Authorization", token);
+                    }
+                });
+            }
             if (response['result'] == 'success') {
-                $.cookie('mytoken', response['token'], {path: '/'});
                 window.location.replace("/")
+                // 함수를 만들어서 요청을 할 때 헤더에 쿠키 토큰을 넣
                 alert('로그인 성공!')
             } else {
                 alert(response['msg'])
@@ -218,4 +229,3 @@ function sign_in() {
         }
     });
 }
-
