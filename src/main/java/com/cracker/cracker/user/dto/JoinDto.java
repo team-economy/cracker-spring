@@ -10,6 +10,9 @@ import lombok.Setter;
 public class JoinDto {
     private final String email;
     private final String password;
-    private final String nickName;
+    private final String nickname;
+    private final String pic;
+    private final String marker_pic;
     private final String role;
+    private final String adminToken;
 }

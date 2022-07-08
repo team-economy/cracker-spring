@@ -20,7 +20,6 @@ public class AuthToken {
     public static final String REFRESH_TOKEN = "refresh_token";
     public static final String AUTHORITIES_KEY = "role";
     public static final String USER_ID = "email";
-    public static final String UID = "uid";
     public static final String NICK_NAME = "nickName";
 
     AuthToken(Date expiry, Key key) {
@@ -28,12 +27,12 @@ public class AuthToken {
         this.token = createAuthToken(expiry);
     }
 
-    AuthToken(String email, String nickName, UUID uid, String role, Date expiry, Key key) {
+    AuthToken(String email, String nickName, String role, Date expiry, Key key) {
         this.key = key;
-        this.token = createAuthToken(email, nickName, uid, role, expiry);
+        this.token = createAuthToken(email, nickName, role, expiry);
     }
 
-    // refresh token 을 만드는데 이용 될 createAuthToken
+    // refresh token 을 만드는데 이용 될 createAuthToken(deactivated)
     private String createAuthToken(Date expiry) {
         return Jwts.builder()
                 .setSubject("user")
@@ -43,8 +42,8 @@ public class AuthToken {
                 .compact();
     }
 
-    // access token 을 만드는데 이용 될 createAuthToken
-    private String createAuthToken(String email, String nickName, UUID uid, String role, Date expiry) {
+    // token 을 만드는데 이용 될 createAuthToken
+    private String createAuthToken(String email, String nickName, String role, Date expiry) {
         Date now = new Date();
 
         // .claim 을 이용하여 페이로드에 넣을 값들을 구성해준다.
@@ -52,7 +51,6 @@ public class AuthToken {
                 .setSubject("user")
                 .setIssuedAt(now)
                 .claim(AUTHORITIES_KEY, role)
-                .claim(UID, uid)
                 .claim(USER_ID, email)
                 .claim(NICK_NAME, nickName)
                 .signWith(key, SignatureAlgorithm.HS256)

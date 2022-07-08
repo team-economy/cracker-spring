@@ -32,6 +32,11 @@ public class AuthService {
     private final PasswordEncoder passwordEncoder;
     private final static long THREE_DAYS_MSEC = 259200000;
 
+    public Optional<Users> getUserByEmail(String email) {
+        Optional<Users> user = userRepository.findByEmail(email);
+        return user;
+    }
+
     /**
      * refresh token 발급 및 userCertification update
      */
@@ -39,7 +44,7 @@ public class AuthService {
         Date now = new Date();
         long refreshTokenExpiry = appProperties.getRefreshTokenExpiry();
 
-        AuthToken refreshToken = tokenProvider.createAuthToken(new Date(now.getTime() + refreshTokenExpiry));
+        AuthToken refreshToken = tokenProvider.createAuthToken(user.getEmail(), user.getNickname(), user.getRole().getCode(), new Date(now.getTime() + refreshTokenExpiry));
         user.updateRefreshToken(refreshToken.getToken());
 
         return refreshToken;
@@ -51,9 +56,8 @@ public class AuthService {
     public AuthToken AccessToken(Users user) {
         Date now = new Date();
         return tokenProvider.createAuthToken(
-                user.getLoginId(),
-                user.getNickName(),
-                user.getUid(),
+                user.getEmail(),
+                user.getNickname(),
                 user.getRole().getCode(),
                 new Date(now.getTime() + appProperties.getTokenExpiry())
         );
@@ -63,14 +67,14 @@ public class AuthService {
      * login
      */
     public TokenDto login(HttpServletRequest httpRequest, HttpServletResponse httpResponse, LoginDto requestLoginDTO) {
-        Optional<Users> userCertificationOptional = userRepository.findByLoginId(requestLoginDTO.getEmail());
-        if (userCertificationOptional.isEmpty()) {
+        Optional<Users> userOptional = userRepository.findByEmail(requestLoginDTO.getEmail());
+        if (userOptional.isEmpty()) {
             return null;
         }
 
-        Users user = userCertificationOptional.get();
+        Users user = userOptional.get();
 
-        if (!passwordEncoder.matches(requestLoginDTO.getPassword(), user.getLoginPassword())) {
+        if (!passwordEncoder.matches(requestLoginDTO.getPassword(), user.getPassword())) {
             return null;
         }
 
@@ -124,7 +128,7 @@ public class AuthService {
         }
 
         // userId refresh token 으로 DB 확인
-        Users user = userRepository.findByLoginId(email).orElseThrow(
+        Users user = userRepository.findByEmail(email).orElseThrow(
                 () -> new NullPointerException("아이디가 존재하지 않습니다.")
         );
 
@@ -135,9 +139,8 @@ public class AuthService {
 
         Date now = new Date();
         AuthToken newAccessToken = tokenProvider.createAuthToken(
-                user.getLoginId(),
-                user.getNickName(),
-                user.getUid(),
+                user.getEmail(),
+                user.getNickname(),
                 user.getRole().getCode(),
                 new Date(now.getTime() + appProperties.getTokenExpiry())
         );
@@ -149,7 +152,7 @@ public class AuthService {
             // refresh 토큰 설정
             long refreshTokenExpiry = appProperties.getRefreshTokenExpiry();
 
-            authRefreshToken = tokenProvider.createAuthToken(new Date(now.getTime() + refreshTokenExpiry));
+            authRefreshToken = tokenProvider.createAuthToken(user.getEmail(), user.getNickname(), user.getRole().getCode(), new Date(now.getTime() + refreshTokenExpiry));
 
             // DB에 refresh 토큰 업데이트
             user.updateRefreshToken(authRefreshToken.getToken());

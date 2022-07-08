@@ -7,6 +7,7 @@ import com.cracker.cracker.common.ResponseDetails;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,16 +21,16 @@ import javax.servlet.http.HttpServletResponse;
 public class AuthController {
     private final AuthService authService;
 
-    @PostMapping("/login")
+    @PostMapping("/api/cracker/login")
     public ResponseEntity<?> login(HttpServletRequest request, HttpServletResponse response, @RequestBody LoginDto requestLoginDTO) {
-        System.out.println("게이트웨이를 통해 들어왔습니다! :)");
         TokenDto token = authService.login(request, response, requestLoginDTO);
         ResponseDetails responseDetails;
         if (token == null) {
-            responseDetails = ResponseDetails.loginFail("로그인 실패", "/api/auth/login");
+            responseDetails = ResponseDetails.loginFail("로그인 실패", "/api/cracker/login");
             return new ResponseEntity<>(responseDetails, HttpStatus.UNAUTHORIZED);
         }
-        responseDetails = ResponseDetails.success(token, "/api/auth/login");
+        responseDetails = ResponseDetails.success(token, "/api/cracker/login");
+        System.out.println(responseDetails);
         return new ResponseEntity<>(responseDetails, HttpStatus.OK);
     }
 

@@ -13,4 +13,6 @@ public class AppProperties {
     private long tokenExpiry;
     @Value("${app.auth.refreshTokenExpiry}")
     private long refreshTokenExpiry;
+    @Value("${app.auth.adminToken}")
+    private String adminToken;
 }

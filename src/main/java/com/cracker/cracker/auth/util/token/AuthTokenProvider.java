@@ -4,6 +4,7 @@ import com.cracker.cracker.auth.security.UserPrincipal;
 import com.cracker.cracker.exception.ErrorCode;
 import com.cracker.cracker.exception.TokenValidFailedException;
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -12,10 +13,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import java.security.Key;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Date;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -31,8 +29,8 @@ public class AuthTokenProvider {
         return new AuthToken(expiry, key);
     }
 
-    public AuthToken createAuthToken(String email, String nickName, UUID uid, String role, Date expiry) {
-        return new AuthToken(email, nickName, uid, role, expiry, key);
+    public AuthToken createAuthToken(String email, String nickName, String role, Date expiry) {
+        return new AuthToken(email, nickName, role, expiry, key);
     }
 
     public AuthToken convertAuthToken(String token) {
@@ -58,4 +56,16 @@ public class AuthTokenProvider {
         }
     }
 
+    private Claims getAllClaims(String token) {
+        return Jwts.parserBuilder()
+                .setSigningKey(key)
+                .build()
+                .parseClaimsJws(token)
+                .getBody();
+    }
+
+    public String getEmailByToken(String token) {
+        String email = String.valueOf(getAllClaims(token).get("email"));
+        return email;
+    }
 }

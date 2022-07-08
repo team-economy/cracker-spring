@@ -10,10 +10,10 @@ function sign_up() {
     let user_role = $("#input-role").val()
     let adminToken = $("#input-adminToken").val()
 
-    requestDto =
+    requestJoinDTO =
         {
             "email": user_mail,
-            "pw": user_pw,
+            "password": user_pw,
             "nickname": user_name,
             "pic" : "",
             "marker_pic" : "",
@@ -62,9 +62,9 @@ function sign_up() {
 
     $.ajax({
         type: "POST",
-        url: 'api/cracker/signup',
+        url: '/api/cracker/signup',
         contentType: "application/json",
-        data: JSON.stringify(requestDto),
+        data: JSON.stringify(requestJoinDTO),
         success: function (response) {
             alert("회원가입을 축하드립니다!")
             window.location.replace("/login")
@@ -109,7 +109,10 @@ function admin_sign_up() {
 //이메일 중복 확인
 function check_email_dup() {
     let user_mail = $("#input-user_mail").val()
-    console.log(user_mail)
+    let requestObject = {
+        "email": user_mail
+    }
+    console.log(requestObject.email)
     if (user_mail == "") {
         $("#help-mail").text("이메일을 입력해주세요.").removeClass("is-safe").addClass("is-danger")
         $("#input-user_mail").focus()
@@ -124,12 +127,11 @@ function check_email_dup() {
     $("#help-mail").addClass("is-loading")
     $.ajax({
         type: "POST",
-        url: '/api/cracker/checkEmailDup',
-        data: {
-            email : user_mail
-        },
+        url: '/api/cracker/duplicate-email-check',
+        contentType: "application/json",
+        data: JSON.stringify(requestObject),
         success: function (response) {
-            if (response === "exists") {
+            if (response["data"] === true) {
                 $("#help-mail").text("이미 존재하는 이메일입니다.").removeClass("is-safe").addClass("is-danger")
                 $("#input-user_mail").focus()
             } else {
@@ -143,9 +145,11 @@ function check_email_dup() {
 
 //유저이름 중복 확인
 function check_user_dup() {
-    let user_name = $("#input-user_name").val()
-    console.log(user_name)
-
+    let user_name = $("#input-user_name").val().toString()
+    let requestObject = {
+        "nickname": user_name
+    }
+    console.log(requestObject)
     if (user_name == "") {
         $("#help-name").text("별명을 입력해주세요.").removeClass("is-safe").addClass("is-danger")
         $("#input-user_name").focus()
@@ -160,12 +164,11 @@ function check_user_dup() {
     $("#help-name").addClass("is-loading")
     $.ajax({
         type: "POST",
-        url: '/api/cracker/checkNicknameDup',
-        data: {
-            nickname: user_name
-        },
+        url: '/api/cracker/duplicate-nickname-check',
+        contentType: "application/json",
+        data: JSON.stringify(requestObject),
         success: function (response) {
-            if (response === "exists") {
+            if (response["data"] === true) {
                 $("#help-name").text("이미 존재하는 별명입니다.").removeClass("is-safe").addClass("is-danger")
                 $("#input-user_name").focus()
             } else {
@@ -186,7 +189,7 @@ function sign_in() {
     let loginDTO =
         {
             "email" : user_mail,
-            "pw" : user_pw
+            "password" : user_pw
         }
 
     if (user_mail == "") {
@@ -210,16 +213,8 @@ function sign_in() {
         contentType: "application/json",
         data: JSON.stringify(loginDTO),
         success: function (response) {
-            let token = $.cookie('token');
-            if (token!=null){
-                $.ajaxSetup({
-                    beforeSend: function (xhr) {
-                        xhr.setRequestHeader("Content-type", "application/json");
-                        xhr.setRequestHeader("Authorization", token);
-                    }
-                });
-            }
-            if (response['result'] == 'success') {
+            console.log(response)
+            if (response['httpStatus'] === 200) {
                 window.location.replace("/")
                 // 함수를 만들어서 요청을 할 때 헤더에 쿠키 토큰을 넣
                 alert('로그인 성공!')

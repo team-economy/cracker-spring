@@ -2,19 +2,16 @@ package com.cracker.cracker.user.service;
 
 import com.cracker.cracker.auth.dto.TokenDto;
 //import com.cracker.cracker.auth.security.KakaoOAuth2;
+import com.cracker.cracker.auth.properties.AppProperties;
 import com.cracker.cracker.auth.service.AuthService;
-import com.cracker.cracker.auth.util.CookieUtil;
 import com.cracker.cracker.auth.util.token.AuthToken;
 import com.cracker.cracker.user.dto.JoinDto;
 //import com.cracker.cracker.user.dto.KakaoUserInfo;
-import com.cracker.cracker.user.entity.RoleType;
+import com.cracker.cracker.user.entity.UserRole;
 import com.cracker.cracker.user.entity.Users;
 import com.cracker.cracker.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
+import org.hibernate.usertype.UserType;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,6 +28,7 @@ public class UserService {
     private final UserRepository userRepository;
     private final AuthService authService;
     private final PasswordEncoder passwordEncoder;
+    private final AppProperties appProperties;
 //    private final RabbitMqSender rabbitMqSender;
 //    private final KakaoOAuth2 kakaoOAuth2;
 
@@ -42,7 +40,15 @@ public class UserService {
      * 이메일 중복 체크
      */
     public boolean emailDuplicate(String email) {
-        Optional<Users> user = userRepository.findByLoginId(email);
+        Optional<Users> user = userRepository.findByEmail(email);
+        return user.isPresent();
+    }
+
+    /**
+     * 닉네임 중복 체크
+     */
+    public boolean nicknameDuplicate(String nickname) {
+        Optional<Users> user = userRepository.findByNickname(nickname);
         return user.isPresent();
     }
 
@@ -50,14 +56,39 @@ public class UserService {
      * 회원가입
      */
     public TokenDto join(HttpServletResponse response, JoinDto requestJoinDTO) {
-        // uuid 생성
-        UUID uuid = UUID.randomUUID();
+        // adminToken 설정시 사용
+        String email = requestJoinDTO.getEmail();
 
-        Users user = new Users(requestJoinDTO, uuid);
-        // 이메일이 중복되는 경우
-        if (emailDuplicate(requestJoinDTO.getEmail())) {
-            return null;
+        // 이메일 중복 확인
+        if (emailDuplicate(email)) {
+            throw new IllegalArgumentException("중복된 사용자 ID 가 존재합니다.");
         }
+
+        String nickname = requestJoinDTO.getNickname();
+        // 회원 닉네임 중복 확인
+        if (nicknameDuplicate(nickname)) {
+            throw new IllegalArgumentException("중복된 사용자 닉네임이 존재합니다.");
+        }
+
+        String pic = "static/profile_pics/profile_placeholder.png";
+        String marker_pic = "static/profile_pics/profile_placeholder.png";
+
+        // 사용자 ROLE 확인
+        UserRole role = UserRole.USER;
+        if (!requestJoinDTO.getAdminToken().equals("")) {
+            if (!requestJoinDTO.getAdminToken().equals(appProperties.getAdminToken())) {
+                throw new IllegalArgumentException("관리자 암호가 틀려 등록이 불가능합니다.");
+            }
+            role = UserRole.ADMIN;
+        }
+        Users user = new Users(email, nickname, pic, marker_pic, role);
+
+//        // admin 신경 안쓸 때 사용
+//        Users user = new Users(requestJoinDTO, uuid);
+//        // 이메일이 중복되는 경우
+//        if (emailDuplicate(requestJoinDTO.getEmail())) {
+//            return null;
+//        }
 
         AuthToken refreshToken = authService.refreshToken(user);
         user.updateRefreshToken(refreshToken.getToken());
@@ -78,9 +109,17 @@ public class UserService {
     /**
      * 이메일 중복 체크
      */
-    public Boolean duplicateCheck(Map<String, String> requestObject) {
+    public Boolean duplicateEmailCheck(Map<String, String> requestObject) {
         String email = requestObject.get("email");
         return emailDuplicate(email);
+    }
+
+    /**
+     * 이메일 중복 체크
+     */
+    public Boolean duplicateNicknameCheck(Map<String, String> requestObject) {
+        String nickname = requestObject.get("nickname");
+        return nicknameDuplicate(nickname);
     }
 
 //    /**

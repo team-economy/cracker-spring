@@ -50,6 +50,8 @@ public class SecurityConfig {
                 .accessDeniedHandler(jwtAccessDeniedHandler)
                 .and()
                 .authorizeRequests()
+                .antMatchers("/**/*.css", "/**/*.js", "/**/*.png").permitAll()
+                .antMatchers("/login").permitAll()
                 .anyRequest().permitAll()
                 .and()
                 .addFilterBefore(new TokenAuthenticationFilter(tokenProvider), UsernamePasswordAuthenticationFilter.class);

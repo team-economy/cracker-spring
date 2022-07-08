@@ -1,9 +1,9 @@
-let access_token = $.cookie('access_token');
-if (access_token!=null){
+let token = $.cookie('accessToken');
+if (token!=null){
     $.ajaxSetup({
         beforeSend: function (xhr) {
             xhr.setRequestHeader("Content-type", "application/json");
-            xhr.setRequestHeader("Authorization", "Bearer" + access_token);
+            xhr.setRequestHeader("Authorization", "Bearer " + token);
         }
     });
 }

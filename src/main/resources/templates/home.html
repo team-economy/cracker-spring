@@ -6,14 +6,14 @@
 </head>
 <body>
 <div class="user-info">
-    <div th:if="${users == null}">
+    <div th:if="${user == null}">
         GUEST님 환영합니다. &nbsp;
         <button class="submit" th:onclick="|location.href='@{/login}'|">로그인</button>
     </div>
-    <div th:if="${users != null}">
-        <a id="user_name" style="font-weight: bold" th:href="/"><p
-                style="display: inline-block" th:text="${user.getNickname()}"></p></a>님 환영합니다.
-<!--        @{/users/profile/{id}/info(id=${users.getId()})}-->
+    <div th:if="${user != null}">
+    <div>
+        <a id="user_name" style="font-weight: bold"><p style="display: inline-block" th:text="${user.get().getNickname()}"></p></a>님 환영합니다.
+<!--        @{/cracker/profile/{id}}-->
         <button class="button" onclick="sign_out()" style="font-family: 'Source Code Pro', monospace; font-weight: bolder; background-color: #E3B7A0">Crack OUT</button>
     </div>
 </div>
