@@ -1,0 +1,115 @@
+.nav-btn {
+    margin: auto;
+    width: 800px;
+}
+
+.dup-btn {
+    background-color: #f3f3f4;
+}
+
+.category {
+    color: royalblue;
+}
+
+.phone {
+    color: royalblue;
+}
+
+.user-btn-community {
+    float: right;
+}
+
+.crack-out{
+    margin-top: 15px;
+    margin-right: 40px;
+}
+
+
+h5 {
+    font-size: 20px;
+}
+
+/* 댓글 section */
+.comment-section {
+    width: 100%;
+    height: 600px;
+    max-width: 1500px;
+    margin: 80px auto 0px auto;
+    background-color: #F3E9DD;
+}
+
+.media-content {
+    margin-bottom: 20px;
+}
+
+.place-input {
+    width: 85%;
+    margin-left: 20px;
+}
+
+.find-btn {
+    margin-left: 20px;
+}
+
+.map-placelist {
+    width: 50%;
+    margin: auto;
+}
+
+.matjip-list {
+    height: 500px;
+    overflow: auto;
+    position: relative;
+}
+
+/* modal */
+
+.modal-section {
+    z-index: 10000000;
+}
+
+.modal-content {
+    width: 600px;
+    max-width: 80%;
+}
+
+.modal-list {
+    height: 300px;
+    overflow: auto;
+}
+
+.button.save-button {
+    background-color: #3A3845;
+    border-color: transparent;
+    color: #FDF6EC !important;
+}
+
+.button.cancel-button {
+    background-color: #FDF6EC;
+    border-color: #FDF6EC;
+    color: #3A3845 !important;
+}
+
+.iw-inner {
+    padding: 10px;
+    font-size: smaller;
+}
+
+.place-phone {
+    color: #3A3845;
+}
+
+.community-delete {
+    text-align: right;
+}
+
+/*커뮤니티 삭제 버튼*/
+.community-btn {
+    background-color: #A0BCC2 !important;
+    font-family: 'Gowun Batang', serif;
+}
+
+.delete-place-btn {
+    background-color: #ECA6A6 !important;
+    font-family: 'Gowun Batang', serif;
+}

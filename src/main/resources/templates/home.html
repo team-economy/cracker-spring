@@ -17,12 +17,16 @@
         <button class="button" onclick="sign_out()" style="font-family: 'Source Code Pro', monospace; font-weight: bolder; background-color: #E3B7A0">Crack OUT</button>
     </div>
 </div>
+
+<!--메인 로고-->
 <section class="hero logo-background">
     <div class="hero-body has-text-centered" style="padding-bottom:1rem;margin:auto;">
         <h1 class="title" style="font-style: italic">CRACKER</h1>
         <h3 class="subtitle">Share crumbs of every moment</h3>
     </div>
 </section>
+
+<!--검색목록 Modal-->
 <section class="modal-section">
     <div class="modal" id="modal-post">
         <div class="modal-background" onclick='$("#modal-post").removeClass("is-active")'></div>
@@ -37,7 +41,7 @@
                             </div>
                             <div class="level-right">
                                 <div class="level-item">
-                                    <a class="button save-button" onclick="{{등록하기 기능}}">등록하기</a>
+                                    <a class="button save-button" onclick="save_place()">등록하기</a>
                                 </div>
                                 <div class="level-item">
                                     <a class="button cancel-button"
@@ -79,7 +83,7 @@
                     <p class="card-text">도로명 주소 : {{road_address}}</p>
                     <p class="community-delete">
                         <button class="button is-success community-btn" onclick="location.href='{{커뮤니티로 이동}}'">커뮤니티
-                        </button>&nbsp&nbsp&nbsp<button class="button is-danger delete-place-btn" onclick="{{저장된 목록 삭제}}">삭제</button>
+                        </button>&nbsp&nbsp&nbsp<button class="button is-danger delete-place-btn" onclick="{{저장된_목록_삭제}}">삭제</button>
                     </p>
                 </div>
             </div>

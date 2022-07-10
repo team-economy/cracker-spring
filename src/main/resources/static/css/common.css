@@ -1,0 +1,24 @@
+body {
+    background-color: #F3E9DD;
+    min-height: 100vh;
+    padding-top: 3.25rem;
+}
+
+.user-info {
+    text-align: right;
+    margin: auto;
+    width: 75%;
+    max-width: 1500px;
+    height: 60px;
+}
+
+.user-name {
+    font-family: 'Gowun Batang', serif;
+    font-size: 22px;
+    vertical-align: middle;
+}
+
+/*전체 폰트*/
+* {
+    font-family: 'Gowun Batang', serif;
+}
