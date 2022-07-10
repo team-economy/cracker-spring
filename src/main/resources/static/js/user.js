@@ -39,7 +39,6 @@ function update_profile() {
             }
         }
     });
-
 }
 
 //유저가 저장한 만집 목록
