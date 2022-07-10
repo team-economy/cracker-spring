@@ -6,13 +6,16 @@
 </head>
 <body>
 <div class="user-info">
-    <p>
-        <span class="user-name"><a id="user_name" href="{{해당 유저 페이지로 이동}}">{{ user_name }}</a>님 안녕하세요? &nbsp&nbsp</span>
-        <button class="button"
-                style="font-family: 'Source Code Pro', monospace; font-weight: bolder; background-color: #E3B7A0"
-                onclick="sign_out()">Crack OUT
-        </button>
-    </p>
+    <div th:if="${user == null}">
+        GUEST님 환영합니다. &nbsp;
+        <button class="submit" th:onclick="|location.href='@{/login}'|">로그인</button>
+    </div>
+    <div th:if="${user != null}">
+    <div>
+        <a id="user_name" style="font-weight: bold"><p style="display: inline-block" th:text="${user.get().getNickname()}"></p></a>님 환영합니다.
+<!--        @{/cracker/profile/{id}}-->
+        <button class="button" onclick="sign_out()" style="font-family: 'Source Code Pro', monospace; font-weight: bolder; background-color: #E3B7A0">Crack OUT</button>
+    </div>
 </div>
 
 <!--메인 로고-->
