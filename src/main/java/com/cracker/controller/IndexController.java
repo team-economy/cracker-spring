@@ -1,13 +1,19 @@
 package com.cracker.controller;
 
+import com.cracker.cracker.auth.service.AuthService;
+import com.cracker.cracker.auth.util.token.AuthTokenProvider;
+import com.cracker.cracker.user.entity.Users;
 import com.cracker.domain.Place;
 import com.cracker.service.PlaceService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.UnsatisfiedServletRequestParameterException;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+
+import java.util.Optional;
 
 @Controller
 @RequiredArgsConstructor
@@ -15,10 +21,22 @@ public class IndexController {
 
     private final PlaceService placeService;
 
-    @GetMapping("/")
-    public String home(){
+    private final AuthTokenProvider authTokenProvider;
+    private final AuthService authService;
 
+    @GetMapping("/")
+    public String home(@CookieValue(required = false, name = "refresh_token") String token, Model model) {
+        if (token != null) {
+            String email = authTokenProvider.getEmailByToken(token);
+            Optional<Users> user = authService.getUserByEmail(email);
+            model.addAttribute("user", user);
+        }
         return "home";
+    }
+
+    @GetMapping("/login")
+    public String login() {
+        return "login";
     }
 
     //community page 연결
