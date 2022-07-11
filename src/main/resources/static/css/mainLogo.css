@@ -1,0 +1,19 @@
+/*메인 중앙 로고 디자인*/
+.logo-background {
+    background-color: #FDF6EC;
+}
+
+.title {
+    font-family: 'Merriweather', serif;
+    font-size: xxx-large;
+    font-weight: 1100;
+    color: #68A7AD !important;
+}
+
+.hero {
+    color: #3A3845;
+}
+
+.subtitle {
+    font-family: 'Source Code Pro', monospace;
+}

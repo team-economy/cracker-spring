@@ -13,12 +13,12 @@
         <article class="media">
             <div class="media-content">
                 <div class="content">
-                    <h3 id="matjip_name"><b>{{ matjip_name }}</b></h3>
-                    <p>카테고리 : {{ category }}</p>
-                    <p>지번 주소 : {{ matjip_address }}</p>
-                    <p>도로명 주소 : {{ matjip_road_address }}</p>
+                    <h3 id="matjip_name"><b th:text="${placeInfo.name}"></b></h3>
+                    <p th:text="'카테고리 : '+${placeInfo.cate}"></p>
+                    <p th:text="'지번 주소 : '+${placeInfo.addr}"></p>
+                    <p th:text="'도로명 주소 : '+${placeInfo.addrRoad}"></p>
                     <div>
-                        <span>전화 번호 : {{ phone }}</span>
+                        <span th:text="'전화번호 : '+${placeInfo.phoneNum}"></span>
                     </div>
                 </div>
             </div>
@@ -49,7 +49,7 @@
             <article class="media">
                 <div class="media-left">
                     <a class="image is-64x64" href="#">
-                        <img class="is-rounded" src="profile_pics/profile_placeholder.png">
+                        <img class="is-rounded" src="../profile_pics/profile_placeholder.png">
                     </a>
                 </div>
                 <div class="media-content">

@@ -1,5 +1,6 @@
 $(document).ready(function () {
     get_user_place()
+    get_place()
 })
 
 // 유저 프로필 이미지 변경
@@ -38,7 +39,6 @@ function update_profile() {
             }
         }
     });
-
 }
 
 //유저가 저장한 만집 목록

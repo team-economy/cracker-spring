@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 @EnableJpaAuditing //생성,수정시간 자동업데이트
 @SpringBootApplication
+@EnableJpaAuditing
 public class CrackerSpringApplication {
     public static void main(String[] args) {
         SpringApplication.run(CrackerSpringApplication.class, args);
