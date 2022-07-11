@@ -59,13 +59,14 @@ function getMessages() {
                 let id = message['id'];
                 let username = message['userName'];
                 let comment = message['comment'];
-                let modifiedAt = message['modifiedAt'];
-                addHTML(id, username, comment, modifiedAt);
+                let time_post = new Date(message['modifiedAt'])
+                let time_before = time2str(time_post)
+                addHTML(id, username, comment, time_before);
             }
         }
     })
 }
-function addHTML(id, userName, comment, modifiedAt) {
+function addHTML(id, userName, comment, time_before) {
     let tempHtml = `<div id="post-box" class="container">
         <div class="box comment-list">
             <article class="media">
@@ -77,7 +78,7 @@ function addHTML(id, userName, comment, modifiedAt) {
                 <div class="media-content">
                     <div class="content">
                         <p>
-                            <strong>hong</strong> <small>${userName}</small> <small>${modifiedAt}</small>
+                            <strong>hong</strong> <small>${userName}</small> <small>${time_before}</small>
                             <a type="button" class="delete-comment" onclick="deleteOne('${id}')"><i class="fa fa-trash" aria-hidden="true"></i></a>
                             
                             <br>
