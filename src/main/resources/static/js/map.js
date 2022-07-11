@@ -5,6 +5,7 @@ let markers = [];
 let infowindows = [];
 // 지도 출력
 $(document).ready(function () {
+    $("#user_id").empty();
     map = new naver.maps.Map('map', {
         center: new naver.maps.LatLng(y_cen, x_cen),
         zoom: 12,

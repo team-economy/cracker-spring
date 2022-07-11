@@ -18,10 +18,10 @@
             <div class="media-content">
                 <div class="content">
                     <p>
-                        <strong id="user_name">{{ user_info.user_name }}</strong>
-                        <small id="user_mail">{{ user_info.user_mail }}</small>
+                        <strong id="user_name"><span th:text= "${userInfo.nickname}"></span></strong>
+                        <small id="user_mail"><span th:text= "${userInfo.email}"></span></small>
                         <br>
-                        {{ user_info.user_info }}
+                        <span></span>
                     </p>
                 </div>
 
@@ -30,7 +30,7 @@
     </div>
 
     <!--    status가 true 일때만 정보 수정가능-->
-    <nav th:if="${status}" id="btns-me" class="level is-mobile nav-btn" style="margin-top:2rem">
+    <nav th:if="${user.get().getId() == userInfo.id}" id="btns-me" class="level is-mobile nav-btn" style="margin-top:2rem">
         <a class="button level-item has-text-centered is-sparta" aria-label="edit"
            onclick='$("#modal-edit").addClass("is-active")'>
             Edit Profile&nbsp;&nbsp;&nbsp;<span class="icon is-small"><i class="fa fa-pencil"
