@@ -1,4 +1,4 @@
-package com.cracker.dto;
+package com.cracker.comment.dto;
 
 import lombok.AccessLevel;
 import lombok.Builder;

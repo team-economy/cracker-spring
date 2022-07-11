@@ -1,9 +1,9 @@
-package com.cracker.service;
+package com.cracker.comment.service;
 
-import com.cracker.domain.Comment;
-import com.cracker.dto.CommentCreateRequestDto;
-import com.cracker.dto.CommentUpdateRequestDto;
-import com.cracker.repository.CommentRepository;
+import com.cracker.comment.domain.Comment;
+import com.cracker.comment.dto.CommentCreateRequestDto;
+import com.cracker.comment.dto.CommentUpdateRequestDto;
+import com.cracker.comment.repository.CommentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;

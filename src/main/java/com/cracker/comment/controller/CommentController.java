@@ -1,14 +1,13 @@
-package com.cracker.controller;
+package com.cracker.comment.controller;
 
-import com.cracker.domain.Comment;
-import com.cracker.dto.CommentCreateRequestDto;
-import com.cracker.dto.CommentUpdateRequestDto;
-import com.cracker.repository.CommentRepository;
-import com.cracker.service.CommentService;
+import com.cracker.comment.domain.Comment;
+import com.cracker.comment.dto.CommentCreateRequestDto;
+import com.cracker.comment.dto.CommentUpdateRequestDto;
+import com.cracker.comment.repository.CommentRepository;
+import com.cracker.comment.service.CommentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 

@@ -1,7 +1,7 @@
-package com.cracker.domain;
+package com.cracker.comment.domain;
 
-import com.cracker.dto.CommentCreateRequestDto;
-import com.cracker.dto.CommentUpdateRequestDto;
+import com.cracker.comment.dto.CommentCreateRequestDto;
+import com.cracker.comment.dto.CommentUpdateRequestDto;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

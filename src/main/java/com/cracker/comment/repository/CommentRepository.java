@@ -1,9 +1,8 @@
-package com.cracker.repository;
+package com.cracker.comment.repository;
 
-import com.cracker.domain.Comment;
+import com.cracker.comment.domain.Comment;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 public interface CommentRepository extends JpaRepository<Comment, Long> {
