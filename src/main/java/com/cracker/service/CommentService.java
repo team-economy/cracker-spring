@@ -34,11 +34,11 @@ public class CommentService{
     }
     // comment 업데이트
     @Transactional
-    public long update(Long id, CommentUpdateRequestDto commentUpdateRequestDto){
+    public Comment update(Long id, CommentUpdateRequestDto commentUpdateRequestDto){
         Comment comment = commentRepository.findById(id).orElseThrow(
                 () -> new IllegalArgumentException("사용자가 아닙니다.")
         );
         comment.updateComment(commentUpdateRequestDto);
-        return commentRepository.save(comment).getId();
+        return comment;
     }
 }
