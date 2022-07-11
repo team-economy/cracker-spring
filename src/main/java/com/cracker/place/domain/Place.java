@@ -1,11 +1,15 @@
 package com.cracker.place.domain;
 
+import com.cracker.user.entity.Users;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+
+import static javax.persistence.FetchType.LAZY;
 
 @Entity
 @Setter
@@ -37,6 +41,11 @@ public class Place {
     @Column
     private String cate;
 
+    @JsonIgnore
+    @ManyToOne(fetch = LAZY)
+    @JoinColumn(name="user_id", nullable = false)
+    private Users users;
+
     @Builder
     public Place(String name, String addr, String addrRoad,
                  String coordX, String coordY,String phoneNum, String cate) {
@@ -47,6 +56,11 @@ public class Place {
         this.coordY = coordY;
         this.phoneNum = phoneNum;
         this.cate = cate;
+    }
+
+    public void registUser(Users user){
+        this.users = user;
+        user.getPlaces().add(this);
     }
 
 }
