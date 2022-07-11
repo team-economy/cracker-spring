@@ -62,4 +62,10 @@ public class IndexController {
         return "user";
 
     }
+
+    @GetMapping("/manage")
+    public String admin(){
+
+        return "admin";
+    }
 }
