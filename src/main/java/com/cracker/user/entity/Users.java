@@ -2,6 +2,7 @@ package com.cracker.user.entity;
 
 import com.cracker.user.dto.JoinDto;
 import com.cracker.auth.util.Timestamped;
+import com.cracker.userupdate.dto.UpdateUserRequestDto;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -32,6 +33,8 @@ public class Users extends Timestamped {
 
     private String marker_pic;
 
+    private String statusMessage;
+
     @Enumerated(EnumType.STRING)
     private UserRole role;
 
@@ -57,6 +60,11 @@ public class Users extends Timestamped {
 
     public void updateUserPassword(String password) {
         this.password = password;
+    }
+
+    public void updateUserProfile(UpdateUserRequestDto updateUserRequestDto){
+        this.nickname = updateUserRequestDto.getNickname();
+        this.statusMessage = updateUserRequestDto.getStatusMessage();
     }
 
     public void updateRefreshToken(String refreshToken) {
