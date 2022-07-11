@@ -59,14 +59,14 @@ function getMessages() {
                 let id = message['id'];
                 let username = message['userName'];
                 let comment = message['comment'];
-                let time_post = new Date(message['modifiedAt'])
-                let time_before = time2str(time_post)
-                addHTML(id, username, comment, time_before);
+                let time_comment = new Date(message['modifiedAt'])
+                let time_past = timePassed(time_comment)
+                addHTML(id, username, comment, time_past);
             }
         }
     })
 }
-function addHTML(id, userName, comment, time_before) {
+function addHTML(id, userName, comment, time_past) {
     let tempHtml = `<div id="post-box" class="container">
         <div class="box comment-list">
             <article class="media">
@@ -78,7 +78,7 @@ function addHTML(id, userName, comment, time_before) {
                 <div class="media-content">
                     <div class="content">
                         <p>
-                            <strong>hong</strong> <small>${userName}</small> <small>${time_before}</small>
+                            <strong>hong</strong> <small>${userName}</small> <small>${time_past}</small>
                             <a type="button" class="delete-comment" onclick="deleteOne('${id}')"><i class="fa fa-trash" aria-hidden="true"></i></a>
                             
                             <br>
@@ -91,10 +91,13 @@ function addHTML(id, userName, comment, time_before) {
     </div>`;
     $('#post-box').append(tempHtml);
 }
-function time2str(date) {
+function timePassed(date) {
     let today = new Date()
     let time = (today - date) / 1000 / 60  // 분
 
+    if (time < 1){
+        return "방금 전"
+    }
     if (time < 60) {
         return parseInt(time) + "분 전"
     }
