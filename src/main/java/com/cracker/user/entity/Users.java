@@ -43,7 +43,7 @@ public class Users extends Timestamped {
     @Column(unique = true)
     private String refreshToken;
 
-    @OneToMany(mappedBy = "comment", fetch = LAZY)
+    @OneToMany(mappedBy = "users", fetch = LAZY)
     private List<Comment> comments = new ArrayList<>();
 
     public Users(String email, String nickname, String pic, String marker_pic,
