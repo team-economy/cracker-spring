@@ -18,7 +18,7 @@ import static javax.persistence.FetchType.LAZY;
 @Entity // 테이블임을 나타냄
 public class Comment extends Timestamped {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false)

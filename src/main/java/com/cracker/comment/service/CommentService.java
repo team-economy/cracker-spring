@@ -48,23 +48,24 @@ public class CommentService{
     }
 
     @Transactional
-    public List<CommentListResponseDto> commentList(CommentListRequestDto commentListRequestDto){
-        Place place = placeRepository.findById(commentListRequestDto.getPlaceId()).orElseThrow(
+    public List<Comment> commentList(Long placeId){
+        Place place = placeRepository.findById(placeId).orElseThrow(
                 () -> new NoSuchElementException("일치하는 맛집이 없습니다")
         );
 
-        List<CommentListResponseDto> dtos = new ArrayList<CommentListResponseDto>();
+//        List<CommentListResponseDto> dtos = new ArrayList<CommentListResponseDto>();
         List<Comment> comments = place.getComments();
-        for(Comment comment : comments){
-            CommentListResponseDto dto = CommentListResponseDto.builder()
-                    .userNickname(comment.getUsers().getNickname())
-                    .userEmail(comment.getUsers().getEmail())
-                    .comment(comment.getComment())
-                    .modifiedAt(comment.getModifiedAt())
-            .build();
-            dtos.add(dto);
-        }
-        return dtos;
+//        for(Comment comment : comments){
+//            System.out.println("======================================");
+//            CommentListResponseDto dto = CommentListResponseDto.builder()
+//                    .userNickname(comment.getUsers().getNickname())
+//                    .userEmail(comment.getUsers().getEmail())
+////                    .comment(comment.getComment())
+//                    .modifiedAt(comment.getModifiedAt())
+//            .build();
+//            dtos.add(dto);
+//        }
+        return comments;
     }
 
     // comment를 지움

@@ -51,12 +51,9 @@ function getMessages() {
     $('#post-box').empty();
     // 2. 메모 목록을 불러와서 HTML로 붙입니다.
     let placeId = $('#place_id').text();
-    let data = {'placeId' : placeId};
     $.ajax({
         type: 'GET',
-        url: '/comment',
-        contentType: "application/json", // JSON 형식으로 전달함을 알리기
-        data: JSON.stringify(data),
+        url: `/comment?placeId=${placeId}`,
         success: function (response) {
             console.log(response);
             // for (let i = 0; i < response.length; i++) {

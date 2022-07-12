@@ -9,6 +9,7 @@ import com.cracker.comment.dto.CommentUpdateRequestDto;
 import com.cracker.comment.repository.CommentRepository;
 import com.cracker.comment.service.CommentService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.repository.query.Param;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
@@ -20,7 +21,7 @@ public class CommentController {
 
     Date date = new Date();
 
-//    private final CommentRepository commentRepository;
+    private final CommentRepository commentRepository;
     private final CommentService commentService;
     private final AuthTokenProvider authTokenProvider;
 
@@ -31,9 +32,10 @@ public class CommentController {
     }
 
     @GetMapping("/comment")
-    public List<CommentListResponseDto> getComment(@RequestBody CommentListRequestDto commentListRequestDto){
-        return commentService.commentList(commentListRequestDto);
-//        return commentRepository.findAllByOrderByModifiedAtDesc();
+    public List<Comment> getComment(@RequestParam("placeId")Long placeId){
+//        System.out.println(placeId);
+//        return commentService.commentList(placeId);
+        return commentRepository.findAllByOrderByModifiedAtDesc();
     }
 
     @DeleteMapping("/comment/{id}")
