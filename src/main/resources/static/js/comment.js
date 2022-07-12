@@ -56,19 +56,20 @@ function getMessages() {
         url: `/comment?placeId=${placeId}`,
         success: function (response) {
             console.log(response);
-            // for (let i = 0; i < response.length; i++) {
-            //     let message = response[i];
-            //     let id = message['id'];
-            //     let username = message['userName'];
-            //     let comment = message['comment'];
-            //     let time_comment = new Date(message['modifiedAt'])
-            //     let time_past = timePassed(time_comment)
-            //     addHTML(id, username, comment, time_past);
-            // }
+            for (let i = 0; i < response.length; i++) {
+                let message = response[i];
+                let id = message['id'];
+                let username = message['userNickname'];
+                let userEmail = message['userEmail'];
+                let comment = message['comment'];
+                let time_comment = new Date(message['modifiedAt'])
+                let time_past = timePassed(time_comment)
+                addHTML(id, username, userEmail, comment, time_past);
+            }
         }
     })
 }
-function addHTML(id, userName, comment, time_past) {
+function addHTML(id, userName, userEmail, comment, time_past) {
     let tempHtml = `<div id="post-box" class="container">
         <div class="box comment-list">
             <article class="media">
@@ -80,7 +81,7 @@ function addHTML(id, userName, comment, time_past) {
                 <div class="media-content">
                     <div class="content">
                         <p>
-                            <strong>hong</strong> <small>${userName}</small> <small>${time_past}</small>
+                            <strong>${userName}</strong> <small>(${userEmail})</small> <small>${time_past}</small>
                             <a type="button" class="delete-comment" onclick="deleteOne('${id}')"><i class="fa fa-trash" aria-hidden="true"></i></a>
                             
                             <br>

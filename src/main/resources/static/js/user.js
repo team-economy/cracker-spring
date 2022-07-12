@@ -4,7 +4,7 @@ $(document).ready(function () {
 })
 
 // 유저 프로필 이미지 변경
-function update_profile() {
+function update_profile(id) {
     let name = $('#input-user_name').val()
     let file = $('#input-pic')[0].files[0]
     let about = $("#textarea-about").val()
@@ -26,7 +26,7 @@ function update_profile() {
     console.log(name, file, about, form_data)
     $.ajax({
         type: "POST",
-        url: "/user/update_profile",
+        url: `/user/update_profile/${id}`,
         data: form_data,
         cache: false,
         contentType: false,

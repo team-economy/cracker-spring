@@ -49,28 +49,26 @@ public class CommentService{
     }
 
     @Transactional
-    public List<Comment> commentList(Long placeId){
+    public List<CommentListResponseDto> commentList(Long placeId){
         Place place = placeRepository.findById(placeId).orElseThrow(
                 () -> new NoSuchElementException("일치하는 맛집이 없습니다")
         );
-        System.out.println("==========================================");
-        System.out.println(place.getComments());
-        System.out.println("==========================================");
-//
-//        List<CommentListResponseDto> dtos = new ArrayList<CommentListResponseDto>();
-//        System.out.println(place.getComments());
-//        List<Comment> comments = place.getComments();
-////        for(Comment comment : comments){
-////            CommentListResponseDto dto = CommentListResponseDto.builder()
-////                    .userNickname(comment.getUsers().getNickname())
-////                    .userEmail(comment.getUsers().getEmail())
-////                    .comment(comment.getComment())
-////                    .modifiedAt(comment.getModifiedAt())
-////            .build();
-////            dtos.add(dto);
-////        }
-//        return comments;
-        return commentRepository.findAllByOrderByModifiedAtDesc();
+
+        List<CommentListResponseDto> dtos = new ArrayList<CommentListResponseDto>();
+
+        List<Comment> comments = place.getComments();
+        for(Comment comment : comments){
+            CommentListResponseDto dto = CommentListResponseDto.builder()
+                    .id(comment.getId())
+                    .userNickname(comment.getUsers().getNickname())
+                    .userEmail(comment.getUsers().getEmail())
+                    .comment(comment.getComment())
+                    .modifiedAt(comment.getModifiedAt())
+            .build();
+            dtos.add(dto);
+        }
+        return dtos;
+//        return commentRepository.findAllByOrderByModifiedAtDesc();
     }
 
     // comment를 지움

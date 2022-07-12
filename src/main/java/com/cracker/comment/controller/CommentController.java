@@ -32,7 +32,7 @@ public class CommentController {
     }
 
     @GetMapping("/comment")
-    public List<Comment> getComment(@RequestParam("placeId")Long placeId){
+    public List<CommentListResponseDto> getComment(@RequestParam("placeId")Long placeId){
         System.out.println(placeId);
         return commentService.commentList(placeId);
 //        return commentRepository.findAllByOrderByModifiedAtDesc();

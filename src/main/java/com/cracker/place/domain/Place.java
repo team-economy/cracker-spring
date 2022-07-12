@@ -10,6 +10,7 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import static javax.persistence.FetchType.EAGER;
 import static javax.persistence.FetchType.LAZY;
 
 @Entity
@@ -43,7 +44,7 @@ public class Place {
     @Column
     private String cate;
 
-    @OneToMany(mappedBy = "comment", fetch = LAZY)
+    @OneToMany(mappedBy = "place")
     private List<Comment> comments = new ArrayList<>();
 
     @Builder

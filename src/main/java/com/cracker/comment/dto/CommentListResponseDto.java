@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class CommentListResponseDto {
+    private Long id;
     private String userNickname;
     private String userEmail;
     private String comment;
@@ -17,7 +18,8 @@ public class CommentListResponseDto {
     private LocalDateTime modifiedAt;
 
     @Builder
-    public CommentListResponseDto(String userNickname, String userEmail, String comment, LocalDateTime modifiedAt) {
+    public CommentListResponseDto(Long id, String userNickname, String userEmail, String comment, LocalDateTime modifiedAt) {
+        this.id = id;
         this.userNickname = userNickname;
         this.userEmail = userEmail;
         this.comment = comment;
