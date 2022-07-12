@@ -62,8 +62,9 @@ public class Users extends Timestamped {
         this.password = password;
     }
 
-    public void updateUserProfile(UpdateUserRequestDto updateUserRequestDto){
+    public void updateUserProfile(UpdateUserRequestDto updateUserRequestDto, String filepath){
         this.nickname = updateUserRequestDto.getNickname();
+        this.pic = filepath;
         this.statusMessage = updateUserRequestDto.getStatusMessage();
     }
 
