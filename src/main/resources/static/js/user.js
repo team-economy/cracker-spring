@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    get_user_place()
+    // get_user_place()
     get_place()
 })
 
@@ -41,25 +41,25 @@ function update_profile() {
     });
 }
 
-//유저가 저장한 만집 목록
-function get_user_place() {
-    $('#matjip-box').empty();
-    let user_mail = $("#user_mail").text()
-    $.ajax({
-        type: "GET",
-        url: `/user/place?user_mail_give=${user_mail}`,
-        data: {},
-        success: function (response) {
-            let places = response["user_place"]
-            console.log(places.length)
-            for (let i = 0; i < places.length; i++) {
-                let place = places[i]
-                make_card(i, place)
-            }
-        }
-    });
-
-}
+// //유저가 저장한 만집 목록
+// function get_user_place() {
+//     $('#matjip-box').empty();
+//     let user_mail = $("#user_mail").text()
+//     $.ajax({
+//         type: "GET",
+//         url: `/user/place?user_mail_give=${user_mail}`,
+//         data: {},
+//         success: function (response) {
+//             let places = response["user_place"]
+//             console.log(places.length)
+//             for (let i = 0; i < places.length; i++) {
+//                 let place = places[i]
+//                 make_card(i, place)
+//             }
+//         }
+//     });
+//
+// }
 
 // 유저 마커 이미지 변경
 function update_marker() {

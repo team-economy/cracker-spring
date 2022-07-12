@@ -39,17 +39,17 @@ public class Comment extends Timestamped {
         this.comment = comment;
     }
 
-    public Comment(CommentCreateRequestDto commentCreateRequestDto){
-        this.comment = commentCreateRequestDto.getComment();
-    }
     public void updateComment(CommentUpdateRequestDto commentUpdateRequestDto){
         this.comment = commentUpdateRequestDto.getComment();
     }
 
-    public void placeUserComment(Place place, Users users){
+    public void placeComment(Place place){
         this.place = place;
-        this.users = users;
         place.getComments().add(this);
+    }
+
+    public void UserComment(Users users){
+        this.users = users;
         users.getComments().add(this);
     }
 }

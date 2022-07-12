@@ -29,7 +29,7 @@ public class CommentService{
 
     //comment 작성
     @Transactional
-    public long save(CommentCreateRequestDto commentCreateRequestDto, String email){
+    public Long save(CommentCreateRequestDto commentCreateRequestDto, String email){
         Comment comment = Comment.builder()
                 .comment(commentCreateRequestDto.getComment())
                 .build();
@@ -42,7 +42,8 @@ public class CommentService{
                 () -> new NoSuchElementException("일치하는 맛집이 없습니다.")
         );
 
-        comment.placeUserComment(place, user);
+        comment.placeComment(place);
+        comment.UserComment(user);
 
         return commentRepository.save(comment).getId();
     }
@@ -52,20 +53,24 @@ public class CommentService{
         Place place = placeRepository.findById(placeId).orElseThrow(
                 () -> new NoSuchElementException("일치하는 맛집이 없습니다")
         );
-
+        System.out.println("==========================================");
+        System.out.println(place.getComments());
+        System.out.println("==========================================");
+//
 //        List<CommentListResponseDto> dtos = new ArrayList<CommentListResponseDto>();
-        List<Comment> comments = place.getComments();
-//        for(Comment comment : comments){
-//            System.out.println("======================================");
-//            CommentListResponseDto dto = CommentListResponseDto.builder()
-//                    .userNickname(comment.getUsers().getNickname())
-//                    .userEmail(comment.getUsers().getEmail())
+//        System.out.println(place.getComments());
+//        List<Comment> comments = place.getComments();
+////        for(Comment comment : comments){
+////            CommentListResponseDto dto = CommentListResponseDto.builder()
+////                    .userNickname(comment.getUsers().getNickname())
+////                    .userEmail(comment.getUsers().getEmail())
 ////                    .comment(comment.getComment())
-//                    .modifiedAt(comment.getModifiedAt())
-//            .build();
-//            dtos.add(dto);
-//        }
-        return comments;
+////                    .modifiedAt(comment.getModifiedAt())
+////            .build();
+////            dtos.add(dto);
+////        }
+//        return comments;
+        return commentRepository.findAllByOrderByModifiedAtDesc();
     }
 
     // comment를 지움

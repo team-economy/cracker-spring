@@ -28,14 +28,14 @@ public class CommentController {
     @PostMapping("/comment")
     public void createComment(@RequestBody CommentCreateRequestDto commentCreateRequestDto, @CookieValue(required = false, name = "refresh_token") String token){
         String email = authTokenProvider.getEmailByToken(token);
-        long redId= commentService.save(commentCreateRequestDto, email);
+        commentService.save(commentCreateRequestDto, email);
     }
 
     @GetMapping("/comment")
     public List<Comment> getComment(@RequestParam("placeId")Long placeId){
-//        System.out.println(placeId);
-//        return commentService.commentList(placeId);
-        return commentRepository.findAllByOrderByModifiedAtDesc();
+        System.out.println(placeId);
+        return commentService.commentList(placeId);
+//        return commentRepository.findAllByOrderByModifiedAtDesc();
     }
 
     @DeleteMapping("/comment/{id}")
