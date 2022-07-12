@@ -1,29 +1,28 @@
 package com.cracker.cracker.user.controller;
 
+import com.cracker.cracker.auth.security.UserPrincipal;
 import com.cracker.cracker.auth.service.AuthService;
+import com.cracker.cracker.auth.util.token.AuthToken;
 import com.cracker.cracker.auth.util.token.AuthTokenProvider;
 import com.cracker.cracker.user.entity.Users;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import java.util.Optional;
+import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
 public class DomainController {
-    private final AuthTokenProvider authTokenProvider;
     private final AuthService authService;
 
     @GetMapping("/")
-    public String home(@CookieValue(required = false, name = "refresh_token") String token, Model model) {
-        if (token != null) {
-            String email = authTokenProvider.getEmailByToken(token);
-            Optional<Users> user = authService.getUserByEmail(email);
-            model.addAttribute("user", user);
-        }
+    public String home(Model model, @AuthenticationPrincipal UserPrincipal userPrincipal) {
+        String email = userPrincipal.getUser().getEmail();
+        Users user = authService.findUserByEmail(email);
+        model.addAttribute("user", user);
         return "home";
     }
 

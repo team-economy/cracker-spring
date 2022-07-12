@@ -2,11 +2,13 @@ package com.cracker.cracker.user.entity;
 
 import com.cracker.cracker.auth.util.Timestamped;
 import com.cracker.cracker.user.dto.JoinDto;
+import com.cracker.cracker.user.dto.UpdateUserRequestDto;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
 import java.util.UUID;

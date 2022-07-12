@@ -3,6 +3,7 @@ package com.cracker.cracker.auth.service;
 import com.cracker.cracker.auth.dto.LoginDto;
 import com.cracker.cracker.auth.dto.TokenDto;
 import com.cracker.cracker.auth.properties.AppProperties;
+import com.cracker.cracker.auth.security.UserPrincipal;
 import com.cracker.cracker.auth.util.CookieUtil;
 import com.cracker.cracker.auth.util.HeaderUtil;
 import com.cracker.cracker.auth.util.token.AuthToken;
@@ -12,6 +13,9 @@ import com.cracker.cracker.user.entity.Users;
 import com.cracker.cracker.user.repository.UserRepository;
 import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -38,13 +42,13 @@ public class AuthService {
     }
 
     /**
-     * refresh token 발급 및 userCertification update
+     * refresh token 발급 및 users update
      */
     public AuthToken refreshToken(Users user) {
         Date now = new Date();
         long refreshTokenExpiry = appProperties.getRefreshTokenExpiry();
 
-        AuthToken refreshToken = tokenProvider.createAuthToken(user.getEmail(), user.getNickname(), user.getRole().getCode(), new Date(now.getTime() + refreshTokenExpiry));
+        AuthToken refreshToken = tokenProvider.createAuthToken(new Date(now.getTime() + refreshTokenExpiry));
         user.updateRefreshToken(refreshToken.getToken());
 
         return refreshToken;
@@ -82,6 +86,7 @@ public class AuthService {
         AuthToken accessToken = AccessToken(user);
 
         refreshTokenAddCookie(httpResponse, refreshToken.getToken());
+        accessTokenAddCookie(httpResponse, accessToken.getToken());
 
         return new TokenDto(accessToken.getToken());
     }
@@ -93,6 +98,15 @@ public class AuthService {
         long refreshTokenExpiry = appProperties.getRefreshTokenExpiry();
         int cookieMaxAge = (int) refreshTokenExpiry / 60;
         CookieUtil.addCookie(response, AuthToken.REFRESH_TOKEN, refreshToken, cookieMaxAge, "localhost");
+    }
+
+    /**
+     * 헤더에 access token 추가
+     */
+    public void accessTokenAddCookie(HttpServletResponse response, String accessToken) {
+        long accessTokenExpiry = appProperties.getTokenExpiry();
+        int cookieMaxAge = (int) accessTokenExpiry / 60;
+        CookieUtil.addCookie(response, AuthToken.ACCESS_TOKEN, accessToken, cookieMaxAge, "localhost");
     }
 
     /**
@@ -162,5 +176,10 @@ public class AuthService {
         }
 
         return ResponseDetails.success(new TokenDto(newAccessToken.getToken()), path);
+    }
+
+    public Users findUserByEmail(String email) {
+        Users user = userRepository.findByEmail(email).orElseThrow(() -> new NullPointerException("해당 아이디가 존재하지 않습니다."));
+        return user;
     }
 }

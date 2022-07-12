@@ -18,6 +18,7 @@ public class AuthToken {
 
     // claim 에 들어갈 키 값을 미리 정의
     public static final String REFRESH_TOKEN = "refresh_token";
+    public static final String ACCESS_TOKEN = "access_token";
     public static final String AUTHORITIES_KEY = "role";
     public static final String USER_ID = "email";
     public static final String NICK_NAME = "nickName";
@@ -32,7 +33,7 @@ public class AuthToken {
         this.token = createAuthToken(email, nickName, role, expiry);
     }
 
-    // refresh token 을 만드는데 이용 될 createAuthToken(deactivated)
+    // refresh token 을 만드는데 이용 될 createAuthToken
     private String createAuthToken(Date expiry) {
         return Jwts.builder()
                 .setSubject("user")

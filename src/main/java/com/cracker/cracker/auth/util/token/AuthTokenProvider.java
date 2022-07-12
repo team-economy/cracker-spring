@@ -3,6 +3,7 @@ package com.cracker.cracker.auth.util.token;
 import com.cracker.cracker.auth.security.UserPrincipal;
 import com.cracker.cracker.exception.ErrorCode;
 import com.cracker.cracker.exception.TokenValidFailedException;
+import com.cracker.cracker.user.entity.Users;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
@@ -62,10 +63,5 @@ public class AuthTokenProvider {
                 .build()
                 .parseClaimsJws(token)
                 .getBody();
-    }
-
-    public String getEmailByToken(String token) {
-        String email = String.valueOf(getAllClaims(token).get("email"));
-        return email;
     }
 }

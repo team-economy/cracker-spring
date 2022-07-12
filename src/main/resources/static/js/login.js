@@ -149,7 +149,6 @@ function check_user_dup() {
     let requestObject = {
         "nickname": user_name
     }
-    console.log(requestObject)
     if (user_name == "") {
         $("#help-name").text("별명을 입력해주세요.").removeClass("is-safe").addClass("is-danger")
         $("#input-user_name").focus()
@@ -215,8 +214,9 @@ function sign_in() {
         success: function (response) {
             console.log(response)
             if (response['httpStatus'] === 200) {
+                // $.cookie(header에 넣기)
                 window.location.replace("/")
-                // 함수를 만들어서 요청을 할 때 헤더에 쿠키 토큰을 넣
+                // 함수를 만들어서 요청을 할 때 헤더에 쿠키 토큰을 넣는다.
                 alert('로그인 성공!')
             } else {
                 alert(response['msg'])
