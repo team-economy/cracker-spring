@@ -26,7 +26,7 @@ function update_profile() {
     console.log(name, file, about, form_data)
     $.ajax({
         type: "POST",
-        url: "/user/update_profile",
+        url: `/user/update_profile/${id}`,
         data: form_data,
         cache: false,
         contentType: false,
