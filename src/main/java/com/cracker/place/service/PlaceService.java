@@ -41,7 +41,12 @@ public class PlaceService {
     }
 
     @Transactional
-    public List<PlaceListRequestDto> placeList(String email) {
+    public List<Place> placeList() {
+        return placeRepository.findAll();
+    }
+
+    @Transactional
+    public List<PlaceListRequestDto> placeListSearchByEmail(String email) {
         Users user = userRepository.findByEmail(email).orElseThrow(
                 () -> new IllegalArgumentException("일치하는 메일이 없습니다.")
         );

@@ -39,7 +39,7 @@ public class PlaceController {
     public List<PlaceListRequestDto> readPlace(@CookieValue(required = false, name = "refresh_token") String token) {
         String email = authTokenProvider.getEmailByToken(token);
 //        List<PlaceListRequestDto> places = placeService.placeList(email);
-        return placeService.placeList(email);
+        return placeService.placeListSearchByEmail(email);
     }
 
     @DeleteMapping("/places/{id}")
