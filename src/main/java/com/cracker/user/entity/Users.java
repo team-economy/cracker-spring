@@ -1,6 +1,9 @@
 package com.cracker.user.entity;
 
+
 import com.cracker.comment.domain.Comment;
+import com.cracker.place.domain.Place;
+
 import com.cracker.user.dto.JoinDto;
 import com.cracker.auth.util.Timestamped;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -45,6 +48,9 @@ public class Users extends Timestamped {
 
     @OneToMany(mappedBy = "users", fetch = LAZY)
     private List<Comment> comments = new ArrayList<>();
+
+    @OneToMany(mappedBy = "users", fetch = LAZY)
+    private List<Place> places = new ArrayList<>();
 
     public Users(String email, String nickname, String pic, String marker_pic,
                  UserRole role) {
