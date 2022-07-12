@@ -1,7 +1,10 @@
 package com.cracker.comment.controller;
 
+import com.cracker.auth.util.token.AuthTokenProvider;
 import com.cracker.comment.domain.Comment;
 import com.cracker.comment.dto.CommentCreateRequestDto;
+import com.cracker.comment.dto.CommentListRequestDto;
+import com.cracker.comment.dto.CommentListResponseDto;
 import com.cracker.comment.dto.CommentUpdateRequestDto;
 import com.cracker.comment.repository.CommentRepository;
 import com.cracker.comment.service.CommentService;
@@ -17,17 +20,20 @@ public class CommentController {
 
     Date date = new Date();
 
-    private final CommentRepository commentRepository;
+//    private final CommentRepository commentRepository;
     private final CommentService commentService;
+    private final AuthTokenProvider authTokenProvider;
 
     @PostMapping("/comment")
-    public void createComment(@RequestBody CommentCreateRequestDto commentCreateRequestDto){
-        long redId= commentService.save(commentCreateRequestDto);
+    public void createComment(@RequestBody CommentCreateRequestDto commentCreateRequestDto, @CookieValue(required = false, name = "refresh_token") String token){
+        String email = authTokenProvider.getEmailByToken(token);
+        long redId= commentService.save(commentCreateRequestDto, email);
     }
 
     @GetMapping("/comment")
-    public List<Comment> getComment(){
-        return commentRepository.findAllByOrderByModifiedAtDesc();
+    public List<CommentListResponseDto> getComment(@RequestBody CommentListRequestDto commentListRequestDto){
+        return commentService.commentList(commentListRequestDto);
+//        return commentRepository.findAllByOrderByModifiedAtDesc();
     }
 
     @DeleteMapping("/comment/{id}")

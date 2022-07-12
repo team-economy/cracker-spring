@@ -13,7 +13,7 @@
         <article class="media">
             <div class="media-content">
                 <div class="content">
-                    <h3 id="matjip_name"><b th:text="${placeInfo.name}"></b></h3>
+                    <h3 id="matjip_name"><b th:text="${placeInfo.name}"></b><span id="place_id" th:text="${placeInfo.id}" hidden></span></h3>
                     <p th:text="'카테고리 : '+${placeInfo.cate}"></p>
                     <p th:text="'지번 주소 : '+${placeInfo.addr}"></p>
                     <p th:text="'도로명 주소 : '+${placeInfo.addrRoad}"></p>

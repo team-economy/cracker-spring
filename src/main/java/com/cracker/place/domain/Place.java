@@ -1,17 +1,23 @@
 package com.cracker.place.domain;
 
+import com.cracker.comment.domain.Comment;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
+
+import static javax.persistence.FetchType.LAZY;
 
 @Entity
 @Setter
 @Getter
 @NoArgsConstructor
 public class Place {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -36,6 +42,9 @@ public class Place {
 
     @Column
     private String cate;
+
+    @OneToMany(mappedBy = "comment", fetch = LAZY)
+    private List<Comment> comments = new ArrayList<>();
 
     @Builder
     public Place(String name, String addr, String addrRoad,
