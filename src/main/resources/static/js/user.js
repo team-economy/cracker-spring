@@ -4,7 +4,7 @@ $(document).ready(function () {
 })
 
 // 유저 프로필 이미지 변경
-function update_profile() {
+function update_profile(id) {
     let name = $('#input-user_name').val()
     let file = $('#input-pic')[0].files[0]
     let about = $("#textarea-about").val()
@@ -20,10 +20,10 @@ function update_profile() {
     }
 
     let form_data = new FormData()
-    form_data.append("file_give", file)
-    form_data.append("name_give", name)
-    form_data.append("about_give", about)
-    console.log(name, file, about, form_data)
+    form_data.append("file", file)
+    form_data.append("nickname", name)
+    form_data.append("statusMessage", about)
+    console.log(file, name, about, form_data)
     $.ajax({
         type: "POST",
         url: `/user/update_profile/${id}`,
@@ -32,10 +32,9 @@ function update_profile() {
         contentType: false,
         processData: false,
         success: function (response) {
-            if (response["result"] == "success") {
+            if (response["result"] == "변경 완료!!") {
                 alert(response["msg"])
                 window.location.reload()
-
             }
         }
     });

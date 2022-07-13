@@ -20,16 +20,30 @@ public class UpdateService {
     private final S3Service s3Service;
 
     @Transactional
-    public UpdateUserResponseDto updateProfile(Long id, UpdateUserRequestDto updateUserRequestDto, MultipartFile file)
+    public UpdateUserResponseDto updateProfile(Long id, UpdateUserRequestDto updateUserRequestDto)
             throws IOException {
         Users users = userRepository.findById(id).orElseThrow(
                 () -> new NullPointerException("해당 사용자 없음")
         );
 
+        String userMail = users.getEmail();
         String filepath = null;
+        MultipartFile file = updateUserRequestDto.getFile();
+        String contentType = file.getContentType();
+        String originalFileExtensionBack = null;
+        if(contentType.contains("image/jpeg")){
+            originalFileExtensionBack = ".jpg";
+        }
+        else if(contentType.contains("image/png")){
+            originalFileExtensionBack = ".png";
+        }
+        else if(contentType.contains("video/mp4")){
+            originalFileExtensionBack = ".mp4";
+        }
+
 
         if (file != null) {
-            filepath = s3Service.upload(file);
+            filepath = s3Service.upload(file, userMail + originalFileExtensionBack);
         }
 
         users.updateUserProfile(updateUserRequestDto, filepath);

@@ -6,14 +6,18 @@ import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
+import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
+import com.amazonaws.util.IOUtils;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.PostConstruct;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 
 @Service
 @NoArgsConstructor
@@ -42,11 +46,33 @@ public class S3Service {
                 .build();
     }
 
-    public String upload(MultipartFile file) throws IOException {
-        String fileName = file.getOriginalFilename();
+//    public String upload(MultipartFile file) throws IOException {
+//        String fileName = file.getOriginalFilename();
+//
+//        byte[] bytes = IOUtils.toByteArray(inputStream);
+//        objectMetadata.setContentLength(bytes.length);
+//        ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(bytes);
+//
+//        s3Client.putObject(new PutObjectRequest(bucket, fileName, file.getInputStream(), null)
+//                .withCannedAcl(CannedAccessControlList.PublicRead));
+//        return s3Client.getUrl(bucket, fileName).toString();
+//    }
 
-        s3Client.putObject(new PutObjectRequest(bucket, fileName, file.getInputStream(), null)
-                .withCannedAcl(CannedAccessControlList.PublicRead));
+
+    public String upload(MultipartFile multipartFile, String fileName) {
+        ObjectMetadata objectMetaData = new ObjectMetadata();
+        objectMetaData.setContentLength(multipartFile.getSize());
+        objectMetaData.setContentType(multipartFile.getContentType());
+        try (InputStream inputStream = multipartFile.getInputStream()){
+            return putS3(inputStream, objectMetaData, fileName);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return "fail";
+    }
+    private String putS3(InputStream inputStream, ObjectMetadata objectMetaData, String fileName) {
+        s3Client.putObject(new PutObjectRequest(bucket, fileName, inputStream, objectMetaData).withCannedAcl(CannedAccessControlList.Private));
         return s3Client.getUrl(bucket, fileName).toString();
     }
 }
+
