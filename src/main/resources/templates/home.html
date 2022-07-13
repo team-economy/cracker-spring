@@ -15,9 +15,9 @@
     </p>
     <p th:if="${user !=null}">
         <span class="user-name">
-        <a id="user_name" th:href="@{/user/{id}(id = ${user.get().getId()})}">
-            <span th:text="${user.get().getNickname()}"></span>
-            <span id="user_id" th:text="${user.get().getId()}"></span>
+        <a id="user_name" th:href="@{/user/{id}(id = ${user.getId()})}">
+            <span th:text="${user.getNickname()}"></span>
+            <span id="user_id" th:text="${user.getId()}"></span>
         </a>님 안녕하세요? &nbsp&nbsp
         </span>
         <button class="button"
@@ -26,12 +26,16 @@
         </button>
     </p>
 </div>
+
+<!--메인 로고-->
 <section class="hero logo-background">
     <div class="hero-body has-text-centered" style="padding-bottom:1rem;margin:auto;">
         <h1 class="title" style="font-style: italic">CRACKER</h1>
         <h3 class="subtitle">Share crumbs of every moment</h3>
     </div>
 </section>
+
+<!--검색목록 Modal-->
 <section class="modal-section">
     <div class="modal" id="modal-post">
         <div class="modal-background" onclick='$("#modal-post").removeClass("is-active")'></div>
@@ -46,7 +50,7 @@
                             </div>
                             <div class="level-right">
                                 <div class="level-item">
-                                    <a class="button save-button" onclick="{{등록하기 기능}}">등록하기</a>
+                                    <a class="button save-button" onclick="save_place()">등록하기</a>
                                 </div>
                                 <div class="level-item">
                                     <a class="button cancel-button"
@@ -88,7 +92,9 @@
                     <p class="card-text">도로명 주소 : {{road_address}}</p>
                     <p class="community-delete">
                         <button class="button is-success community-btn" onclick="location.href='{{커뮤니티로 이동}}'">커뮤니티
-                        </button>&nbsp&nbsp&nbsp<button class="button is-danger delete-place-btn" onclick="{{저장된 목록 삭제}}">삭제</button>
+                        </button>
+                        &nbsp&nbsp&nbsp
+                        <button class="button is-danger delete-place-btn" onclick="{{저장된_목록_삭제}}">삭제</button>
                     </p>
                 </div>
             </div>
@@ -96,7 +102,9 @@
     </div>
 </section>
 <div class="row">
-    <h1 class="blog-title" style="font-weight: bold">&nbsp&nbsp&nbsp<button class="previous" style="background-color: #F4DFBA; border-color: #CA965C">&#8249&#8249;</button>&nbsp......Trace of Crumbs......
+    <h1 class="blog-title" style="font-weight: bold">&nbsp&nbsp&nbsp
+        <button class="previous" style="background-color: #F4DFBA; border-color: #CA965C">&#8249&#8249;</button>
+        &nbsp......Trace of Crumbs......
         <button class="next" style="background-color: #F4DFBA; border-color: #CA965C">&#8250;&#8250;</button>
     </h1>
     <div class="blog-list column" id="blog-box"></div>
@@ -104,7 +112,7 @@
 </div>
 
 <footer>
-    <div th:replace="fragments/footer :: footer" />
+    <div th:replace="fragments/footer :: footer"/>
 </footer>
 
 </body>
