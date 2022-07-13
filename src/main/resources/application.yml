@@ -1,15 +1,6 @@
 server:
   port: 8080
 
-#eureka:
-#  client:
-#    fetch-registry: true
-#    register-with-eureka: true
-#    service-url:
-#      defaultZone: http://54.180.93.206:8761/eureka
-#  instance:
-#    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
-#
 spring:
   h2:
     console:
@@ -18,11 +9,9 @@ spring:
     driver-class-name: org.h2.Driver
 #    driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:h2:tcp://localhost/~/test
-#    url: jdbc:mysql://localhost:3306/devit_certification?serverTimezone=Asia/Seoul
+#    url: jdbc:mysql://localhost:3306/cracker?serverTimezone=Asia/Seoul
     username: sa
     password:
-#    username: devit
-#    password: 1234
   thymeleaf:
     prefix: classpath:/templates/
   jpa:
@@ -33,18 +22,6 @@ spring:
     hibernate:
       ddl-auto: update
     generate-ddl: true
-#  jpa:
-#    show-sql: true
-#    hibernate:
-#      ddl-auto: create
-#  rabbitmq:
-#    host: localhost
-#    password: 1234
-#    port: 5672
-#    username: devit
-#    exchange: devit.exchange
-#    queue: q.devit
-#    routingkey: devit.routingkey
 #  application:
 #    name: certification-service
 #
@@ -72,18 +49,11 @@ app:
 
   message: Message has been sent Successfully..
 
+# kakao 로그인 REST API 키
+kakao:
+  secret: c68ff2766979dad52191b316a0b99f22
+  adminToken: b0f4cc083b3493de772e56d92cc5bdbe
 
-
-#spring.h2.console.enabled=true
-#spring.datasource.driverClassName=org.h2.Driver
-#spring.datasource.url=jdbc:h2:tcp://localhost/~/test
-#spring.datasource.username=sa
-#spring.datasource.password=
-
-#spring.thymeleaf.prefix=classpath:/templates/
-#spring.jpa.show-sql=true
-#spring.jpa.properties.hibernate.format_sql=true
-#spring.jpa.hibernate.ddl-auto=update
-#spring.jpa.generate-ddl=true
-#logging.level.org.hibernate.SQL=debug
-#logging.level.org.hibernate.type.descriptor.sql=trace
+#logging:
+#  level:
+#    root: DEBUG

@@ -1,9 +1,9 @@
 package com.cracker.user.controller;
 
-import com.cracker.user.service.UserService;
 import com.cracker.auth.dto.TokenDto;
 import com.cracker.common.ResponseDetails;
 import com.cracker.user.dto.JoinDto;
+import com.cracker.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,17 +30,6 @@ public class UserController {
         return new ResponseEntity<>(responseDetails, HttpStatus.CREATED);
     }
 
-//    @PostMapping("/api/cracker/duplicate-email-check")
-//    public Boolean duplicateEmailCheck(@RequestParam String email) {
-//        Boolean Eduplicate = userService.emailDuplicate(email);
-//        return Eduplicate;
-//    }
-//
-//    @PostMapping("/api/cracker/duplicate-nickname-check")
-//    public Boolean duplicatenicknameCheck(@RequestParam String nickname) {
-//        Boolean Nduplicate = userService.emailDuplicate(nickname);
-//        return Nduplicate;
-//    }
     @PostMapping("/api/cracker/duplicate-email-check")
     public ResponseEntity<?> duplicateEmailCheck(HttpServletRequest request, HttpServletResponse response, @RequestBody Map<String, String> requestObject) {
         Boolean duplicate = userService.duplicateEmailCheck(requestObject);

@@ -1,16 +1,19 @@
 package com.cracker.user.service;
 
+import com.cracker.auth.dto.KakaoUserInfo;
+import com.cracker.auth.security.social.KakaoOAuth2;
+import com.cracker.auth.util.token.AuthToken;
 import com.cracker.auth.dto.TokenDto;
-//import com.cracker.cracker.auth.security.KakaoOAuth2;
+//import com.cracker.cracker.auth.security.social.KakaoOAuth2;
 import com.cracker.auth.properties.AppProperties;
 import com.cracker.auth.service.AuthService;
-import com.cracker.auth.util.token.AuthToken;
 import com.cracker.user.dto.JoinDto;
 //import com.cracker.cracker.user.dto.KakaoUserInfo;
 import com.cracker.user.entity.UserRole;
 import com.cracker.user.entity.Users;
 import com.cracker.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,12 +30,10 @@ public class UserService {
     private final AuthService authService;
     private final PasswordEncoder passwordEncoder;
     private final AppProperties appProperties;
-//    private final RabbitMqSender rabbitMqSender;
-//    private final KakaoOAuth2 kakaoOAuth2;
+    private final KakaoOAuth2 kakaoOAuth2;
 
-//    @Value("${kakao.adminToken}")
-//    private String ADMIN_TOKEN;
-
+    @Value("${kakao.adminToken}")
+    private String ADMIN_TOKEN;
 
     /**
      * 이메일 중복 체크
@@ -96,10 +97,6 @@ public class UserService {
         authService.refreshTokenAddCookie(response, refreshToken.getToken());
 
         userRepository.save(user);
-
-//        UserDto userDto = new UserDto(requestJoinDTO.getEmail(), requestJoinDTO.getNickName(), uuid);
-//
-//        rabbitMqSender.send(userDto);
 
         return new TokenDto(accessToken.getToken());
     }
@@ -177,6 +174,7 @@ public class UserService {
 //        }
 //        return token;
 //    }
+
     public Users userSearch(Long id){
         return userRepository.getById(id);
     }
