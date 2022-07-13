@@ -44,9 +44,16 @@ public class UserController {
         return new ResponseEntity<>(responseDetails, HttpStatus.CREATED);
     }
 
-//    @PutMapping("/api/cracker/update/{id}")
-//    public Long profileUpdate(@PathVariable Long id, @RequestPart MultipartFile multipartFile, @RequestBody UpdateUserRequestDto updateUserRequestDto) throws IOException {
-//        userService.updateProfile(id, multipartFile, updateUserRequestDto);
-//        return id;
+//    @GetMapping("/kakao/login")
+//    public ResponseEntity<?> kakaoLogin(@RequestParam String code, HttpServletResponse response){
+//        // authorizedCode: 카카오 서버로부터 받은 인가 코드
+//        TokenDto token = userService.kakao(code, response);
+//        ResponseDetails responseDetails;
+//        if (token == null) {
+//            responseDetails = ResponseDetails.fail("토큰 발급에 실패했습니다.", "/api/auth/kakao/login");
+//            return new ResponseEntity<>(responseDetails, HttpStatus.INTERNAL_SERVER_ERROR);
+//        }
+//        responseDetails = ResponseDetails.success(token, "/api/auth/kakao/login");
+//        return new ResponseEntity<>(responseDetails, HttpStatus.OK);
 //    }
 }

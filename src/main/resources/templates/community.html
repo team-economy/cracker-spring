@@ -30,7 +30,8 @@
         <div class="media-content">
             <div class="field">
                 <p class="control">
-                    <textarea id="textarea-post" class="textarea comment-list" rows="3" placeholder="댓글 추가..."> </textarea>
+                    <textarea id="textarea-post" class="textarea comment-list" rows="3"
+                              placeholder="댓글 추가..."> </textarea>
                 </p>
             </div>
         </div>
@@ -44,30 +45,12 @@
 
 <section class="community posts-section">
     <div id="post-box" class="container">
-        <div class="box comment-list">
-            <article class="media">
-                <div class="media-left">
-                    <a class="image is-64x64" href="#">
-                        <img class="is-rounded" src="../profile_pics/profile_placeholder.png">
-                    </a>
-                </div>
-                <div class="media-content">
-                    <div class="content">
-                        <p>
-                            <strong>홍길동</strong> <small>@username</small> <small>10분 전</small>
-                            <a type="button" class="delete-comment" onclick="(delete comment 함수 호출)"><i class="fa fa-trash" aria-hidden="true"></i></a>
-                            <br>
-                            글을 적는 칸
-                        </p>
-                    </div>
-                </div>
-            </article>
-        </div>
+
     </div>
 </section>
 
 <footer>
-    <div th:replace="fragments/footer :: footer" />
+    <div th:replace="fragments/footer :: footer"/>
 </footer>
 </body>
 </html>

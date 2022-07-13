@@ -43,7 +43,7 @@ public class AuthService {
     public AuthToken refreshToken(Users user) {
         Date now = new Date();
         long refreshTokenExpiry = appProperties.getRefreshTokenExpiry();
-
+        
         AuthToken refreshToken = tokenProvider.createAuthToken(user.getEmail(), new Date(now.getTime() + refreshTokenExpiry));
         user.updateRefreshToken(refreshToken.getToken());
 

@@ -8,12 +8,12 @@ function get_place() {
         url: "/places",
         data: {},
         success: function (response) {
-            console.log(response)
+            console.log(response);
             for (let i = 0; i < response.length; i++) {
                 let matjip = response[i]
-                make_card(i, matjip)
                 // let marker = make_marker(matjip, matjip["marker_pic_real"])
                 // add_info(i, marker, matjip)
+                make_card(i, matjip);
             }
         }
     });
@@ -24,12 +24,12 @@ function make_card(i, matjip) {
     let place_addr = matjip["matjip_address"]
     let html_temp = `<div class="card" id="card-${i}">
                                 <div class="card-body" style="background-color: #FDF6EC">
-                                    <h5 class="card-title"><a href="javascript:click2center(${i})" class="matjip-title">${matjip['name']}</a></h5>
-                                    <p class="card-text">지번 주소 : ${matjip['addr']}</p>
-                                    <p class="card-text">도로명 주소 : ${matjip['addrRoad']}</p>
+                                    <h5 class="card-title"><a href="javascript:click2center(${i})" class="matjip-title">${matjip.name}</a></h5>
+                                    <p class="card-text">지번 주소 : ${matjip.addr}</p>
+                                    <p class="card-text">도로명 주소 : ${matjip.addrRoad}</p>
                                     <p class="community-delete">
-                                    <button class="button is-success" style="background-color: #A0BCC2; font-family: 'Gowun Batang', serif" onclick="location.href='/community/'+'${matjip['id']}'">커뮤니티
-                                    </button>&nbsp&nbsp&nbsp<button class="button is-danger" style="background-color: #ECA6A6; font-family: 'Gowun Batang', serif"" onclick="delete_place('${matjip['id']}')">삭제</button>
+                                        <button class="button is-success" style="background-color: #A0BCC2; font-family: 'Gowun Batang', serif" onclick="location.href='/community/'+'${matjip.id}'">커뮤니티</button>
+                                        &nbsp&nbsp&nbsp<button class="button is-danger" style="background-color: #ECA6A6; font-family: 'Gowun Batang', serif" onclick="delete_place('${matjip.id}')">삭제</button>
                                     </p>
                                 </div>
                             </div>`
@@ -47,9 +47,9 @@ function get_address() {
         type: "GET",
         url: `https://dapi.kakao.com/v2/local/search/keyword?query=${matjip_name}`,
         beforeSend: function (header) {
-            header.setRequestHeader("Authorization",'KakaoAK b2cd5fe8152984068e62cf5b85fbb75a');
+            header.setRequestHeader("Authorization", 'KakaoAK b2cd5fe8152984068e62cf5b85fbb75a');
         },
-        success: function(response) {
+        success: function (response) {
 
             let result = response['documents'];
 
@@ -57,7 +57,7 @@ function get_address() {
                 alert("일치하는 정보가 없습니다.");
             } else {
                 $("#modal-post").addClass("is-active");
-                for(let i = 0; i < result.length; i++) {
+                for (let i = 0; i < result.length; i++) {
                     let info = result[i];
 
                     let html_temp = `<div class="form-check">
@@ -74,7 +74,7 @@ function get_address() {
             }
 
         },
-        error: function(response) {
+        error: function (response) {
             alert("검색어를 입력하세요");
         }
     });
@@ -110,7 +110,7 @@ function save_place() {
         type: "POST",
         url: `/places/create`,
         data: JSON.stringify(param),
-        contentType : "application/json",
+        contentType: "application/json",
         success: function (response) {
             if (response["msg"] == "저장 완료!!") {
                 alert(response["msg"])

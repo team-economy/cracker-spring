@@ -32,7 +32,7 @@ public class AuthToken {
         this.key = key;
         this.token = createAuthToken(email, nickName, role, expiry);
     }
-
+    
     // refresh token 을 만드는데 이용 될 createAuthToken
     private String createAuthToken(String email, Date expiry) {
         return Jwts.builder()

@@ -18,7 +18,7 @@ public class Users extends Timestamped {
     @JsonIgnore
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     @Column(nullable = false, unique = true, length = 30)
     private String email;
@@ -39,6 +39,9 @@ public class Users extends Timestamped {
 
     @Column(unique = true)
     private String refreshToken;
+
+    @OneToMany(mappedBy = "users", fetch = LAZY)
+    private List<Place> places = new ArrayList<>();
 
     public Users(String email, String nickname, String pic, String marker_pic,
                  UserRole role) {
