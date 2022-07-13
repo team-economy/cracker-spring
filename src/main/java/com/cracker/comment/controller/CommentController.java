@@ -1,5 +1,6 @@
 package com.cracker.comment.controller;
 
+import com.cracker.auth.security.UserPrincipal;
 import com.cracker.auth.util.token.AuthTokenProvider;
 import com.cracker.comment.domain.Comment;
 import com.cracker.comment.dto.CommentCreateRequestDto;
@@ -10,6 +11,7 @@ import com.cracker.comment.repository.CommentRepository;
 import com.cracker.comment.service.CommentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.repository.query.Param;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
@@ -26,8 +28,8 @@ public class CommentController {
     private final AuthTokenProvider authTokenProvider;
 
     @PostMapping("/comment")
-    public void createComment(@RequestBody CommentCreateRequestDto commentCreateRequestDto, @CookieValue(required = false, name = "refresh_token") String token){
-        String email = authTokenProvider.getEmailByToken(token);
+    public void createComment(@RequestBody CommentCreateRequestDto commentCreateRequestDto, @AuthenticationPrincipal UserPrincipal userPrincipal){
+        String email = userPrincipal.getEmail();
         commentService.save(commentCreateRequestDto, email);
     }
 
