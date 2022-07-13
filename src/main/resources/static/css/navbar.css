@@ -1,0 +1,14 @@
+.crack-out {
+    margin-top: 15px;
+    margin-right: 40px;
+}
+
+.logo {
+    font-style: italic;
+}
+
+.sign-out-btn {
+    font-family: 'Source Code Pro', monospace;
+    font-weight: bolder;
+    background-color: #E3B7A0;
+}
