@@ -27,12 +27,11 @@ public class AuthController {
             responseDetails = ResponseDetails.loginFail("로그인 실패", "/api/cracker/login");
             return new ResponseEntity<>(responseDetails, HttpStatus.UNAUTHORIZED);
         }
-
         responseDetails = ResponseDetails.success(token, "/api/cracker/login");
         return new ResponseEntity<>(responseDetails, HttpStatus.OK);
     }
 
-    @GetMapping("/refresh")
+    @GetMapping("/api/cracker/refresh")
     public ResponseEntity<?> refreshToken(HttpServletRequest request, HttpServletResponse response) {
         ResponseDetails responseDetails = authService.refreshToken(request, response);
         return new ResponseEntity<>(responseDetails, HttpStatus.valueOf(responseDetails.getHttpStatus()));

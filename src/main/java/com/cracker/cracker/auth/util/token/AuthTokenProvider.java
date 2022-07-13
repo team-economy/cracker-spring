@@ -3,9 +3,9 @@ package com.cracker.cracker.auth.util.token;
 import com.cracker.cracker.auth.security.UserPrincipal;
 import com.cracker.cracker.exception.ErrorCode;
 import com.cracker.cracker.exception.TokenValidFailedException;
+import com.cracker.cracker.user.entity.UserRole;
 import com.cracker.cracker.user.entity.Users;
 import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -26,8 +26,8 @@ public class AuthTokenProvider {
         this.key = Keys.hmacShaKeyFor(secret.getBytes());
     }
 
-    public AuthToken createAuthToken(Date expiry) {
-        return new AuthToken(expiry, key);
+    public AuthToken createAuthToken(String email, Date expiry) {
+        return new AuthToken(email, expiry, key);
     }
 
     public AuthToken createAuthToken(String email, String nickName, String role, Date expiry) {
@@ -43,6 +43,7 @@ public class AuthTokenProvider {
         if (authToken.validate()) {
 
             Claims claims = authToken.getTokenClaims();
+            UserRole role = UserRole.valueOf(claims.get(AuthToken.AUTHORITIES_KEY).toString());
             Collection<? extends GrantedAuthority> authorities =
                     Arrays.stream(new String[]{claims.get(AuthToken.AUTHORITIES_KEY).toString()})
                             .map(SimpleGrantedAuthority::new)
@@ -50,18 +51,11 @@ public class AuthTokenProvider {
 
             log.debug("claims subject := [{}]", claims.getSubject());
 
-            UserPrincipal userPrincipal = new UserPrincipal((String) claims.get(AuthToken.USER_ID));
+            // 주의요망
+            UserPrincipal userPrincipal = new UserPrincipal(role, claims.getSubject());
             return new UsernamePasswordAuthenticationToken(userPrincipal, authToken, authorities);
         } else {
             throw new TokenValidFailedException(ErrorCode.UNAUTHORIZED, "authToken not validate");
         }
-    }
-
-    private Claims getAllClaims(String token) {
-        return Jwts.parserBuilder()
-                .setSigningKey(key)
-                .build()
-                .parseClaimsJws(token)
-                .getBody();
     }
 }

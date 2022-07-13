@@ -29,7 +29,7 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
 //        String tokenStr = HeaderUtil.getAccessToken(request);
 //        AuthToken token = tokenProvider.convertAuthToken(tokenStr);
         Cookie tokenStr = CookieUtil.getCookie(request, "access_token").orElse(null);
-        AuthToken token = tokenProvider.convertAuthToken(tokenStr.getValue());
+        AuthToken token = tokenProvider.convertAuthToken(tokenStr != null ? tokenStr.getValue() : null);
         try {
             if (token.validate()) {
                 Authentication authentication = tokenProvider.getAuthentication(token);

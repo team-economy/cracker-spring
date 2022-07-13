@@ -48,7 +48,7 @@ public class AuthService {
         Date now = new Date();
         long refreshTokenExpiry = appProperties.getRefreshTokenExpiry();
 
-        AuthToken refreshToken = tokenProvider.createAuthToken(new Date(now.getTime() + refreshTokenExpiry));
+        AuthToken refreshToken = tokenProvider.createAuthToken(user.getEmail(), new Date(now.getTime() + refreshTokenExpiry));
         user.updateRefreshToken(refreshToken.getToken());
 
         return refreshToken;
@@ -117,7 +117,7 @@ public class AuthService {
         String accessToken = HeaderUtil.getAccessToken(request);
         AuthToken authToken = tokenProvider.convertAuthToken(accessToken);
 
-        String path = "/api/auth/refresh";
+        String path = "/api/cracker/refresh";
 
         if (!authToken.validate()) {
             return ResponseDetails.invalidAccessToken(path);

@@ -23,9 +23,9 @@ public class AuthToken {
     public static final String USER_ID = "email";
     public static final String NICK_NAME = "nickName";
 
-    AuthToken(Date expiry, Key key) {
+    AuthToken(String email, Date expiry, Key key) {
         this.key = key;
-        this.token = createAuthToken(expiry);
+        this.token = createAuthToken(email, expiry);
     }
 
     AuthToken(String email, String nickName, String role, Date expiry, Key key) {
@@ -34,25 +34,27 @@ public class AuthToken {
     }
 
     // refresh token 을 만드는데 이용 될 createAuthToken
-    private String createAuthToken(Date expiry) {
+    private String createAuthToken(String email, Date expiry) {
         return Jwts.builder()
-                .setSubject("user")
+                .setSubject(email)
                 .setIssuedAt(new Date())
                 .setExpiration(expiry)
                 .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
     }
 
-    // token 을 만드는데 이용 될 createAuthToken
+    // access token 을 만드는데 이용 될 createAuthToken
     private String createAuthToken(String email, String nickName, String role, Date expiry) {
         Date now = new Date();
 
         // .claim 을 이용하여 페이로드에 넣을 값들을 구성해준다.
         return Jwts.builder()
-                .setSubject("user")
+                // pk값을 보통 넣고
+                .setSubject(email)
                 .setIssuedAt(now)
+                // 필요한 정보를 추가적으로
                 .claim(AUTHORITIES_KEY, role)
-                .claim(USER_ID, email)
+//                .claim(USER_ID, email)
                 .claim(NICK_NAME, nickName)
                 .signWith(key, SignatureAlgorithm.HS256)
                 .setExpiration(expiry)
