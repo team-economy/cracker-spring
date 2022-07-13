@@ -35,6 +35,7 @@ public class PlaceService {
         Users user = userRepository.findByEmail(email).orElseThrow(
                 () -> new IllegalArgumentException("일치하는 메일이 없습니다")
         );
+
         place.registUser(user);
 
         return placeRepository.save(place).getId();

@@ -1,8 +1,7 @@
 package com.cracker.comment.domain;
 
-import com.cracker.comment.dto.CommentCreateRequestDto;
 import com.cracker.comment.dto.CommentUpdateRequestDto;
-import com.cracker.place.domain.Place;
+import com.cracker.community.entity.Community;
 import com.cracker.user.entity.Users;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Builder;
@@ -11,7 +10,6 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
-import static javax.persistence.FetchType.EAGER;
 import static javax.persistence.FetchType.LAZY;
 
 @Getter // get 함수를 일괄적으로 만듬
@@ -27,8 +25,8 @@ public class Comment extends Timestamped {
 
     @JsonIgnore
     @ManyToOne(fetch = LAZY)
-    @JoinColumn(name="place_id", nullable = false)
-    private Place place;
+    @JoinColumn(name="community_id", nullable = false)
+    private Community community;
 
     @JsonIgnore
     @ManyToOne(fetch = LAZY)
@@ -44,9 +42,9 @@ public class Comment extends Timestamped {
         this.comment = commentUpdateRequestDto.getComment();
     }
 
-    public void placeComment(Place place){
-        this.place = place;
-        place.getComments().add(this);
+    public void communityComment(Community community){
+        this.community = community;
+        community.getComments().add(this);
     }
 
     public void UserComment(Users users){

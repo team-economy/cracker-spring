@@ -2,9 +2,10 @@ package com.cracker.place.domain;
 
 
 import com.cracker.comment.domain.Comment;
+import com.cracker.community.entity.Community;
 import com.cracker.user.entity.Users;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,9 +14,6 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
-
-import static javax.persistence.FetchType.EAGER;
-import static javax.persistence.FetchType.LAZY;
 
 import static javax.persistence.FetchType.LAZY;
 
@@ -50,14 +48,15 @@ public class Place {
     @Column
     private String cate;
 
-
-    @OneToMany(mappedBy = "place")
-    private List<Comment> comments = new ArrayList<>();
-
     @JsonIgnore
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name="user_id", nullable = false)
     private Users users;
+
+    @JsonIgnore
+    @ManyToOne(fetch = LAZY)
+    @JoinColumn(name="community_id", nullable = false)
+    private Community community;
 
     @Builder
     public Place(String name, String addr, String addrRoad,
@@ -70,10 +69,13 @@ public class Place {
         this.phoneNum = phoneNum;
         this.cate = cate;
     }
-
     public void registUser(Users user){
         this.users = user;
         user.getPlaces().add(this);
     }
 
+    public void placeCommunity(Community community){
+        this.community = community;
+        community.getPlaces().add(this);
+    }
 }

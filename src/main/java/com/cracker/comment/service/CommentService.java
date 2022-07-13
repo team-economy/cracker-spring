@@ -2,7 +2,6 @@ package com.cracker.comment.service;
 
 import com.cracker.comment.domain.Comment;
 import com.cracker.comment.dto.CommentCreateRequestDto;
-import com.cracker.comment.dto.CommentListRequestDto;
 import com.cracker.comment.dto.CommentListResponseDto;
 import com.cracker.comment.dto.CommentUpdateRequestDto;
 import com.cracker.comment.repository.CommentRepository;
@@ -15,9 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import javax.transaction.Transactional;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.NoSuchElementException;
+import java.util.*;
 
 @Service //실제 로직을 처리하는 부분
 @RequiredArgsConstructor // final 멤버 변수를 자동으로 생성합니다.
@@ -42,7 +39,7 @@ public class CommentService{
                 () -> new NoSuchElementException("일치하는 맛집이 없습니다.")
         );
 
-        comment.placeComment(place);
+        comment.communityComment(place);
         comment.UserComment(user);
 
         return commentRepository.save(comment).getId();
@@ -67,8 +64,20 @@ public class CommentService{
             .build();
             dtos.add(dto);
         }
+
+        Collections.sort(dtos, new CompareModifiedDesc());
+
         return dtos;
 //        return commentRepository.findAllByOrderByModifiedAtDesc();
+    }
+
+    //수정 시간별 내림차순 정리
+    static class CompareModifiedDesc implements Comparator<CommentListResponseDto>{
+
+        @Override
+        public int compare(CommentListResponseDto o1, CommentListResponseDto o2){
+            return o2.getModifiedAt().compareTo(o1.getModifiedAt());
+        }
     }
 
     // comment를 지움

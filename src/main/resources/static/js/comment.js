@@ -70,7 +70,7 @@ function getMessages() {
     })
 }
 function addHTML(id, userName, userEmail, comment, time_past) {
-    let tempHtml = `<div id="post-box" class="container">
+    let tempHtml = `
         <div class="box comment-list">
             <article class="media">
                 <div class="media-left">
@@ -90,8 +90,7 @@ function addHTML(id, userName, userEmail, comment, time_past) {
                     </div>
                 </div>
             </article>
-        </div>
-    </div>`;
+        </div>`;
     $('#post-box').append(tempHtml);
 }
 function timePassed(date) {
