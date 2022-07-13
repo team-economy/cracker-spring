@@ -38,6 +38,7 @@ public class PlaceService {
 
         place.registUser(user);
 
+
         return placeRepository.save(place).getId();
     }
 
