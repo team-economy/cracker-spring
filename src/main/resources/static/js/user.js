@@ -1,6 +1,6 @@
 $(document).ready(function () {
-    // get_user_place()
-    get_place()
+    let userMail = $('#user_mail').text();
+    get_place(userMail);
 })
 
 // 유저 프로필 이미지 변경
