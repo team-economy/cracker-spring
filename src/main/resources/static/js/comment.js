@@ -30,9 +30,9 @@ function post() {
     }
     // 3. genRandomName 함수를 통해 익명의 username을 만듭니다.
     let userName = genRandomName(10);
-    let placeId = $('#place_id').text();
+    let communityAddr = $('#community-addr').text();
     // 4. 전달할 data JSON으로 만듭니다.
-    let data = {'comment': comment, 'placeId' : placeId};
+    let data = {'comment': comment, 'communityAddr' : communityAddr};
     // 5. POST /api/memos 에 data를 전달합니다.
     $.ajax({
         type: "POST",
@@ -50,10 +50,10 @@ function getMessages() {
     // 1. 기존 메모 내용을 지웁니다.
     $('#post-box').empty();
     // 2. 메모 목록을 불러와서 HTML로 붙입니다.
-    let placeId = $('#place_id').text();
+    let communityAddr = $('#community-addr').text();
     $.ajax({
         type: 'GET',
-        url: `/comment?placeId=${placeId}`,
+        url: `/comment?communityAddr=${communityAddr}`,
         success: function (response) {
             console.log(response);
             for (let i = 0; i < response.length; i++) {

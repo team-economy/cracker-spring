@@ -5,6 +5,8 @@ import com.cracker.comment.dto.CommentCreateRequestDto;
 import com.cracker.comment.dto.CommentListResponseDto;
 import com.cracker.comment.dto.CommentUpdateRequestDto;
 import com.cracker.comment.repository.CommentRepository;
+import com.cracker.community.entity.Community;
+import com.cracker.community.repository.CommunityRepository;
 import com.cracker.place.domain.Place;
 import com.cracker.place.repository.PlaceRepository;
 import com.cracker.user.entity.Users;
@@ -24,6 +26,8 @@ public class CommentService{
     private final UserRepository userRepository;
     private final PlaceRepository placeRepository;
 
+    private final CommunityRepository communityRepository;
+
     //comment 작성
     @Transactional
     public Long save(CommentCreateRequestDto commentCreateRequestDto, String email){
@@ -35,25 +39,23 @@ public class CommentService{
         Users user = userRepository.findByEmail(email).orElseThrow(
                 () -> new NoSuchElementException("일치하는 메일이 없습니다.")
         );
-        Place place = placeRepository.findById(commentCreateRequestDto.getPlaceId()).orElseThrow(
-                () -> new NoSuchElementException("일치하는 맛집이 없습니다.")
-        );
 
-        comment.communityComment(place);
+        Community community = communityRepository.findByAddr(commentCreateRequestDto.getCommunityAddr());
+
+        comment.communityComment(community);
         comment.UserComment(user);
 
         return commentRepository.save(comment).getId();
     }
 
     @Transactional
-    public List<CommentListResponseDto> commentList(Long placeId){
-        Place place = placeRepository.findById(placeId).orElseThrow(
-                () -> new NoSuchElementException("일치하는 맛집이 없습니다")
-        );
+    public List<CommentListResponseDto> commentList(String communityAddr){
+
+        Community community = communityRepository.findByAddr(communityAddr);
 
         List<CommentListResponseDto> dtos = new ArrayList<CommentListResponseDto>();
 
-        List<Comment> comments = place.getComments();
+        List<Comment> comments = community.getComments();
         for(Comment comment : comments){
             CommentListResponseDto dto = CommentListResponseDto.builder()
                     .id(comment.getId())

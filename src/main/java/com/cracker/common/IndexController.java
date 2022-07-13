@@ -2,6 +2,8 @@ package com.cracker.common;
 
 import com.cracker.auth.service.AuthService;
 import com.cracker.auth.util.token.AuthTokenProvider;
+import com.cracker.community.entity.Community;
+import com.cracker.community.service.CommunityService;
 import com.cracker.user.entity.Users;
 import com.cracker.user.service.UserService;
 import com.cracker.place.domain.Place;
@@ -25,6 +27,8 @@ public class IndexController {
     private final AuthService authService;
     private final UserService userService;
 
+    private final CommunityService communityService;
+
     @GetMapping("/")
     public String home(@CookieValue(required = false, name = "refresh_token") String token, Model model) {
         if (token != null) {
@@ -43,8 +47,8 @@ public class IndexController {
     //community page 연결
     @GetMapping("/community/{id}")
     public String commnuity(@PathVariable Long id, Model model){
-        Place place = placeService.placeSearch(id);
-        model.addAttribute("placeInfo", place);
+        Community community = communityService.communitySearch(id);
+        model.addAttribute("communityInfo", community);
         return "community";
     }
 

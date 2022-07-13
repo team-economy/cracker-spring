@@ -12,7 +12,7 @@ public class CommentCreateRequestDto {
 //    private String userName;
     private String comment;
 
-    private Long placeId;
+    private String communityAddr;
 
 
     @Builder
