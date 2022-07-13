@@ -4,11 +4,9 @@ import com.cracker.cracker.auth.dto.LoginDto;
 import com.cracker.cracker.auth.dto.TokenDto;
 import com.cracker.cracker.auth.service.AuthService;
 import com.cracker.cracker.common.ResponseDetails;
-import com.cracker.cracker.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
