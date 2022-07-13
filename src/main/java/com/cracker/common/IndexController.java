@@ -1,5 +1,6 @@
 package com.cracker.common;
 
+import com.cracker.auth.security.UserPrincipal;
 import com.cracker.auth.service.AuthService;
 import com.cracker.auth.util.token.AuthTokenProvider;
 import com.cracker.community.entity.Community;
@@ -9,6 +10,7 @@ import com.cracker.user.service.UserService;
 import com.cracker.place.domain.Place;
 import com.cracker.place.service.PlaceService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CookieValue;
@@ -30,12 +32,10 @@ public class IndexController {
     private final CommunityService communityService;
 
     @GetMapping("/")
-    public String home(@CookieValue(required = false, name = "refresh_token") String token, Model model) {
-        if (token != null) {
-            String email = authTokenProvider.getEmailByToken(token);
-            Optional<Users> user = authService.getUserByEmail(email);
-            model.addAttribute("user", user);
-        }
+    public String home(@AuthenticationPrincipal UserPrincipal userPrincipal, Model model) {
+        String email = userPrincipal.getEmail();
+        Users user = authService.findUserByEmail(email);
+        model.addAttribute("user", user);
         return "home";
     }
 
@@ -54,15 +54,14 @@ public class IndexController {
 
     //user page 연결
     @GetMapping("/user/{id}")
-    public String user(@PathVariable Long id, @CookieValue(required = false, name = "refresh_token") String token, Model model)
+    public String user(@PathVariable Long id, @AuthenticationPrincipal UserPrincipal userPrincipal, Model model)
     {
-        if (token != null) {
-            String email = authTokenProvider.getEmailByToken(token);
-            Optional<Users> user = authService.getUserByEmail(email);
-            Users userInfo = userService.userSearch(id);
-            model.addAttribute("user", user);
-            model.addAttribute("userInfo", userInfo);
-        }
+        String email = userPrincipal.getEmail();
+        Optional<Users> user = authService.getUserByEmail(email);
+        Users userInfo = userService.userSearch(id);
+        model.addAttribute("user", user);
+        model.addAttribute("userInfo", userInfo);
+
         return "user";
 
     }

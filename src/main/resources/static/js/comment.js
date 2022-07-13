@@ -69,6 +69,7 @@ function getMessages() {
         }
     })
 }
+
 function addHTML(id, userName, userEmail, comment, time_past) {
     let tempHtml = `
         <div class="box comment-list">
