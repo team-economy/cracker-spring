@@ -178,18 +178,4 @@ public class UserService {
         }
         return token;
     }
-
-//    public Users updateProfile(@PathVariable Long id, @RequestPart MultipartFile multipartFile, @RequestBody UpdateUserRequestDto updateUserRequestDto) throws IOException {
-//        Users user = userRepository.findById(id).orElseThrow(
-//                () -> new NullPointerException("해당 유저가 존재하지 않습니다.")
-//        );
-//        String nickname = updateUserRequestDto.getNickname();
-//        String status = updateUserRequestDto.getStatus();
-//        s3Service.deleteFile(user.getPic());
-//        String ImageUrl = s3Service.upload(multipartFile, "static");
-//
-//        user.updateUsers(multipartFile, nickname, status);
-//
-//        return user;
-//    }
 }

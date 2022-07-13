@@ -43,10 +43,4 @@ public class UserController {
         ResponseDetails responseDetails = ResponseDetails.success(duplicate, "/api/cracker/duplicate-nickname-check");
         return new ResponseEntity<>(responseDetails, HttpStatus.CREATED);
     }
-
-//    @PutMapping("/api/cracker/update/{id}")
-//    public Long profileUpdate(@PathVariable Long id, @RequestPart MultipartFile multipartFile, @RequestBody UpdateUserRequestDto updateUserRequestDto) throws IOException {
-//        userService.updateProfile(id, multipartFile, updateUserRequestDto);
-//        return id;
-//    }
 }
