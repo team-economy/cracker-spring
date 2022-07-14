@@ -1,6 +1,6 @@
-package com.cracker.repository;
+package com.cracker.place.repository;
 
-import com.cracker.domain.Place;
+import com.cracker.place.domain.Place;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

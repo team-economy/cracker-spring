@@ -199,4 +199,8 @@ public class UserService {
 
         return token;
     }
+
+    public Users userSearch(Long id){
+        return userRepository.getById(id);
+    }
 }

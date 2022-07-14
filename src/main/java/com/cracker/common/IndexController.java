@@ -2,8 +2,10 @@ package com.cracker.common;
 
 import com.cracker.auth.security.UserPrincipal;
 import com.cracker.auth.service.AuthService;
-import com.cracker.domain.Place;
-import com.cracker.service.PlaceService;
+import com.cracker.auth.util.token.AuthTokenProvider;
+import com.cracker.community.entity.Community;
+import com.cracker.community.service.CommunityService;
+import com.cracker.place.service.PlaceService;
 import com.cracker.user.entity.Users;
 import com.cracker.user.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -23,11 +25,14 @@ import java.util.Optional;
 public class IndexController {
 
     private final PlaceService placeService;
+    private final AuthTokenProvider authTokenProvider;
     private final AuthService authService;
     private final UserService userService;
 
+    private final CommunityService communityService;
+
     @GetMapping("/")
-    public String home(Model model, @AuthenticationPrincipal UserPrincipal userPrincipal) {
+    public String home(@AuthenticationPrincipal UserPrincipal userPrincipal, Model model) {
         String email = userPrincipal.getEmail();
         Users user = authService.findUserByEmail(email);
         if (user == null) {
@@ -52,18 +57,28 @@ public class IndexController {
     //community page 연결
     @GetMapping("/community/{id}")
     public String commnuity(@PathVariable Long id, Model model){
-        Place place = placeService.placeSearch(id);
-        model.addAttribute("placeInfo", place);
+        Community community = communityService.communitySearch(id);
+        model.addAttribute("communityInfo", community);
         return "community";
     }
 
     //user page 연결
     @GetMapping("/user/{id}")
-    public String user(@PathVariable Long id, Model model)
+    public String user(@PathVariable Long id, @AuthenticationPrincipal UserPrincipal userPrincipal, Model model)
     {
-//        User user = userService.userSearch(id);
-//        model.addAttribute("userInfo", user);
+        String email = userPrincipal.getEmail();
+        Optional<Users> user = authService.getUserByEmail(email);
+        Users userInfo = userService.userSearch(id);
+        model.addAttribute("user", user);
+        model.addAttribute("userInfo", userInfo);
+
         return "user";
 
+    }
+
+    @GetMapping("/manage")
+    public String admin(){
+
+        return "admin";
     }
 }

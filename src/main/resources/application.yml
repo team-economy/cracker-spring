@@ -1,33 +1,67 @@
 server:
   port: 8080
 
+#eureka:
+#  client:
+#    fetch-registry: true
+#    register-with-eureka: true
+#    service-url:
+#      defaultZone: http://54.180.93.206:8761/eureka
+#  instance:
+#    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
+#
+##################################################################################################
+## DBDBDBDBDBDBDBDBDBDBDBDBDBDBDBDBDBD H2H2H2H2H2 BDBDBDBDBDBDBDBDBDBDBDBDBDBDBDBDBDBDBDBDBDBD  ##
+##################################################################################################
+#spring:
+#  h2:
+#    console:
+#      enabled: true
+#  datasource:
+#    driver-class-name: org.h2.Driver
+##    driver-class-name: com.mysql.cj.jdbc.Driver
+#    url: jdbc:h2:tcp://localhost/~/test
+##    url: jdbc:mysql://localhost:3306/devit_certification?serverTimezone=Asia/Seoul
+#    username: sa
+#    password:
+##    username: devit
+##    password: 1234
+#  thymeleaf:
+#    prefix: classpath:/templates/
+#  jpa:
+#    show-sql: true
+#    properties:
+#      hibernate:
+#        format_sql: true
+#    hibernate:
+#      ddl-auto: update
+#    generate-ddl: true
+##################################################################################################
+
+##################################################################################################
+## DBDBDBDBDBDBDBDBDBDBDBDBDBDBDBDBDBD   MYSQL    BDBDBDBDBDBDBDBDBDBDBDBDBDBDBDBDBDBDBDBDBDBD  ##
+##################################################################################################
 spring:
-  h2:
-    console:
-      enabled: true
   datasource:
-    driver-class-name: org.h2.Driver
-#    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:h2:tcp://localhost/~/test
-#    url: jdbc:mysql://localhost:3306/cracker?serverTimezone=Asia/Seoul
-    username: sa
-    password:
-  thymeleaf:
-    prefix: classpath:/templates/
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/cracker?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+    username: root
+    password: 1765
+
   jpa:
-    show-sql: true
     properties:
       hibernate:
-        format_sql: true
+        default_batch_fetch_size: 10
+    database: mysql
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    generate-ddl: true
+    show-sql: true
     hibernate:
       ddl-auto: update
-    generate-ddl: true
-#  application:
-#    name: certification-service
-#
-#  mvc:
-#    pathmatch:
-#      matching-strategy: ant_path_matcher
+
+  thymeleaf:
+    prefix: classpath:/templates/
+
 
 # cors policy
 cors:

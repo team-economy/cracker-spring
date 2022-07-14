@@ -1,4 +1,4 @@
-package com.cracker.dto;
+package com.cracker.place.dto;
 
 import com.fasterxml.jackson.databind.util.JSONPObject;
 import lombok.*;
