@@ -10,8 +10,9 @@
     color: #68A7AD !important;
 }
 
-.hero {
-    color: #3A3845;
+.main-logo{
+    padding-bottom:1rem;
+    margin:auto;
 }
 
 .subtitle {

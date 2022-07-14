@@ -18,6 +18,27 @@ body {
     vertical-align: middle;
 }
 
+/*로그인 버튼*/
+.crack-in-btn {
+    margin-left : 20px;
+
+    font-family : "Source Code Pro", monospace;
+    font-weight: bolder;
+
+    background-color: #92de78;
+}
+
+/*로그아웃 버튼*/
+.crack-out-btn {
+    margin-left : 20px;
+
+    font-family: 'Source Code Pro', monospace;
+    font-weight: bolder;
+
+    background-color: #E3B7A0;
+}
+
+
 /*전체 폰트*/
 * {
     font-family: 'Gowun Batang', serif;
