@@ -43,6 +43,7 @@ jwt:
 
 app:
   auth:
+    guestExpiry: 604800000
     tokenExpiry: 10800000            # 3??
     refreshTokenExpiry: 604800000    # 7?
     adminToken: TODO

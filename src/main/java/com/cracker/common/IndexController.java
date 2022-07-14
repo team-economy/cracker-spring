@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletResponse;
+import java.util.Optional;
 
 @Controller
 @RequiredArgsConstructor
@@ -29,7 +30,11 @@ public class IndexController {
     public String home(Model model, @AuthenticationPrincipal UserPrincipal userPrincipal) {
         String email = userPrincipal.getEmail();
         Users user = authService.findUserByEmail(email);
-        model.addAttribute("user", user);
+        if (user == null) {
+            model.addAttribute("user", null);
+        } else {
+            model.addAttribute("user", user);
+        }
         return "home";
     }
 

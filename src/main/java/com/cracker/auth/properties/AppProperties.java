@@ -9,6 +9,8 @@ import org.springframework.context.annotation.Configuration;
 @Setter
 @Configuration
 public class AppProperties {
+    @Value("${app.auth.guestExpiry}")
+    private long guestExpiry;
     @Value("${app.auth.tokenExpiry}")
     private long tokenExpiry;
     @Value("${app.auth.refreshTokenExpiry}")

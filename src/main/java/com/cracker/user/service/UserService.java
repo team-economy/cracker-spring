@@ -120,7 +120,7 @@ public class UserService {
     }
 
     /**
-     * 이메일 중복 체크
+     * 닉네임 중복 체크
      */
     public Boolean duplicateNicknameCheck(Map<String, String> requestObject) {
         String nickname = requestObject.get("nickname");

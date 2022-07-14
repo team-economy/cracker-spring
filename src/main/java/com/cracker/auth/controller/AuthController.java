@@ -19,6 +19,14 @@ public class AuthController {
     private final AuthService authService;
     private final UserService userService;
 
+    @PostMapping("/api/cracker/guest")
+    public ResponseEntity<?> guest(HttpServletRequest request, HttpServletResponse response) {
+        TokenDto token = authService.guest(request, response);
+        ResponseDetails responseDetails;
+        responseDetails = ResponseDetails.success(token, "/api/cracker/guest");
+        return new ResponseEntity<>(responseDetails, HttpStatus.OK);
+    }
+
     @PostMapping("/api/cracker/login")
     public ResponseEntity<?> login(HttpServletRequest request, HttpServletResponse response, @RequestBody LoginDto requestLoginDTO) {
         TokenDto token = authService.login(request, response, requestLoginDTO);
