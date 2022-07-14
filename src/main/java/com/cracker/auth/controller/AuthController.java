@@ -4,6 +4,7 @@ import com.cracker.auth.dto.LoginDto;
 import com.cracker.auth.dto.TokenDto;
 import com.cracker.auth.service.AuthService;
 import com.cracker.common.ResponseDetails;
+import com.cracker.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 @RequiredArgsConstructor
 public class AuthController {
     private final AuthService authService;
+    private final UserService userService;
 
     @PostMapping("/api/cracker/login")
     public ResponseEntity<?> login(HttpServletRequest request, HttpServletResponse response, @RequestBody LoginDto requestLoginDTO) {
@@ -34,17 +36,4 @@ public class AuthController {
         ResponseDetails responseDetails = authService.refreshToken(request, response);
         return new ResponseEntity<>(responseDetails, HttpStatus.valueOf(responseDetails.getHttpStatus()));
     }
-
-//    @GetMapping("/api/kakao/login")
-//    public ResponseEntity<?> kakaoLogin(@RequestParam String code, HttpServletResponse response){
-//        // authorizedCode: 카카오 서버로부터 받은 인가 코드
-//        TokenDto token = userService.kakao(code, response);
-//        ResponseDetails responseDetails;
-//        if (token == null) {
-//            responseDetails = ResponseDetails.fail("토큰 발급에 실패했습니다.", "/api/kakao/login");
-//            return new ResponseEntity<>(responseDetails, HttpStatus.INTERNAL_SERVER_ERROR);
-//        }
-//        responseDetails = ResponseDetails.success(token, "/api/kakao/login");
-//        return new ResponseEntity<>(responseDetails, HttpStatus.OK);
-//    }
 }

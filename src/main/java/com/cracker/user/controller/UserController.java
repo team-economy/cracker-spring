@@ -43,17 +43,4 @@ public class UserController {
         ResponseDetails responseDetails = ResponseDetails.success(duplicate, "/api/cracker/duplicate-nickname-check");
         return new ResponseEntity<>(responseDetails, HttpStatus.CREATED);
     }
-
-//    @GetMapping("/kakao/login")
-//    public ResponseEntity<?> kakaoLogin(@RequestParam String code, HttpServletResponse response){
-//        // authorizedCode: 카카오 서버로부터 받은 인가 코드
-//        TokenDto token = userService.kakao(code, response);
-//        ResponseDetails responseDetails;
-//        if (token == null) {
-//            responseDetails = ResponseDetails.fail("토큰 발급에 실패했습니다.", "/api/auth/kakao/login");
-//            return new ResponseEntity<>(responseDetails, HttpStatus.INTERNAL_SERVER_ERROR);
-//        }
-//        responseDetails = ResponseDetails.success(token, "/api/auth/kakao/login");
-//        return new ResponseEntity<>(responseDetails, HttpStatus.OK);
-//    }
 }
