@@ -165,7 +165,10 @@ public class UserService {
         String marker_pic = "static/profile_pics/profile_placeholder.png";
         String role = UserRole.USER.getCode();
         String adminToken = "";
-        JoinDto joinDto = new JoinDto(userInfo.getEmail(), password, userInfo.getNickname(), userInfo.getPic(), marker_pic, role, adminToken);
+//        // 소셜 회원가입시 초기 nickname을 nickname으로
+//        JoinDto joinDto = new JoinDto(userInfo.getEmail(), password, userInfo.getNickname(), userInfo.getPic(), marker_pic, role, adminToken);
+        // 소셜 회원가입시 초기 nickname을 email으로
+        JoinDto joinDto = new JoinDto(userInfo.getEmail(), password, userInfo.getEmail(), userInfo.getPic(), marker_pic, role, adminToken);
         return join(response, joinDto);
     }
 
@@ -185,7 +188,9 @@ public class UserService {
             token = kakaoLogin(userInfo, userOptional.get(), response);
             user = userOptional.get();
         } else {
+            // 없는 회원이라면 회원가입 진행
             token = kakaoJoin(userInfo, response);
+            // 기존 userOptional은 null이므로 회원가입 후 null이 아닌 userOptionalJoin으로 해당 User 확인
             Optional<Users> userOptionalJoin = userRepository.findByEmail(userInfo.getEmail());
             user = userOptionalJoin.get();
         }
