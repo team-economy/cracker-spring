@@ -149,41 +149,6 @@ function editComment(id) {
     }
 }
 
-// function showEdits(id){
-//     $('#edit-comment').on('click',function (){
-//         $(`#${id}-textarea`).show();
-//         $(`#${id}-update`).show();
-//         $(`#${id}-delete`).show();
-//
-//         $(`#${id}-edit`).hide();
-//         $(`#${id}-comment`).hide();
-//     })
-// }
-
-// $(document).ready(function (){
-//     $(`#${id}-edit`).click(function (){
-//         $(`.edit-comment`).fadeToggle();
-//         if($())
-//     })
-// })
-
-// function showEdits(id) {
-//     $(`#${id}-textarea`).show();
-//     $(`#${id}-edit`).show();
-//     $(`#${id}-delete`).show();
-//
-//     $(`#${id}-comment`).hide();
-//     $(`#${id}-update`).hide();
-// }
-//
-// function hideEdits(id) {
-//     $(`#${id}-textarea`).hide();
-//     $(`#${id}-edit`).hide();
-//     $(`#${id}-delete`).hide();
-//
-//     $(`#${id}-comment`).show();
-//     $(`#${id}-update`).show();
-// }
 
 function updateEdit(id) {
     let comment = $(`#${id}-textarea`).val();
