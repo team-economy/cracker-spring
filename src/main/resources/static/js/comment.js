@@ -30,8 +30,9 @@ function post() {
     }
     // 3. genRandomName 함수를 통해 익명의 username을 만듭니다.
     let userName = genRandomName(10);
+    let communityAddr = $('#community-addr').text();
     // 4. 전달할 data JSON으로 만듭니다.
-    let data = {'userName': userName, 'comment': comment};
+    let data = {'comment': comment, 'communityAddr' : communityAddr};
     // 5. POST /api/memos 에 data를 전달합니다.
     $.ajax({
         type: "POST",
@@ -49,24 +50,27 @@ function getMessages() {
     // 1. 기존 메모 내용을 지웁니다.
     $('#post-box').empty();
     // 2. 메모 목록을 불러와서 HTML로 붙입니다.
+    let communityAddr = $('#community-addr').text();
     $.ajax({
         type: 'GET',
-        url: '/comment',
+        url: `/comment?communityAddr=${communityAddr}`,
         success: function (response) {
             console.log(response);
             for (let i = 0; i < response.length; i++) {
                 let message = response[i];
                 let id = message['id'];
-                let username = message['userName'];
+                let username = message['userNickname'];
+                let userEmail = message['userEmail'];
                 let comment = message['comment'];
                 let time_comment = new Date(message['modifiedAt'])
                 let time_past = timePassed(time_comment)
-                addHTML(id, username, comment, time_past);
+                addHTML(id, username, userEmail, comment, time_past);
             }
         }
     })
 }
-function addHTML(id, userName, comment, time_past) {
+
+function addHTML(id, userName, userEmail, comment, time_past) {
     let tempHtml = `
         <div class="box comment-list">
             <article class="media">
@@ -78,7 +82,7 @@ function addHTML(id, userName, comment, time_past) {
                 <div class="media-content">
                     <div class="content">
                         <p>
-                            <strong>hong</strong> <small>${userName}</small> <small>${time_past}</small>
+                            <strong>${userName}</strong> <small>(${userEmail})</small> <small>${time_past}</small>
                             <a type="button" class="delete-comment" onclick="deleteOne('${id}')"><i class="fa fa-trash" aria-hidden="true"></i></a>
                             
                             <br>
@@ -87,8 +91,7 @@ function addHTML(id, userName, comment, time_past) {
                     </div>
                 </div>
             </article>
-        </div>
-    `;
+        </div>`;
     $('#post-box').append(tempHtml);
 }
 function timePassed(date) {

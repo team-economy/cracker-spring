@@ -7,7 +7,7 @@ let infowindows = [];
 $(document).ready(function () {
     $("#user_id").hide();
     console.log("dd")
-    get_place();
+    get_place(null);
     map = new naver.maps.Map('map', {
         center: new naver.maps.LatLng(y_cen, x_cen),
         zoom: 12,

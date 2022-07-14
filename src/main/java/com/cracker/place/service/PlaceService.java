@@ -1,5 +1,8 @@
 package com.cracker.place.service;
 
+import com.cracker.community.entity.Community;
+import com.cracker.community.repository.CommunityRepository;
+import com.cracker.community.service.CommunityService;
 import com.cracker.place.domain.Place;
 import com.cracker.place.dto.PlaceCreateRequestDto;
 import com.cracker.place.dto.PlaceListRequestDto;
@@ -19,6 +22,8 @@ import java.util.Optional;
 public class PlaceService {
     private final PlaceRepository placeRepository;
     private final UserRepository userRepository;
+    private final CommunityRepository communityRepository;
+
 
     @Transactional
     public Long save(PlaceCreateRequestDto placeCreateRequestDto, String email) {
@@ -36,6 +41,23 @@ public class PlaceService {
                 () -> new IllegalArgumentException("일치하는 메일이 없습니다")
         );
         place.registUser(user);
+
+        Community savedCommunity = communityRepository.findByAddr(place.getAddr());
+
+        if(savedCommunity == null){
+            Community community = Community.builder()
+                    .name(placeCreateRequestDto.getName())
+                    .addr(placeCreateRequestDto.getAddr())
+                    .addrRoad(placeCreateRequestDto.getAddrRoad())
+                    .phoneNum(placeCreateRequestDto.getPhoneNum())
+                    .cate(placeCreateRequestDto.getCate())
+            .build();
+            place.placeCommunity(community);
+            communityRepository.save(community);
+        }else{
+            place.placeCommunity(savedCommunity);
+        }
+
 
         return placeRepository.save(place).getId();
     }
@@ -62,6 +84,7 @@ public class PlaceService {
                     .coordY(place.getCoordY())
                     .phoneNum(place.getPhoneNum())
                     .cate(place.getCate())
+                    .communityId(place.getCommunity().getId())
             .build();
             dtos.add(dto);
         }
