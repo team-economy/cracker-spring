@@ -2,8 +2,10 @@ package com.cracker.common;
 
 import com.cracker.auth.security.UserPrincipal;
 import com.cracker.auth.service.AuthService;
-import com.cracker.domain.Place;
-import com.cracker.service.PlaceService;
+import com.cracker.auth.util.token.AuthTokenProvider;
+import com.cracker.community.entity.Community;
+import com.cracker.community.service.CommunityService;
+import com.cracker.place.service.PlaceService;
 import com.cracker.user.entity.Users;
 import com.cracker.user.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletResponse;
+import java.util.Optional;
 
 @Controller
 @RequiredArgsConstructor
