@@ -1,11 +1,17 @@
 package com.cracker.comment.controller;
 
+import com.cracker.auth.security.UserPrincipal;
+import com.cracker.auth.util.token.AuthTokenProvider;
 import com.cracker.comment.domain.Comment;
 import com.cracker.comment.dto.CommentCreateRequestDto;
+import com.cracker.comment.dto.CommentListRequestDto;
+import com.cracker.comment.dto.CommentListResponseDto;
 import com.cracker.comment.dto.CommentUpdateRequestDto;
 import com.cracker.comment.repository.CommentRepository;
 import com.cracker.comment.service.CommentService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.repository.query.Param;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
@@ -19,15 +25,19 @@ public class CommentController {
 
     private final CommentRepository commentRepository;
     private final CommentService commentService;
+    private final AuthTokenProvider authTokenProvider;
 
     @PostMapping("/comment")
-    public void createComment(@RequestBody CommentCreateRequestDto commentCreateRequestDto){
-        long redId= commentService.save(commentCreateRequestDto);
+    public void createComment(@RequestBody CommentCreateRequestDto commentCreateRequestDto, @AuthenticationPrincipal UserPrincipal userPrincipal){
+        String email = userPrincipal.getEmail();
+        commentService.save(commentCreateRequestDto, email);
     }
 
     @GetMapping("/comment")
-    public List<Comment> getComment(){
-        return commentRepository.findAllByOrderByModifiedAtDesc();
+    public List<CommentListResponseDto> getComment(@RequestParam("communityAddr")String communityAddr){
+//        System.out.println(placeId);
+        return commentService.commentList(communityAddr);
+//        return commentRepository.findAllByOrderByModifiedAtDesc();
     }
 
     @DeleteMapping("/comment/{id}")

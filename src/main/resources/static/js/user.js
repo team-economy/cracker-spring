@@ -1,10 +1,10 @@
 $(document).ready(function () {
-    get_user_place()
-    get_place()
+    let userMail = $('#user_mail').text();
+    get_place(userMail);
 })
 
 // 유저 프로필 이미지 변경
-function update_profile() {
+function update_profile(id) {
     let name = $('#input-user_name').val()
     let file = $('#input-pic')[0].files[0]
     let about = $("#textarea-about").val()
@@ -26,7 +26,7 @@ function update_profile() {
     console.log(name, file, about, form_data)
     $.ajax({
         type: "POST",
-        url: "/user/update_profile",
+        url: `/user/update_profile/${id}`,
         data: form_data,
         cache: false,
         contentType: false,
@@ -41,25 +41,25 @@ function update_profile() {
     });
 }
 
-//유저가 저장한 만집 목록
-function get_user_place() {
-    $('#matjip-box').empty();
-    let user_mail = $("#user_mail").text()
-    $.ajax({
-        type: "GET",
-        url: `/user/place?user_mail_give=${user_mail}`,
-        data: {},
-        success: function (response) {
-            let places = response["user_place"]
-            console.log(places.length)
-            for (let i = 0; i < places.length; i++) {
-                let place = places[i]
-                make_card(i, place)
-            }
-        }
-    });
-
-}
+// //유저가 저장한 만집 목록
+// function get_user_place() {
+//     $('#matjip-box').empty();
+//     let user_mail = $("#user_mail").text()
+//     $.ajax({
+//         type: "GET",
+//         url: `/user/place?user_mail_give=${user_mail}`,
+//         data: {},
+//         success: function (response) {
+//             let places = response["user_place"]
+//             console.log(places.length)
+//             for (let i = 0; i < places.length; i++) {
+//                 let place = places[i]
+//                 make_card(i, place)
+//             }
+//         }
+//     });
+//
+// }
 
 // 유저 마커 이미지 변경
 function update_marker() {

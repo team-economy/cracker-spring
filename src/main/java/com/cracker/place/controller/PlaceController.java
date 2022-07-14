@@ -24,8 +24,8 @@ public class PlaceController {
     private final AuthTokenProvider authTokenProvider;
 
     @RequestMapping(value = "/places/create", method={RequestMethod.POST})
-    public PlaceCreateResponseDto savePlace(@RequestBody PlaceCreateRequestDto placeCreateRequestDto, @CookieValue(required = false, name = "refresh_token") String token) {
-        String email = authTokenProvider.getEmailByToken(token);
+    public PlaceCreateResponseDto savePlace(@RequestBody PlaceCreateRequestDto placeCreateRequestDto, @AuthenticationPrincipal UserPrincipal userPrincipal) {
+        String email = userPrincipal.getEmail();
         Long retId = placeService.save(placeCreateRequestDto, email);
 
 
@@ -36,10 +36,15 @@ public class PlaceController {
     }
 
     @GetMapping("/places")
-    public List<PlaceListRequestDto> readPlace(@CookieValue(required = false, name = "refresh_token") String token) {
-        String email = authTokenProvider.getEmailByToken(token);
+    public List<PlaceListRequestDto> readPlace(@AuthenticationPrincipal UserPrincipal userPrincipal, @RequestParam(name = "userMail", required = false)String userMail) {
+        System.out.println(userMail);
+        if(userMail == null) {
+            String email = userPrincipal.getEmail();
 //        List<PlaceListRequestDto> places = placeService.placeList(email);
-        return placeService.placeListSearchByEmail(email);
+            return placeService.placeListSearchByEmail(email);
+        }else {
+            return placeService.placeListSearchByEmail(userMail);
+        }
     }
 
     @DeleteMapping("/places/{id}")

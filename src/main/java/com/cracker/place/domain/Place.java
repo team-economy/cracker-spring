@@ -1,6 +1,10 @@
 package com.cracker.place.domain;
 
+
+import com.cracker.comment.domain.Comment;
+import com.cracker.community.entity.Community;
 import com.cracker.user.entity.Users;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Builder;
 import lombok.Getter;
@@ -12,12 +16,12 @@ import javax.persistence.*;
 import static javax.persistence.FetchType.LAZY;
 
 @Entity
-@Setter
 @Getter
 @NoArgsConstructor
 public class Place {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false)
@@ -46,6 +50,11 @@ public class Place {
     @JoinColumn(name="user_id", nullable = false)
     private Users users;
 
+    @JsonIgnore
+    @ManyToOne(fetch = LAZY)
+    @JoinColumn(name="community_id", nullable = false)
+    private Community community;
+
     @Builder
     public Place(String name, String addr, String addrRoad,
                  String coordX, String coordY,String phoneNum, String cate) {
@@ -57,10 +66,13 @@ public class Place {
         this.phoneNum = phoneNum;
         this.cate = cate;
     }
-
     public void registUser(Users user){
         this.users = user;
         user.getPlaces().add(this);
     }
 
+    public void placeCommunity(Community community){
+        this.community = community;
+        community.getPlaces().add(this);
+    }
 }
