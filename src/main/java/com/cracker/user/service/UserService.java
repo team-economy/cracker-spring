@@ -127,20 +127,20 @@ public class UserService {
         return nicknameDuplicate(nickname);
     }
 
-    /**
-     * 카카오 로그인 시 DB에 회원 정보가 있다면 토큰 발급
-     */
-    public TokenDto getToken(Users user, HttpServletResponse response) {
-        // refresh token 발급 및 쿠키에 저장
-        AuthToken refreshToken = authService.refreshToken(user);
-        user.updateRefreshToken(refreshToken.getToken());
-        authService.refreshTokenAddCookie(response, refreshToken.getToken());
-
-        // access token 발급
-        AuthToken accessToken = authService.AccessToken(user);
-
-        return new TokenDto(accessToken.getToken());
-    }
+//    /**
+//     * 카카오 로그인 시 DB에 회원 정보가 있다면 토큰 발급
+//     */
+//    public TokenDto getToken(Users user, HttpServletResponse response) {
+//        // refresh token 발급 및 쿠키에 저장
+//        AuthToken refreshToken = authService.refreshToken(user);
+//        user.updateRefreshToken(refreshToken.getToken());
+//        authService.refreshTokenAddCookie(response, refreshToken.getToken());
+//
+//        // access token 발급
+//        AuthToken accessToken = authService.AccessToken(user);
+//
+//        return new TokenDto(accessToken.getToken());
+//    }
 
     /**
      * 카카오 로그인 시 DB에 회원 정보가 있다면 비밀번호 체크 로직 실행

@@ -1,6 +1,10 @@
 package com.cracker.user.entity;
 
+import com.cracker.comment.domain.Comment;
 import com.cracker.auth.util.Timestamped;
+
+import com.cracker.place.domain.Place;
+
 import com.cracker.user.dto.JoinDto;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AccessLevel;
@@ -9,6 +13,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
+
+import static javax.persistence.FetchType.LAZY;
 
 @Entity
 @Getter
@@ -18,7 +26,7 @@ public class Users extends Timestamped {
     @JsonIgnore
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     @Column(nullable = false, unique = true, length = 30)
     private String email;
@@ -39,6 +47,12 @@ public class Users extends Timestamped {
 
     @Column(unique = true)
     private String refreshToken;
+
+    @OneToMany(mappedBy = "users", fetch = LAZY)
+    private List<Comment> comments = new ArrayList<>();
+
+    @OneToMany(mappedBy = "users", fetch = LAZY)
+    private List<Place> places = new ArrayList<>();
 
     public Users(String email, String nickname, String pic, String marker_pic,
                  UserRole role) {
