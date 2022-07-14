@@ -11,18 +11,6 @@ function isValidcomment(comment) {
     return true;
 }
 
-function genRandomName(length) {
-    let result = '';
-    let characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    let charactersLength = characters.length;
-    for (let i = 0; i < length; i++) {
-        let number = Math.random() * charactersLength;
-        let index = Math.floor(number);
-        result += characters.charAt(index);
-    }
-    return result;
-}
-
 function post() {
     // 1. 작성한 메모
     let comment = $('#textarea-post').val().replace(/(?:\r\n|\r|\n)/g, '<br />');
@@ -31,7 +19,7 @@ function post() {
         return;
     }
     // 3. genRandomName 함수를 통해 익명의 username을 만듭니다.
-    let userName = genRandomName(10);
+
     let communityAddr = $('#community-addr').text();
     // 4. 전달할 data JSON으로 만듭니다.
     let data = {'comment': comment, 'communityAddr' : communityAddr};
