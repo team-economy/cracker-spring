@@ -1,4 +1,4 @@
-package com.cracker.controller;
+package com.cracker.common;
 
 import com.cracker.auth.security.UserPrincipal;
 import com.cracker.auth.service.AuthService;
