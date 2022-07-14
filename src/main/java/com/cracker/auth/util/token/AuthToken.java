@@ -39,7 +39,7 @@ public class AuthToken {
         this.token = createAuthToken(email, nickName, role, expiry);
     }
 
-    // refresh token 을 만드는데 이용 될 createAuthToken
+    // guest token 을 만드는데 이용 될 createAuthToken
     private String createAuthToken() {
         return Jwts.builder()
                 .setSubject("user")
