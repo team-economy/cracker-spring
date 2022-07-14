@@ -1,22 +1,39 @@
 // 맛집 리스트 가져오기
-function get_place() {
+function get_place(flag) {
     $('#matjip-box').empty();
     markers = []
     infowindows = []
-    $.ajax({
-        type: "GET",
-        url: "/places",
-        data: {},
-        success: function (response) {
-            console.log(response);
-            for (let i = 0; i < response.length; i++) {
-                let matjip = response[i]
-                // let marker = make_marker(matjip, matjip["marker_pic_real"])
-                // add_info(i, marker, matjip)
-                make_card(i, matjip);
+    if (flag == null) {
+        $.ajax({
+            type: "GET",
+            url: '/places',
+            data: {},
+            success: function (response) {
+                console.log(response);
+                for (let i = 0; i < response.length; i++) {
+                    let matjip = response[i]
+                    // let marker = make_marker(matjip, matjip["marker_pic_real"])
+                    // add_info(i, marker, matjip)
+                    make_card(i, matjip);
+                }
             }
-        }
-    });
+        });
+    }else{
+        $.ajax({
+            type: "GET",
+            url: `/places?userMail=${flag}`,
+            data: {},
+            success: function (response) {
+                console.log(response);
+                for (let i = 0; i < response.length; i++) {
+                    let matjip = response[i]
+                    // let marker = make_marker(matjip, matjip["marker_pic_real"])
+                    // add_info(i, marker, matjip)
+                    make_card(i, matjip);
+                }
+            }
+        });
+    }
 }
 
 // 맛집 카드 만들기
@@ -28,7 +45,7 @@ function make_card(i, matjip) {
                                     <p class="card-text">지번 주소 : ${matjip.addr}</p>
                                     <p class="card-text">도로명 주소 : ${matjip.addrRoad}</p>
                                     <p class="community-delete">
-                                        <button class="button is-success" style="background-color: #A0BCC2; font-family: 'Gowun Batang', serif" onclick="location.href='/community/'+'${matjip.id}'">커뮤니티</button>
+                                        <button class="button is-success" style="background-color: #A0BCC2; font-family: 'Gowun Batang', serif" onclick="location.href='/community/'+'${matjip.communityId}'">커뮤니티</button>
                                         &nbsp&nbsp&nbsp<button class="button is-danger" style="background-color: #ECA6A6; font-family: 'Gowun Batang', serif" onclick="delete_place('${matjip.id}')">삭제</button>
                                     </p>
                                 </div>

@@ -9,13 +9,15 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED) //무분별한 객체생성 체크
 public class CommentCreateRequestDto {
 
-    private String userName;
+//    private String userName;
     private String comment;
+
+    private String communityAddr;
 
 
     @Builder
-    public CommentCreateRequestDto(String username, String comment){
-        this.userName = username;
+    public CommentCreateRequestDto(String comment){
+//        this.userName = username;
         this.comment = comment;
     }
 
