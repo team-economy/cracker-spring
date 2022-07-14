@@ -12,6 +12,7 @@ function get_place(flag) {
                 console.log(response);
                 for (let i = 0; i < response.length; i++) {
                     let matjip = response[i]
+                    let marker = make_marker(matjip)
                     // let marker = make_marker(matjip, matjip["marker_pic_real"])
                     // add_info(i, marker, matjip)
                     make_card(i, matjip);
@@ -27,8 +28,6 @@ function get_place(flag) {
                 console.log(response);
                 for (let i = 0; i < response.length; i++) {
                     let matjip = response[i]
-                    // let marker = make_marker(matjip, matjip["marker_pic_real"])
-                    // add_info(i, marker, matjip)
                     make_card(i, matjip);
                 }
             }
