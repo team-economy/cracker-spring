@@ -38,6 +38,26 @@
 }
 
 .delete-comment {
-    float: right;
+    /*float: right;*/
     color: red;
+}
+.update-comment {
+    /*float: right;*/
+    color: black;
+    display: none;
+}
+.edit-comment{
+    display: block;
+}
+.te-edit{
+    background-color: #fdf7f0;
+    display: none;
+    font-family: 'Gowun Batang', serif;
+}
+.comment-buttons{
+    float: right;
+    width: 200px;
+}
+.comment-userinfo{
+    width: 200px;
 }
