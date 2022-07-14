@@ -35,7 +35,7 @@ public class KakaoOAuth2 {
         MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
         params.add("grant_type", "authorization_code");
         params.add("client_id", restApiKey);
-        params.add("redirect_uri", "http://localhost:8080/api/cracker/login");
+        params.add("redirect_uri", "http://localhost:8080/api/kakao/login");
         params.add("code", authorizedCode);
 
         // HttpHeader와 HttpBody를 하나의 오브젝트에 담기
@@ -81,7 +81,8 @@ public class KakaoOAuth2 {
         Long id = body.getLong("id");
         String email = body.getJSONObject("kakao_account").getString("email");
         String nickname = body.getJSONObject("properties").getString("nickname");
+        String pic = body.getJSONObject("properties").getString("profile_image");
 
-        return new KakaoUserInfo(id, email, nickname);
+        return new KakaoUserInfo(id, email, nickname, pic);
     }
 }
