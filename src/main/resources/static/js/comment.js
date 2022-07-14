@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    // HTML 문서를 로드할 때마다 실행합니다.
+    // HTML 문서를 로드할 때마다 실행
     getMessages();
 })
 
@@ -12,22 +12,21 @@ function isValidcomment(comment) {
 }
 
 function post() {
-    // 1. 작성한 메모
+    // 작성한 메모
     let comment = $('#textarea-post').val().replace(/(?:\r\n|\r|\n)/g, '<br />');
-    // 2. 작성한 메모가 올바른지 isValidContents 함수를 통해 확인합니다.
+    // 작성한 메모가 올바른지 isValidContents 함수를 통해 확인
     if (isValidcomment(comment) == false) {
         return;
     }
-    // 3. genRandomName 함수를 통해 익명의 username을 만듭니다.
 
     let communityAddr = $('#community-addr').text();
-    // 4. 전달할 data JSON으로 만듭니다.
+    // 전달할 data JSON으로 만듬
     let data = {'comment': comment, 'communityAddr' : communityAddr};
-    // 5. POST /api/memos 에 data를 전달합니다.
+    // POST /api/memos 에 data를 전달
     $.ajax({
         type: "POST",
         url: "/comment",
-        contentType: "application/json", // JSON 형식으로 전달함을 알리기
+        contentType: "application/json",
         data: JSON.stringify(data),
         success: function (response) {
             alert('댓글작성 완료');
@@ -38,9 +37,9 @@ function post() {
 }
 
 function getMessages() {
-    // 1. 기존 메모 내용을 지웁니다.
+    // 기존 메모 내용을 지웁니다.
     $('#post-box').empty();
-    // 2. 메모 목록을 불러와서 HTML로 붙입니다.
+    // 메모 목록을 불러와서 HTML로 붙입니다.
     let communityAddr = $('#community-addr').text();
     $.ajax({
         type: 'GET',
@@ -101,7 +100,8 @@ function addHTML(id, userName, userEmail, comment, time_past) {
 
 function timePassed(date) {
     let today = new Date()
-    let time = (today - date) / 1000 / 60  // 분
+    // 분을 나타냄
+    let time = (today - date) / 1000 / 60
 
     if (time < 1) {
         return "방금 전"
@@ -121,7 +121,7 @@ function timePassed(date) {
 }
 
 function editComment(id) {
-    //showEdits(id);
+    //comment 값을 text로 textarea에 전달
     let comment = $(`#${id}-comment`).text().trim();
     $(`#${id}-textarea`).val(comment);
 
@@ -141,14 +141,12 @@ function editComment(id) {
     }
 }
 
-
 function updateEdit(id) {
     let comment = $(`#${id}-textarea`).val();
     if (isValidcomment(comment) == false) {
         return;
     }
     let data = {'comment': comment};
-    // 4. PUT /api/memos/{id} 에 data를 전달합니다.
     $.ajax({
         type: "PUT",
         url: `/comment/${id}`,
@@ -162,7 +160,6 @@ function updateEdit(id) {
 }
 
 function deleteOne(id) {
-    // 1. DELETE /api/memos/{id} 에 요청해서 메모를 삭제합니다.
     $.ajax({
         type: "DELETE",
         url: `/comment/${id}`,
