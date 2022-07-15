@@ -31,7 +31,10 @@ function post() {
         success: function (response) {
             alert('댓글작성 완료');
             window.location.reload();
-        }
+        },
+        error: function (response) {
+            alert("GUEST 유저입니다.")
+        },
     });
 
 }
