@@ -27,7 +27,6 @@ function make_marker(matjip, user_marker) {
     let marker = new naver.maps.Marker({
         position: new naver.maps.LatLng(matjip["y"], matjip["x"]),
         map: map,
-        icon: HOME_PATH+'/static/'+marker_icon
     });
     markers.push(marker);
     return marker

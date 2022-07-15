@@ -1,5 +1,73 @@
-/* modal */
+/* 로그인 로그아웃 버튼 */
+.crack-in-btn {
+    margin-left : 20px;
 
+    font-family : "Source Code Pro", monospace;
+    font-weight: bolder;
+
+    background-color: #92de78;
+}
+
+.crack-out-btn {
+    margin-left : 20px;
+
+    font-family: 'Source Code Pro', monospace;
+    font-weight: bolder;
+
+    background-color: #E3B7A0;
+}
+
+
+/* search place list */
+.place-search-input-box {
+    width: 80%;
+    background-color: #FDF6EC;
+    font-family: 'Gowun Batang', serif;
+}
+
+.place-search-info {
+    padding-top : 10px;
+    padding-bottom: 10px;
+    margin : 0px;
+    border-bottom:1px solid #E5E8E8;
+}
+.place-search-info:last-child {
+
+    border-bottom:none;
+}
+
+.place-search-area {
+    text-align:center;
+    margin-bottom: 20px
+}
+
+.place-list {
+    text-align: left;
+    height: 500px;
+    overflow: auto;
+    position: relative;
+}
+
+/* 검색, 커뮤니티, 삭제 버튼*/
+.find-btn {
+    margin-left: 10px;
+    background-color: #DAB88B !important;
+    border-color: #DAB88B !important;
+    font-family: 'Gowun Batang', serif;
+}
+.community-btn {
+    background-color: #A0BCC2 !important;
+    font-family: 'Gowun Batang', serif;
+}
+
+.delete-place-btn {
+    margin-left : 5px;
+    background-color: #ECA6A6 !important;
+    font-family: 'Gowun Batang', serif;
+}
+
+
+/* modal */
 .modal-section {
     z-index: 10000000;
 }
@@ -41,7 +109,6 @@
 }
 
 /* map and place list */
-
 .index.map-section {
     width: 100%;
     height: 600px;
@@ -64,32 +131,21 @@ body {
 
 #map {
     float: left;
-    width: 60%;
+    width: 50%;
     height: 90%;
 
     margin-top: 20px;
     margin-bottom: 20px;
     background-color: #F3E9DD;
 
+    margin-left: 50px;
+
     z-index: 0;
-}
-
-.media-content {
-    margin-bottom: 20px;
-}
-
-.place-input {
-    width: 80%;
-    margin-left: 10px;
 }
 
 .user.place-input {
     width: 85%;
     margin-left: 20px;
-}
-
-.find-btn {
-    margin-left: 10px;
 }
 
 .user.find-btn {
@@ -108,19 +164,17 @@ body {
     margin: auto;
 }
 
-.matjip-list {
-    height: 500px;
-    overflow: auto;
-    position: relative;
-}
-
-/*커뮤니티 삭제 버튼*/
-.community-btn {
-    background-color: #A0BCC2 !important;
-    font-family: 'Gowun Batang', serif;
-}
-
-.delete-place-btn {
-    background-color: #ECA6A6 !important;
-    font-family: 'Gowun Batang', serif;
+@media screen and (max-width: 1050px) {
+    #map{
+        display: none;
+    }
+    .index.map-placelist{
+        width:80%;
+    }
+    .index.map-section {
+        width: 100%;
+        height: 600px;
+        margin: 80px auto 0px auto;
+        background-color: #F3E9DD;
+    }
 }

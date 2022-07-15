@@ -1,11 +1,13 @@
-.crack-out {
+.navbar-btn {
     margin-top: 15px;
     margin-right: 40px;
 }
 
 .logo {
+    margin-left : 15px;
     font-style: italic;
 }
+
 
 .sign-out-btn {
     font-family: 'Source Code Pro', monospace;

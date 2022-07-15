@@ -1,65 +1,70 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <th:block th:replace="fragments/header :: header"></th:block>
     <th:block th:replace="fragments/homeHeader :: homeHeader"></th:block>
 </head>
+
 <body>
 <div class="user-info">
+    <!--    GUEST 상태로 로그인   -->
     <p th:if="${user ==null}">
-        <span class="user-name">GUEST님 환영합니다. &nbsp&nbsp</span>
-        <button class="button"
-                style="font-family: 'Source Code Pro', monospace; font-weight: bolder; background-color: #92de78"
-                th:onclick="|location.href='@{/login}'|">Crack IN
-        </button>
+        <span class="user-name">GUEST님 환영합니다.</span>
+        <button class="button crack-in-btn" th:onclick="|location.href='@{/login}'|">Crack IN</button>
     </p>
+    <!--    로그인     -->
     <p th:if="${user !=null}">
         <span class="user-name">
         <a id="user_name" th:href="@{/user/{id}(id = ${user.getId()})}">
             <span th:text="${user.getNickname()}"></span>
             <span id="user_id" th:text="${user.getId()}"></span>
-        </a>님 안녕하세요? &nbsp&nbsp
+        </a>님 안녕하세요?
         </span>
-        <button class="button"
-                style="font-family: 'Source Code Pro', monospace; font-weight: bolder; background-color: #E3B7A0"
-                onclick="sign_out()">Crack OUT
-        </button>
+        <button class="button crack-out-btn" onclick="sign_out()">Crack OUT</button>
     </p>
 </div>
 
 <!--메인 로고-->
-<section class="hero logo-background">
-    <div class="hero-body has-text-centered" style="padding-bottom:1rem;margin:auto;">
+<div class="logo-background">
+    <section class="hero-body has-text-centered main-logo">
         <h1 class="title" style="font-style: italic">CRACKER</h1>
         <h3 class="subtitle">Share crumbs of every moment</h3>
+    </section>
+</div>
+
+<section class="index map-section">
+    <div id="map">
+    </div>
+    <div class="index map-placelist">
+        <div class="place-search-area">
+            <input id="input-post" class="input place-search-input-box"
+                   placeholder="맛집 이름을 입력하세요">
+            <button type="button" class="btn btn-primary find-btn"
+                    onclick='get_address();'>찾기
+            </button>
+        </div>
+        <div class="place-list" id="place-box">
+            <!--      맛집 리스트 불러오기      -->
+        </div>
     </div>
 </section>
 
 <!--검색목록 Modal-->
 <section class="modal-section">
     <div class="modal" id="modal-post">
-        <div class="modal-background" onclick='$("#modal-post").removeClass("is-active")'></div>
         <div class="modal-content">
             <div class="box">
-                <article class="media">
-                    <div class="media-content">
-                        <div class="field modal-list" id="place_list"></div>
-                        <nav class="level is-mobile">
-                            <div class="level-left">
-
-                            </div>
-                            <div class="level-right">
-                                <div class="level-item">
-                                    <a class="button save-button" onclick="save_place()">등록하기</a>
-                                </div>
-                                <div class="level-item">
-                                    <a class="button cancel-button"
-                                       onclick='$("#modal-post").removeClass("is-active")'>취소</a>
-                                </div>
-                            </div>
-                        </nav>
+                <div class="field modal-list" id="place_list"></div>
+                <div class="level-right">
+                    <div class="level-item">
+                        <a class="button save-button" onclick="save_place()">등록하기</a>
                     </div>
-                </article>
+                    <div class="level-item">
+                        <a class="button cancel-button"
+                           onclick='$("#modal-post").removeClass("is-active")'>취소</a>
+                    </div>
+                </div>
             </div>
         </div>
         <button class="modal-close is-large" aria-label="close"
@@ -67,40 +72,6 @@
     </div>
 </section>
 
-<section class="index map-section">
-    <div id="map">
-    </div>
-    <div class="index map-placelist">
-        <div class="media-content">
-            <div class="field">
-                <p class="control">
-                    <input id="input-post" class="input place-input"
-                           style="background-color: #FDF6EC; font-family: 'Gowun Batang', serif"
-                           placeholder="맛집 이름을 입력하세요">
-                    <button type="button" class="btn btn-primary find-btn"
-                            style="background-color: #DAB88B; border-color: #DAB88B; font-family: 'Gowun Batang', serif"
-                            onclick='get_address();'>찾기
-                    </button>
-                </p>
-            </div>
-        </div>
-        <div class="matjip-list" id="matjip-box">
-            <div class="card" id="card-0">
-                <div class="card-body">
-                    <h5 class="card-title"><a href="#" class="matjip-title">혼가츠</a></h5>
-                    <p class="card-text">지번 주소 : {{address}}</p>
-                    <p class="card-text">도로명 주소 : {{road_address}}</p>
-                    <p class="community-delete">
-                        <button class="button is-success community-btn" onclick="location.href='{{커뮤니티로 이동}}'">커뮤니티
-                        </button>
-                        &nbsp&nbsp&nbsp
-                        <button class="button is-danger delete-place-btn" onclick="{{저장된_목록_삭제}}">삭제</button>
-                    </p>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
 <div class="row">
     <h1 class="blog-title" style="font-weight: bold">&nbsp&nbsp&nbsp
         <button class="previous" style="background-color: #F4DFBA; border-color: #CA965C">&#8249&#8249;</button>
