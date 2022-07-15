@@ -15,9 +15,9 @@
     </p>
     <p th:if="${user !=null}">
         <span class="user-name">
-        <a id="user_name" th:href="@{/user/{id}(id = ${user.get().getId()})}">
-            <span th:text="${user.get().getNickname()}"></span>
-            <span id="user_id" th:text="${user.get().getId()}"></span>
+        <a id="user_name" th:href="@{/user/{id}(id = ${user.getId()})}">
+            <span th:text="${user.getNickname()}"></span>
+            <span id="user_id" th:text="${user.getId()}"></span>
         </a>님 안녕하세요? &nbsp&nbsp
         </span>
         <button class="button"

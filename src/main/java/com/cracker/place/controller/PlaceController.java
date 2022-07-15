@@ -1,13 +1,17 @@
 package com.cracker.place.controller;
 
+import com.cracker.auth.security.UserPrincipal;
+import com.cracker.auth.util.token.AuthTokenProvider;
 import com.cracker.place.domain.Place;
 import com.cracker.place.dto.PlaceCreateRequestDto;
 import com.cracker.place.dto.PlaceCreateResponseDto;
 import com.cracker.place.dto.PlaceDeleteResponseDto;
+import com.cracker.place.dto.PlaceListRequestDto;
 import com.cracker.place.service.PlaceService;
 import lombok.RequiredArgsConstructor;
 
 
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,10 +21,13 @@ import java.util.List;
 public class PlaceController {
 
     private final PlaceService placeService;
+    private final AuthTokenProvider authTokenProvider;
 
     @RequestMapping(value = "/places/create", method={RequestMethod.POST})
-    public PlaceCreateResponseDto savePlace(@RequestBody PlaceCreateRequestDto placeCreateRequestDto) {
-        Long retId = placeService.save(placeCreateRequestDto);
+    public PlaceCreateResponseDto savePlace(@RequestBody PlaceCreateRequestDto placeCreateRequestDto, @AuthenticationPrincipal UserPrincipal userPrincipal) {
+        String email = userPrincipal.getEmail();
+        Long retId = placeService.save(placeCreateRequestDto, email);
+
 
         PlaceCreateResponseDto placeCreateResponseDto = new PlaceCreateResponseDto();
         placeCreateResponseDto.setMsg("저장 완료!!");
@@ -29,9 +36,15 @@ public class PlaceController {
     }
 
     @GetMapping("/places")
-    public List<Place> readPlace() {
-        List<Place> places = placeService.placeList();
-        return placeService.placeList();
+    public List<PlaceListRequestDto> readPlace(@AuthenticationPrincipal UserPrincipal userPrincipal, @RequestParam(name = "userMail", required = false)String userMail) {
+        System.out.println(userMail);
+        if(userMail == null) {
+            String email = userPrincipal.getEmail();
+//        List<PlaceListRequestDto> places = placeService.placeList(email);
+            return placeService.placeListSearchByEmail(email);
+        }else {
+            return placeService.placeListSearchByEmail(userMail);
+        }
     }
 
     @DeleteMapping("/places/{id}")
