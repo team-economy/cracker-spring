@@ -85,6 +85,7 @@ public class PlaceService {
                     .phoneNum(place.getPhoneNum())
                     .cate(place.getCate())
                     .communityId(place.getCommunity().getId())
+                    .markerPic(user.getMarker_pic())
             .build();
             dtos.add(dto);
         }

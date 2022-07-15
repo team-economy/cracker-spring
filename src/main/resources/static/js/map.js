@@ -21,11 +21,14 @@ $(document).ready(function () {
 
 
 // 마커 찍기
-function make_marker(matjip, user_marker) {
+function make_marker(coordX, coordY, user_marker) {
+    console.log(coordX)
+    console.log(coordY)
+    console.log(user_marker)
     var HOME_PATH = window.HOME_PATH || '.';
     let marker_icon = user_marker
     let marker = new naver.maps.Marker({
-        position: new naver.maps.LatLng(matjip["y"], matjip["x"]),
+        position: new naver.maps.LatLng(coordY, coordX),
         map: map,
     });
     markers.push(marker);
@@ -33,19 +36,19 @@ function make_marker(matjip, user_marker) {
 }
 
 // 마커 클릭 시 정보 출력
-function add_info(i, marker, matjip) {
+function add_info(i, marker, place) {
     let html_temp = `<div class="iw-inner">
-                                    <h5><b>${matjip['place']}</b></h5>
-                                    <p class="card-text">지번 주소 : <i>${matjip['addr']}</i></p>
-                                    <p class="card-text">도로명 주소 : <i>${matjip['addrRoad']}</i></p>
-                                    <p class="card-text">전화번호 : <span class="place-phone">${matjip['phoneNum']}</span></p>
-                                    </div>`;
+                                    <h3 class = "place-name"><b>${place.name}</b></h3>
+                                    <p class="card-text"><b style="color:#8d8b8b;">지번 주소</b><br> <i>${place.addr}</i></p>
+                                    <p class="card-text"><b style="color:#8d8b8b;">도로명 주소</b><br><i>${place.addrRoad}</i></p>
+                                    <p class="card-text"><b style="color:#8d8b8b;">전화번호</b><br><span>${place.phoneNum}</span></p>
+                    </div>`;
     let infowindow = new naver.maps.InfoWindow({
         content: html_temp,
-        maxWidth: 200,
+        maxWidth: 300,
         backgroundColor: "#fff",
         borderColor: "#888",
-        borderWidth: 2,
+        borderWidth: 1,
         anchorSize: new naver.maps.Size(15, 15),
         anchorSkew: true,
         anchorColor: "#fff",

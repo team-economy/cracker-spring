@@ -80,7 +80,7 @@ public class UserService {
             pic = requestJoinDTO.getPic();
         }
 
-        String marker_pic = "static/profile_pics/profile_placeholder.png";
+        String marker_pic = "static/marker_pics/marker-default.png";
 
         // 사용자 ROLE 확인
         UserRole role = UserRole.USER;

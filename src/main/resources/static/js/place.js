@@ -12,9 +12,8 @@ function get_place(flag) {
                 console.log(response);
                 for (let i = 0; i < response.length; i++) {
                     let place = response[i]
-                    let marker = make_marker(place)
-                    // let marker = make_marker(place, place["marker_pic_real"])
-                    // add_info(i, marker, place)
+                    let marker = make_marker(place.coordX,place.coordY, place.markerPic)
+                    add_info(i, marker, place)
                     make_card(i, place);
                 }
             }
@@ -39,7 +38,7 @@ function get_place(flag) {
 function make_card(i, place) {
     let html_temp = `<div class="card" id="card-${i}">
                                 <div class="card-body" style="background-color: #FDF6EC">
-                                    <h5 class="card-title"><a href="/community/${place.communityId}" class="place-title">${place.name}</a></h5>
+                                    <h5 class="card-title"><a href="javascript:click2center(${i})" class="place-title">${place.name}</a></h5>
                                     <p class="card-text">지번 주소 : ${place.addr}</p>
                                     <p class="card-text">도로명 주소 : ${place.addrRoad}</p>
                                     <p class="place-list-button-area">

@@ -36,7 +36,7 @@
 <section class="map-place-area">
     <div id="map">
     </div>
-    <div class="place-area">
+    <div class="home place-area">
         <div class="place-search-area">
             <input id="input-post" class="input place-search-input-box"
                    placeholder="맛집 이름을 입력하세요">
@@ -44,7 +44,7 @@
                     onclick='get_address();'>찾기
             </button>
         </div>
-        <div class="place-list" id="place-box">
+        <div class="home place-list" id="place-box">
             <!--      맛집 리스트 불러오기      -->
         </div>
     </div>
@@ -53,6 +53,7 @@
 <!--검색목록 Modal-->
 <section class="modal-section">
     <div class="modal" id="modal-post">
+        <div class="modal-background" onclick='$("#modal-post").removeClass("is-active")'></div>
         <div class="modal-content">
             <div class="box">
                 <div class="field modal-list" id="place_list"></div>
@@ -71,16 +72,6 @@
                 onclick='$("#modal-post").removeClass("is-active")'></button>
     </div>
 </section>
-
-<div class="row">
-    <h1 class="blog-title" style="font-weight: bold">&nbsp&nbsp&nbsp
-        <button class="previous" style="background-color: #F4DFBA; border-color: #CA965C">&#8249&#8249;</button>
-        &nbsp......Trace of Crumbs......
-        <button class="next" style="background-color: #F4DFBA; border-color: #CA965C">&#8250;&#8250;</button>
-    </h1>
-    <div class="blog-list column" id="blog-box"></div>
-    <div class="blog-middle column" id="blog-box-middle"></div>
-</div>
 
 <footer>
     <div th:replace="fragments/footer :: footer"/>
