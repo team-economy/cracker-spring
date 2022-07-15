@@ -1,6 +1,6 @@
 // 맛집 리스트 가져오기
 function get_place(flag) {
-    $('#matjip-box').empty();
+    $('#place-box').empty();
     markers = []
     infowindows = []
     if (flag == null) {
@@ -11,10 +11,11 @@ function get_place(flag) {
             success: function (response) {
                 console.log(response);
                 for (let i = 0; i < response.length; i++) {
-                    let matjip = response[i]
-                    // let marker = make_marker(matjip, matjip["marker_pic_real"])
-                    // add_info(i, marker, matjip)
-                    make_card(i, matjip);
+                    let place = response[i]
+                    let marker = make_marker(place)
+                    // let marker = make_marker(place, place["marker_pic_real"])
+                    // add_info(i, marker, place)
+                    make_card(i, place);
                 }
             }
         });
@@ -26,10 +27,8 @@ function get_place(flag) {
             success: function (response) {
                 console.log(response);
                 for (let i = 0; i < response.length; i++) {
-                    let matjip = response[i]
-                    // let marker = make_marker(matjip, matjip["marker_pic_real"])
-                    // add_info(i, marker, matjip)
-                    make_card(i, matjip);
+                    let place = response[i]
+                    make_card(i, place);
                 }
             }
         });
@@ -37,32 +36,31 @@ function get_place(flag) {
 }
 
 // 맛집 카드 만들기
-function make_card(i, matjip) {
-    let place_addr = matjip["matjip_address"]
+function make_card(i, place) {
     let html_temp = `<div class="card" id="card-${i}">
                                 <div class="card-body" style="background-color: #FDF6EC">
-                                    <h5 class="card-title"><a href="javascript:click2center(${i})" class="matjip-title">${matjip.name}</a></h5>
-                                    <p class="card-text">지번 주소 : ${matjip.addr}</p>
-                                    <p class="card-text">도로명 주소 : ${matjip.addrRoad}</p>
+                                    <h5 class="card-title"><a href="/community/${place.communityId}" class="place-title">${place.name}</a></h5>
+                                    <p class="card-text">지번 주소 : ${place.addr}</p>
+                                    <p class="card-text">도로명 주소 : ${place.addrRoad}</p>
                                     <p class="community-delete">
-                                        <button class="button is-success" style="background-color: #A0BCC2; font-family: 'Gowun Batang', serif" onclick="location.href='/community/'+'${matjip.communityId}'">커뮤니티</button>
-                                        &nbsp&nbsp&nbsp<button class="button is-danger" style="background-color: #ECA6A6; font-family: 'Gowun Batang', serif" onclick="delete_place('${matjip.id}')">삭제</button>
+                                        <button class="button is-success community-btn" onclick="location.href='/community/'+'${place.communityId}'">커뮤니티</button>
+                                        <button class="button is-danger delete-place-btn" onclick="delete_place('${place.id}')">삭제</button>
                                     </p>
                                 </div>
                             </div>`
 
-    $('#matjip-box').append(html_temp);
+    $('#place-box').append(html_temp);
 }
 
 // 주소 검색
 function get_address() {
-    let matjip_name = $("#input-post").val()
+    let place_name = $("#input-post").val()
     $("#input-post").val("");
     $("#place_list").empty();
 
     $.ajax({
         type: "GET",
-        url: `https://dapi.kakao.com/v2/local/search/keyword?query=${matjip_name}`,
+        url: `https://dapi.kakao.com/v2/local/search/keyword?query=${place_name}`,
         beforeSend: function (header) {
             header.setRequestHeader("Authorization", 'KakaoAK b2cd5fe8152984068e62cf5b85fbb75a');
         },
@@ -77,7 +75,7 @@ function get_address() {
                 for (let i = 0; i < result.length; i++) {
                     let info = result[i];
 
-                    let html_temp = `<div class="form-check">
+                    let html_temp = `<div class="form-check place-search-info place-card">
                                             <input class="form-check-input" type="radio" name="place" id="place${i}"
                                             value="${info['place_name']},${info['address_name']},${info['road_address_name']},${info['x']},${info['y']},${info['phone']},${info['category_name']}">
                                             <label class="form-check-label" for="${info['place_name']}" id="label">
