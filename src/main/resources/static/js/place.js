@@ -135,8 +135,11 @@ function save_place() {
                 alert(response["msg"])
                 $("#modal-post").removeClass("is-active")
             }
+        },
+        error: function (response) {
+            alert("GUEST 유저입니다.")
+            $("#modal-post").removeClass("is-active")
         }
-
     })
 }
 
