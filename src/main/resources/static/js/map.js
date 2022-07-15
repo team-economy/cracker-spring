@@ -62,9 +62,9 @@ function add_info(i, marker, place) {
         } else {
             infowindow.open(map, marker);
             map.setCenter(infowindow.position)
-            $("#matjip-box").animate({
-                scrollTop: $("#matjip-box").get(0).scrollTop + $(`#card-${i}`).position().top
-            }, 500);
+            $("#place-box").animate({
+                scrollTop: $("#place-box").get(0).scrollTop + $(`#card-${i}`).position().top
+            }, 1000);
         }
     });
 }

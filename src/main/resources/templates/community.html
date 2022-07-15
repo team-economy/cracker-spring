@@ -6,7 +6,7 @@
 </head>
 
 <body>
-<nav th:replace="fragments/navbar :: navbar"/>
+<nav th:replace="fragments/communityNavbar :: communityNavbar"/>
 <section class="hero is-white">
     <div class="hero-body place-info">
         <article class="media">
@@ -31,11 +31,11 @@
             <div class="field">
                 <p class="control">
                     <textarea id="textarea-post" class="textarea comment-list" rows="3"
-                              placeholder="댓글 추가..."> </textarea>
+                              placeholder="댓글 추가..."></textarea>
                 </p>
             </div>
         </div>
-        <div class="level-right post-btn">
+        <div class="level-right post-button-area">
             <div class="level-item">
                 <a class="button is-cracker enroll-btn" onclick="post()">등록</a>
             </div>

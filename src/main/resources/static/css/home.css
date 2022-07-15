@@ -24,28 +24,6 @@
     background-color: #E3B7A0;
 }
 
-/*메인 중앙 로고 디자인*/
-.logo-background {
-    background-color: #FDF6EC;
-}
-
-.main-logo{
-    padding-bottom:1rem;
-    margin:auto;
-}
-
-.title {
-    font-family: 'Merriweather', serif;
-    font-size: xxx-large;
-    font-weight: 1100;
-    color: #68A7AD !important;
-    font-style: italic;
-}
-
-.subtitle {
-    font-family: 'Source Code Pro', monospace;
-}
-
 /*지도 맛집 리스트 section*/
 .map-place-area {
     height: 600px;

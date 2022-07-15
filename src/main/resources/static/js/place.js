@@ -37,7 +37,7 @@ function get_place(flag) {
 // 맛집 카드 만들기
 function make_card(i, place) {
     let html_temp = `<div class="card" id="card-${i}">
-                                <div class="card-body" style="background-color: #FDF6EC">
+                                <div class="card-body" id="card-body-${i}" style="background-color: #FDF6EC">
                                     <h5 class="card-title"><a href="javascript:click2center(${i})" class="place-title">${place.name}</a></h5>
                                     <p class="card-text">지번 주소 : ${place.addr}</p>
                                     <p class="card-text">도로명 주소 : ${place.addrRoad}</p>
