@@ -8,6 +8,7 @@ import com.cracker.auth.dto.TokenDto;
 import com.cracker.auth.util.CookieUtil;
 import com.cracker.auth.util.HeaderUtil;
 import com.cracker.common.ResponseDetails;
+import com.cracker.user.entity.UserRole;
 import com.cracker.user.entity.Users;
 import com.cracker.user.repository.UserRepository;
 import io.jsonwebtoken.Claims;
@@ -38,6 +39,13 @@ public class AuthService {
     }
 
     /**
+     * guest token 발급
+     */
+    public AuthToken guestToken() {
+        return tokenProvider.createAuthToken();
+    }
+
+    /**
      * refresh token 발급 및 users update
      */
     public AuthToken refreshToken(Users user) {
@@ -64,6 +72,17 @@ public class AuthService {
     }
 
     /**
+     * guest
+     */
+    public TokenDto guest(HttpServletRequest httpRequest, HttpServletResponse httpResponse) {
+        AuthToken guestToken = guestToken();
+
+        guestTokenAddCookie(httpResponse, guestToken.getToken());
+
+        return new TokenDto(guestToken.getToken());
+    }
+
+    /**
      * login
      */
     public TokenDto login(HttpServletRequest httpRequest, HttpServletResponse httpResponse, LoginDto requestLoginDTO) {
@@ -85,6 +104,15 @@ public class AuthService {
         accessTokenAddCookie(httpResponse, accessToken.getToken());
 
         return new TokenDto(accessToken.getToken());
+    }
+
+    /**
+     * 헤더에 guest token 추가
+     */
+    public void guestTokenAddCookie(HttpServletResponse response, String guestToken) {
+        long accessTokenExpiry = appProperties.getTokenExpiry();
+        int cookieMaxAge = (int) accessTokenExpiry / 60;
+        CookieUtil.addCookie(response, AuthToken.ACCESS_TOKEN, guestToken, cookieMaxAge, "localhost");
     }
 
     /**
@@ -175,7 +203,7 @@ public class AuthService {
     }
 
     public Users findUserByEmail(String email) {
-        Users user = userRepository.findByEmail(email).orElseThrow(() -> new NullPointerException("해당 아이디가 존재하지 않습니다."));
+        Users user = userRepository.findByEmail(email).orElse(null);
         return user;
     }
 }

@@ -9,7 +9,8 @@ import java.util.Arrays;
 @AllArgsConstructor
 public enum UserRole {
     USER("USER", "일반 회원 권한"),
-    ADMIN("ADMIN", "관리자 권한");
+    ADMIN("ADMIN", "관리자 권한"),
+    GUEST("GUEST", "게스트 권한");
 
     private final String code;
     private final String displayName;
@@ -18,6 +19,6 @@ public enum UserRole {
         return Arrays.stream(UserRole.values())
                 .filter(r -> r.getCode().equals(code))
                 .findAny()
-                .orElse(USER);
+                .orElse(GUEST);
     }
 }

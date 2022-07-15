@@ -63,19 +63,23 @@
                         <hr>
                         <h4 class="mb-3">아직 회원이 아니라면</h4>
                         <nav class="level is-mobile">
-
                             <button class="level-item button is-cracker is-outlined"
                                     style="background-color: #DAB88B; font-family: 'Gowun Batang', serif"
                                     onclick="toggle_sign_up()">
                                 회원가입하기
                             </button>
+                            <button class="level-item button is-cracker"
+                                    style="background-color: #B7CADB; font-family: 'Gowun Batang', serif"
+                                    onclick="guest()">
+                                게스트로 시작
+                            </button>
                         </nav>
                         <h5 class="mb-3">소셜 로그인</h5>
-                        <nav class="level is-mobile">
-                            <button id="login-kakao-btn"
-                                    onclick="location.href='https://kauth.kakao.com/oauth/authorize?client_id=c68ff2766979dad52191b316a0b99f22&redirect_uri=http://localhost:8080/api/kakao/login&response_type=code'">
-                                카카오로 로그인하기
-                            </button>
+                        <nav class="level is-mobile" >
+                            <img src="/kakao_login_medium_narrow.png"
+                                 class="button"
+                                 style="display: block; margin: 0px auto;"
+                                 onclick="location.href='https://kauth.kakao.com/oauth/authorize?client_id=c68ff2766979dad52191b316a0b99f22&redirect_uri=http://localhost:8080/api/kakao/login&response_type=code'">
                         </nav>
                     </div>
 

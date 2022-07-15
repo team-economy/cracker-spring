@@ -224,3 +224,21 @@ function sign_in() {
         }
     });
 }
+
+/**
+ * 게스트
+ */
+function guest() {
+    $.ajax({
+        type: "POST",
+        url: '/api/cracker/guest',
+        success: function (response) {
+            if (response['httpStatus'] === 200) {
+                window.location.replace("/")
+                alert('게스트입니다.')
+            } else {
+                alert(response['msg'])
+            }
+        }
+    });
+}

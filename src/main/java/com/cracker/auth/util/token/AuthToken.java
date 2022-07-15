@@ -1,5 +1,6 @@
 package com.cracker.auth.util.token;
 
+import com.cracker.user.entity.UserRole;
 import io.jsonwebtoken.*;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +24,11 @@ public class AuthToken {
     public static final String USER_ID = "email";
     public static final String NICK_NAME = "nickName";
 
+    AuthToken(Key key) {
+        this.key = key;
+        this.token = createAuthToken();
+    }
+
     AuthToken(String email, Date expiry, Key key) {
         this.key = key;
         this.token = createAuthToken(email, expiry);
@@ -32,7 +38,17 @@ public class AuthToken {
         this.key = key;
         this.token = createAuthToken(email, nickName, role, expiry);
     }
-    
+
+    // guest token 을 만드는데 이용 될 createAuthToken
+    private String createAuthToken() {
+        return Jwts.builder()
+                .setSubject("user")
+                .setIssuedAt(new Date())
+                .claim(AUTHORITIES_KEY, UserRole.GUEST)
+                .signWith(key, SignatureAlgorithm.HS256)
+                .compact();
+    }
+
     // refresh token 을 만드는데 이용 될 createAuthToken
     private String createAuthToken(String email, Date expiry) {
         return Jwts.builder()

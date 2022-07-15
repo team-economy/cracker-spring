@@ -35,7 +35,11 @@ public class IndexController {
     public String home(@AuthenticationPrincipal UserPrincipal userPrincipal, Model model) {
         String email = userPrincipal.getEmail();
         Users user = authService.findUserByEmail(email);
-        model.addAttribute("user", user);
+        if (user == null) {
+            model.addAttribute("user", null);
+        } else {
+            model.addAttribute("user", user);
+        }
         return "home";
     }
 

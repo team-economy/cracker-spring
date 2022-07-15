@@ -25,6 +25,10 @@ public class AuthTokenProvider {
         this.key = Keys.hmacShaKeyFor(secret.getBytes());
     }
 
+    public AuthToken createAuthToken() {
+        return new AuthToken(key);
+    }
+
     public AuthToken createAuthToken(String email, Date expiry) {
         return new AuthToken(email, expiry, key);
     }
