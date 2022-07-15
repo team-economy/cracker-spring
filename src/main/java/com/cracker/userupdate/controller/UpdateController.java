@@ -8,6 +8,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -28,7 +30,7 @@ public class UpdateController {
 
     @ResponseBody
     @PostMapping(value = "/user/update_profile/{id}", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
-    public UpdateUserResponseDto UpdateProfile(@PathVariable long id, @ModelAttribute UpdateUserRequestDto updateUserRequestDto)
+    public UpdateUserResponseDto UpdateProfile(@PathVariable long id, @Validated @ModelAttribute UpdateUserRequestDto updateUserRequestDto, BindingResult result)
             throws IOException {
 
         UpdateUserResponseDto updateUserResponseDto = updateService.updateProfile(id, updateUserRequestDto);

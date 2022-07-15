@@ -3,6 +3,17 @@ $(document).ready(function () {
     get_place()
 })
 
+var fileTarget = $('.filewrap .uploadBtn');
+fileTarget.on('change', function(){ // 값이 변경되면
+    if(window.FileReader){ // modern browser
+        var filename = $(this)[0].files[0].name;
+    }
+    else { // old IE
+        var filename = this.files[0].name; // 파일명만 추출
+    }  // 추출한 파일명 삽입
+    $(this).siblings('.fileName').val(filename);
+
+});
 // 유저 프로필 이미지 변경
 function update_profile(id) {
     let name = $('#input-user_name').val()
@@ -32,9 +43,13 @@ function update_profile(id) {
         contentType: false,
         processData: false,
         success: function (response) {
-            if (response["result"] == "변경 완료!!") {
+            if (response["msg"] == "변경 완료!!") {
                 alert(response["msg"])
+                $("#modal-edit").removeClass("is-active")
                 window.location.reload()
+            } else {
+                alert(response["msg"])
+                $("#modal-edit").removeClass("is-active")
             }
         }
     });

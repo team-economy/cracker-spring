@@ -46,19 +46,6 @@ public class S3Service {
                 .build();
     }
 
-//    public String upload(MultipartFile file) throws IOException {
-//        String fileName = file.getOriginalFilename();
-//
-//        byte[] bytes = IOUtils.toByteArray(inputStream);
-//        objectMetadata.setContentLength(bytes.length);
-//        ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(bytes);
-//
-//        s3Client.putObject(new PutObjectRequest(bucket, fileName, file.getInputStream(), null)
-//                .withCannedAcl(CannedAccessControlList.PublicRead));
-//        return s3Client.getUrl(bucket, fileName).toString();
-//    }
-
-
     public String upload(MultipartFile multipartFile, String fileName) {
         ObjectMetadata objectMetaData = new ObjectMetadata();
         objectMetaData.setContentLength(multipartFile.getSize());
@@ -71,8 +58,9 @@ public class S3Service {
         return "fail";
     }
     private String putS3(InputStream inputStream, ObjectMetadata objectMetaData, String fileName) {
-        s3Client.putObject(new PutObjectRequest(bucket, fileName, inputStream, objectMetaData).withCannedAcl(CannedAccessControlList.Private));
+        s3Client.putObject(new PutObjectRequest(bucket, fileName, inputStream, objectMetaData).withCannedAcl(CannedAccessControlList.PublicRead));
         return s3Client.getUrl(bucket, fileName).toString();
     }
+
 }
 
