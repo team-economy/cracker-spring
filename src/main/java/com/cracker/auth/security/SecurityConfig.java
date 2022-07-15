@@ -51,7 +51,11 @@ public class SecurityConfig {
                 .and()
                 .authorizeRequests()
                 .antMatchers("/**/*.css", "/**/*.js", "/**/*.png", "/favicon.io").permitAll()
-                .antMatchers("/login").permitAll()
+//                .antMatchers("/login", "/api/kakao/login", "/api/cracker/**").permitAll()
+//                .antMatchers("/comment/**").hasAnyRole("USER", "ADMIN")
+//                .antMatchers("/places/**").hasAnyRole("USER", "ADMIN")
+//                .antMatchers("/user/**").hasAnyRole("USER", "ADMIN")
+//                .antMatchers("/admin/**").hasAnyRole("ADMIN")
                 .anyRequest().permitAll()
                 .and()
                 .addFilterBefore(new TokenAuthenticationFilter(tokenProvider), UsernamePasswordAuthenticationFilter.class);
