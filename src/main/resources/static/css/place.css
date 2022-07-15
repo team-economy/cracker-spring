@@ -1,7 +1,8 @@
 .user.place-area {
-    float: right;
-    margin:0px 20px 0px auto;
-    width: 38%;
+    margin: 30px auto 20px auto;
+    width: 50%;
+    height : 800px;
+    overflow: auto;
 }
 
 .place-search-area{
