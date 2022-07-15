@@ -42,7 +42,7 @@ function make_card(i, place) {
                                     <h5 class="card-title"><a href="/community/${place.communityId}" class="place-title">${place.name}</a></h5>
                                     <p class="card-text">지번 주소 : ${place.addr}</p>
                                     <p class="card-text">도로명 주소 : ${place.addrRoad}</p>
-                                    <p class="community-delete">
+                                    <p class="place-list-button-area">
                                         <button class="button is-success community-btn" onclick="location.href='/community/'+'${place.communityId}'">커뮤니티</button>
                                         <button class="button is-danger delete-place-btn" onclick="delete_place('${place.id}')">삭제</button>
                                     </p>
