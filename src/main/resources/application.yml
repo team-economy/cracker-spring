@@ -46,7 +46,7 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/cracker?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
     username: root
-    password: 1765
+    password: root1234
 
   jpa:
     properties:
@@ -92,3 +92,17 @@ kakao:
 #logging:
 #  level:
 #    root: DEBUG
+
+# AWS S3
+
+cloud:
+  aws:
+    credentials:
+      accesskey: AKIAWWHMVBI5FRDS3YPP
+      secretkey: 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
+    s3:
+      bucket: crackertest
+    region:
+      static: ap-northeast-2
+    stack:
+      auto: false
