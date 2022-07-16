@@ -1,6 +1,8 @@
 // 맛집 리스트 가져오기
 function get_place(flag) {
     $('#place-box').empty();
+    $('#place-tabs').addClass("is-active");
+    $('#all-place-tabs').removeClass("is-active");
     markers = []
     infowindows = []
     if (flag == null) {
@@ -32,6 +34,22 @@ function get_place(flag) {
             }
         });
     }
+}
+
+function get_all_place() {
+    $('#place-box').empty();
+    $('#all-place-tabs').addClass("is-active");
+    $('#place-tabs').removeClass("is-active");
+    $.ajax({
+        type: "GET",
+        url: `/places/all`,
+        success: function (response) {
+            for (let i = 0; i < response.length; i++) {
+                let place = response[i]
+                make_card(i, place);
+            }
+        }
+    });
 }
 
 // 맛집 카드 만들기
