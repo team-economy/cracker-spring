@@ -63,6 +63,8 @@ public class CommentService{
                     .userEmail(comment.getUsers().getEmail())
                     .comment(comment.getComment())
                     .modifiedAt(comment.getModifiedAt())
+                    .userProfileImg(comment.getUsers().getPic())
+                    .userId(comment.getUsers().getId())
             .build();
             dtos.add(dto);
         }

@@ -56,9 +56,12 @@ public class IndexController {
 
     //community page 연결
     @GetMapping("/community/{id}")
-    public String commnuity(@PathVariable Long id, Model model){
+    public String commnuity(@PathVariable Long id, @AuthenticationPrincipal UserPrincipal userPrincipal, Model model){
+        String email = userPrincipal.getEmail();
+        Optional<Users> user = authService.getUserByEmail(email);
         Community community = communityService.communitySearch(id);
         model.addAttribute("communityInfo", community);
+        model.addAttribute("userCommu", user);
         return "community";
     }
 

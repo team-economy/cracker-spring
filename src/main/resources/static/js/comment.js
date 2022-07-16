@@ -21,7 +21,7 @@ function post() {
 
     let communityAddr = $('#community-addr').text();
     // 전달할 data JSON으로 만듬
-    let data = {'comment': comment, 'communityAddr' : communityAddr};
+    let data = {'comment': comment, 'communityAddr': communityAddr};
     // POST /api/memos 에 data를 전달
     $.ajax({
         type: "POST",
@@ -57,43 +57,45 @@ function getMessages() {
                 let comment = message['comment'];
                 let time_comment = new Date(message['modifiedAt'])
                 let time_past = timePassed(time_comment)
+                let userProfileImg = message['userProfileImg'];
+                let userId = message['userId'];
 
                 console.log(comment)
-                
-                addHTML(id, username, userEmail, comment, time_past);
+
+                addHTML(id, username, userEmail, comment, time_past, userProfileImg, userId);
             }
         }
     })
 }
 
 
-function addHTML(id, userName, userEmail, comment, time_past) {
+function addHTML(id, userName, userEmail, comment, time_past, userProfileImg, userId) {
     let tempHtml = `
         <div class="box comment-list">
             <article class="media">
-                <div class="media-left">
-                    <a class="image is-64x64" href="#">
-                        <img class="is-rounded" src="profile_pics/profile_placeholder.png">
+                <div class="media-left profile-img-area">
+                    <a class="image is-64x64" href="/user/${userId}">
+                        <img class="is-rounded  profile-img" src='${userProfileImg}'>
                     </a>
                 </div>
-                <div class="media-content">
+                <div class="media-content comment-area">
                     <div class="content">
-                        <p>
-                            <div class="comment-userinfo">                         
-                                <strong>${userName}</strong> <small>(${userEmail})</small> <small>${time_past}</small>                            
-                            </div>
-                            <div class = "comment-buttons">
-                                <a id="${id}-edit" type="button" class="edit-comment" onclick="editComment('${id}')"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
-                                <a id="${id}-update" type="button" class="update-comment" onclick="updateEdit('${id}')"><i class="fa fa-check" aria-hidden="true"></i></a>
-                                <a id="${id}-delete" type="button" class="delete-comment" onclick="deleteOne('${id}')"><i class="fa fa-trash" aria-hidden="true"></i></a>                                                                                                                              
-                            </div>                                            
-                            <div id="${id}-comment" class="text">
+                        <div class="comment-userinfo">                         
+                            <strong>${userName}</strong> <small>(${userEmail})</small><small class="comment-time">${time_past}</small>                            
+                        </div>
+                        <div class = "comment-buttons-area">
+                            <a id="${id}-delete" type="button" class="delete-comment" onclick="deleteOne('${id}')"><i class="fa fa-trash" aria-hidden="true"></i></a>     
+                            <a id="${id}-edit" type="button" class="edit-comment" onclick="editComment('${id}')"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+                            <a id="${id}-update" type="button" class="update-comment" onclick="updateEdit('${id}')"><i class="fa fa-check" aria-hidden="true"></i></a>                                                                                                                         
+                        </div>                                          
+                    </div>
+                    <div class="text-area">
+                        <div id="${id}-comment">
                             ${comment}
-                            </div>
-                            <div id="${id}-editarea" class="edit">
-                                <textarea id="${id}-textarea" class="te-edit" name="" id="" cols="30" rows="2"></textarea>
-                            </div>
-                        </p>
+                        </div>
+                        <div id="${id}-editarea" class="edit">
+                            <textarea id="${id}-textarea" class="textarea te-edit" name="" id="" cols="30" rows="2"></textarea>
+                        </div>
                     </div>
                 </div>
             </article>
@@ -145,7 +147,7 @@ function editComment(id) {
 }
 
 function updateEdit(id) {
-    let comment = $(`#${id}-textarea`).val();
+    let comment = $(`#${id}-textarea`).val().replace(/(?:\r\n|\r|\n)/g, '<br />');
     if (isValidcomment(comment) == false) {
         return;
     }

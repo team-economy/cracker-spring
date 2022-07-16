@@ -4,22 +4,39 @@
     min-width: 400px
 }
 
+/*댓글 등록 section*/
 .input-comment-section {
     width: 50%;
     max-width: 1500px;
-    margin: 50px auto 0px auto;
+    margin: 20px auto 20px auto;
     background-color: #F3E9DD;
-    vertical-align: center;
 }
 
-.comment-list{
+.comment-list {
+    max-height: 150px;
     overflow: auto;
     background-color: #fdf7f0;
 }
 
+.post-button-area {
+    vertical-align: center;
+    margin: auto 0px auto 10px;
+}
+
+.enroll-btn {
+    color: white;
+    background-color: #DAB88B !important;
+    border-color: #DAB88B !important;
+    height: 90px;
+    width: 90px;
+}
+
+
+/*댓글 목록*/
 .posts-section {
     width: 100%;
-    height: 600px;
+    min-height: 800px;
+    max-height: 100%;
     max-width: 1500px;
     margin: 10px auto 0px auto;
     padding-bottom: 20px;
@@ -27,37 +44,54 @@
     overflow: auto;
 }
 
-.post-btn {
-    vertical-align: center;
-    margin-left: 10px;
+.profile-img-area {
+    margin-top: 5px;
 }
 
-.enroll-btn {
-    height: 90px;
-    width: 90px;
+.profile-img {
+    max-height: 64px;
+    max-width: 64px;
 }
 
-.delete-comment {
-    /*float: right;*/
-    color: red;
+.comment-area {
+    margin-left: 20px;
 }
+
+.comment-userinfo {
+    float:left;
+    width: 300px;
+    margin:0px;
+    heifht : 30px;
+}
+
+.comment-time {
+    margin-left : 10px;
+}
+
+/*수정 삭제 버튼 관련*/
 .update-comment {
-    /*float: right;*/
+    float:right;
     color: black;
     display: none;
 }
 .edit-comment{
+    float:right;
     display: block;
 }
+.delete-comment {
+    margin-left: 10px;
+    float:right;
+    color: red;
+}
+
 .te-edit{
-    background-color: #fdf7f0;
+    background-color: white;
     display: none;
     font-family: 'Gowun Batang', serif;
+    width : 80%;
+    overflow: auto;
 }
-.comment-buttons{
-    float: right;
-    width: 200px;
-}
-.comment-userinfo{
-    width: 200px;
+
+.text-area {
+    margin-top : 30px;
 }

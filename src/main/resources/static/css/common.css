@@ -4,14 +4,6 @@ body {
     padding-top: 3.25rem;
 }
 
-.user-info {
-    text-align: right;
-    margin: auto;
-    width: 75%;
-    max-width: 1500px;
-    height: 60px;
-}
-
 .user-name {
     font-family: 'Gowun Batang', serif;
     font-size: 22px;
@@ -42,4 +34,9 @@ body {
 /*전체 폰트*/
 * {
     font-family: 'Gowun Batang', serif;
+}
+
+/*textarea 크기고정*/
+.textarea {
+    resize: none;
 }

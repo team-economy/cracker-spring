@@ -5,42 +5,40 @@
     <th:block th:replace="fragments/userHeader :: userHeader"></th:block>
 </head>
 <body>
-<nav th:replace="fragments/navbar :: navbar"></nav>
+<nav th:replace="fragments/userNavbar :: userNavbar"></nav>
 <!--{#프로필 영역#}-->
-<section class="hero is-white">
-    <div class="hero-body" style="padding-bottom:1rem;margin:auto;min-width: 400px">
+<section class="hero is-white profile-background">
+    <div class="hero-body profile-area">
         <article class="media">
-            <figure class="media-left" style="align-self: center">
-                <a class="image is-96x96" href="#">
-                    <img class="is-rounded" th:src="${userInfo.pic}">
-                </a>
+            <figure class="image is-128x128">
+                <img class="is-rounded profile-img" th:src="${userInfo.pic}">
             </figure>
-            <div class="media-content">
+            <div class="media-content user-info-area">
                 <div class="content">
-                    <p>
-                        <strong id="user_name"><span th:text= "${userInfo.nickname}"></span></strong>
-                        <small id="user_mail"><span th:text= "${userInfo.email}"></span></small>
-                        <br>
-                        <span th:text= "${userInfo.statusMessage}"></span>
+                    <p class="status-msg">
+                        <strong id="user_name"><span th:text="${userInfo.nickname}"></span></strong>
+                        <small id="user_mail"><span th:text="${userInfo.email}"></span></small>
+                        <br><br>
+                        <span th:text="${userInfo.statusMessage}"></span>
                     </p>
                 </div>
-
             </div>
         </article>
     </div>
 
-    <!--    status가 true 일때만 정보 수정가능-->
-    <nav th:if="${user.get().getId() == userInfo.id}" id="btns-me" class="level is-mobile nav-btn" style="margin-top:2rem">
+    <!--  프로필 변경 모달  -->
+    <nav th:if="${user.get().getId() == userInfo.id}" id="btns-me" class="level is-mobile edit-button-area"
+         style="margin-top:2rem">
         <a class="button level-item has-text-centered is-sparta" aria-label="edit"
            onclick='$("#modal-edit").addClass("is-active")'>
-            Edit Profile&nbsp;&nbsp;&nbsp;<span class="icon is-small"><i class="fa fa-pencil"
-                                                                         aria-hidden="true"></i></span>
+            Edit Profile<span class="icon is-small">
+            <i class="fa fa-pencil edit-icon" aria-hidden="true"></i></span>
         </a>
 
         <a class="button level-item has-text-centered is-sparta" aria-label="edit_marker"
            onclick='$("#modal-edit_marker").addClass("is-active")'>
-            Edit Marker&nbsp&nbsp<span class="icon is-small"><i class="fa fa-map-marker"
-                                                                aria-hidden="true"></i></span>
+            Edit Marker<span class="icon is-small">
+            <i class="fa fa-map-marker edit-icon" aria-hidden="true"></i></span>
         </a>
     </nav>
 
@@ -71,7 +69,7 @@
                             <div class="control is-expanded">
                                 <div class="file has-name">
                                     <label class="file-label" style="width:100%">
-                                        <input id="input-pic" class="file-input" type="file" name="resume" >
+                                        <input id="input-pic" class="file-input" type="file" name="resume">
                                         <span class="file-cta">
                                         <span class="file-icon"><i class="fa fa-upload"></i></span>
                                         <span class="file-label">파일 선택</span>
@@ -96,7 +94,8 @@
                             </div>
                             <div class="level-right">
                                 <div class="level-item">
-                                    <a class="button is-sparta" th:onclick="'update_profile('+${user.get().getId()}+')'">업데이트</a>
+                                    <a class="button is-sparta"
+                                       th:onclick="'update_profile('+${user.get().getId()}+')'">업데이트</a>
                                 </div>
                                 <div class="level-item">
                                     <a class="button is-sparta is-outlined"
@@ -112,7 +111,7 @@
                 onclick='$("#modal-edit").removeClass("is-active")'></button>
     </div>
 
-<!--    {#마커 수정 모달#}-->
+    <!--    {#마커 수정 모달#}-->
     <div class="modal" id="modal-edit_marker">
         <div class="modal-background" onclick='$("#modal-edit_marker").removeClass("is-active")'></div>
         <div class="modal-content">
@@ -158,70 +157,17 @@
                 onclick='$("#modal-edit").removeClass("is-active")'></button>
     </div>
 </section>
-<section class="modal-section">
-    <div class="modal" id="modal-post">
-        <div class="modal-background" onclick='$("#modal-post").removeClass("is-active")'></div>
-        <div class="modal-content">
-            <div class="box">
-                <article class="media">
-                    <div class="media-content">
-                        <div class="field modal-list" id="place_list"></div>
-                        <nav class="level is-mobile">
-                            <div class="level-left">
 
-                            </div>
-                            <div class="level-right">
-                                <div class="level-item">
-                                    <a class="button save-button" onclick="save_place()">등록하기</a>
-                                </div>
-                                <div class="level-item">
-                                    <a class="button cancel-button"
-                                       onclick='$("#modal-post").removeClass("is-active")'>취소</a>
-                                </div>
-                            </div>
-                        </nav>
-                    </div>
-                </article>
-            </div>
-        </div>
-        <button class="modal-close is-large" aria-label="close"
-                onclick='$("#modal-post").removeClass("is-active")'></button>
-    </div>
-</section>
-<section class="user comment-section">
+
+<section class="user place-area">
     <div class="user map-placelist">
-        <div class="media-content">
-            <div class="field">
-                <p class="control">
-                    <input id="input-post" class="input user place-input"
-                           style="background-color: #FBF8F1; font-family: 'Gowun Batang', serif"
-                           placeholder="맛집 이름을 입력하세요">
-                    <button type="button" class="btn btn-primary user find-btn"
-                            style="background-color: #DAB88B; border-color: #DAB88B; font-family: 'Gowun Batang', serif"
-                            onclick='get_address();'>찾기
-                    </button>
-                </p>
-            </div>
-        </div>
-        <div class="place-list" id="matjip-box">
-            <div class="card" id="card-0">
-                <div class="card-body">
-                    <h5 class="card-title"><a href="#" class="matjip-title">혼가츠</a></h5>
-                    <p class="card-text">지번 주소 : {{address}}</p>
-                    <p class="card-text">도로명 주소 : {{road_address}}</p>
-                    <p class="community-delete">
-                        <button class="button is-success community-btn" onclick="location.href='{{커뮤니티로 이동}}'">커뮤니티
-                        </button>&nbsp&nbsp&nbsp<button class="button is-danger delete-place-btn" onclick="{{저장된 목록 삭제}}">삭제</button>
-                    </p>
-                </div>
-            </div>
+        <div class="place-list" id="place-box">
+        <!--       맛집 리스트         -->
         </div>
     </div>
 </section>
-
 <footer>
-    <div th:replace="fragments/footer :: footer" />
+    <div th:replace="fragments/footer :: footer"/>
 </footer>
-
 </body>
 </html>

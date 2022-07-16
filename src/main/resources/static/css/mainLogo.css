@@ -3,16 +3,17 @@
     background-color: #FDF6EC;
 }
 
+.main-logo{
+    padding-bottom:1rem;
+    margin:auto;
+}
+
 .title {
     font-family: 'Merriweather', serif;
     font-size: xxx-large;
     font-weight: 1100;
     color: #68A7AD !important;
-}
-
-.main-logo{
-    padding-bottom:1rem;
-    margin:auto;
+    font-style: italic;
 }
 
 .subtitle {

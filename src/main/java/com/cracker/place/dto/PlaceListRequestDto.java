@@ -18,9 +18,11 @@ public class PlaceListRequestDto {
     private String cate;
     private Long communityId;
 
+    private String markerPic;
+
     @Builder
     public PlaceListRequestDto(Long id, String name, String addr, String addrRoad, String coordX,
-                               String coordY, String phoneNum, String cate, Long communityId) {
+                               String coordY, String phoneNum, String cate, Long communityId, String markerPic) {
         this.id = id;
         this.name = name;
         this.addr = addr;
@@ -30,7 +32,7 @@ public class PlaceListRequestDto {
         this.phoneNum = phoneNum;
         this.cate = cate;
         this.communityId = communityId;
-
+        this.markerPic = markerPic;
     }
 
 }
