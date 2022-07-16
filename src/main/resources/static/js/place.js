@@ -46,6 +46,8 @@ function get_all_place() {
         success: function (response) {
             for (let i = 0; i < response.length; i++) {
                 let place = response[i]
+                let marker = make_marker(place.coordX,place.coordY, place.markerPic)
+                add_info(i, marker, place)
                 make_card(i, place);
             }
         }

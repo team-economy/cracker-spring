@@ -12,17 +12,23 @@ public class CommunityPlaceListDto {
     private String name;
     private String addr;
     private String addrRoad;
+    private String coordX;
+    private String coordY;
     private String phoneNum;
     private String cate;
+    private String markerPic;
 
     @Builder
-    public CommunityPlaceListDto(Long id, String name, String addr, String addrRoad,
-                                 String phoneNum, String cate) {
-        this.id = id;
+    public CommunityPlaceListDto(Long communityId, String name, String addr, String addrRoad, String coordX,
+                               String coordY, String phoneNum, String cate, String markerPic) {
+        this.id = communityId;
         this.name = name;
         this.addr = addr;
         this.addrRoad = addrRoad;
+        this.coordX = coordX;
+        this.coordY = coordY;
         this.phoneNum = phoneNum;
         this.cate = cate;
+        this.markerPic = markerPic;
     }
 }

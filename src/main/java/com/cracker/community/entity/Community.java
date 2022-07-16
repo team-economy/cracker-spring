@@ -28,6 +28,12 @@ public class Community {
     private String addrRoad;
 
     @Column
+    private String coordX;
+
+    @Column
+    private String coordY;
+
+    @Column
     private String phoneNum;
 
     @Column
@@ -40,10 +46,12 @@ public class Community {
     private List<Comment> comments = new ArrayList<>();
 
     @Builder
-    public Community(String name, String addr, String addrRoad, String phoneNum, String cate) {
+    public Community(String name, String addr, String addrRoad, String coordX, String coordY, String phoneNum, String cate) {
         this.name = name;
         this.addr = addr;
         this.addrRoad = addrRoad;
+        this.coordX = coordX;
+        this.coordY = coordY;
         this.phoneNum = phoneNum;
         this.cate = cate;
     }
