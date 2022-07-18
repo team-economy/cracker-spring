@@ -12,13 +12,13 @@ function get_place(flag) {
                 console.log(response);
                 for (let i = 0; i < response.length; i++) {
                     let place = response[i]
-                    let marker = make_marker(place.coordX,place.coordY, place.markerPic)
+                    let marker = make_marker(place.coordX, place.coordY, place.markerPic)
                     add_info(i, marker, place)
                     make_card(i, place);
                 }
             }
         });
-    }else{
+    } else {
         $.ajax({
             type: "GET",
             url: `/places?userMail=${flag}`,
@@ -149,12 +149,10 @@ function delete_place(id) {
         url: `/places/${id}`,
         data: {},
         success: function (response) {
-            if (response["msg"] == "삭제 완료!!") {
-                alert(response["msg"])
-                window.location.reload()
-            } else {
-                alert(response["msg"])
-            }
+
+            alert(response["msg"]);
+            window.location.reload();
+
         }
 
     })

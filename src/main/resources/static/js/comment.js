@@ -158,7 +158,7 @@ function updateEdit(id) {
         contentType: "application/json",
         data: JSON.stringify(data),
         success: function (response) {
-            alert('댓글을 수정하였습니다.');
+            alert(response["msg"]);
             window.location.reload();
         }
     });
@@ -169,7 +169,7 @@ function deleteOne(id) {
         type: "DELETE",
         url: `/comment/${id}`,
         success: function (response) {
-            alert('댓글이 삭제되었습니다.');
+            alert(response["msg"]);
             window.location.reload();
         }
     })

@@ -2,12 +2,12 @@ package com.cracker.place.controller;
 
 import com.cracker.auth.security.UserPrincipal;
 import com.cracker.auth.util.token.AuthTokenProvider;
-import com.cracker.place.domain.Place;
 import com.cracker.place.dto.PlaceCreateRequestDto;
 import com.cracker.place.dto.PlaceCreateResponseDto;
 import com.cracker.place.dto.PlaceDeleteResponseDto;
 import com.cracker.place.dto.PlaceListRequestDto;
 import com.cracker.place.service.PlaceService;
+import com.cracker.user.entity.UserRole;
 import lombok.RequiredArgsConstructor;
 
 
@@ -37,22 +37,40 @@ public class PlaceController {
 
     @GetMapping("/places")
     public List<PlaceListRequestDto> readPlace(@AuthenticationPrincipal UserPrincipal userPrincipal, @RequestParam(name = "userMail", required = false)String userMail) {
-        System.out.println(userMail);
         if(userMail == null) {
             String email = userPrincipal.getEmail();
-//        List<PlaceListRequestDto> places = placeService.placeList(email);
+
             return placeService.placeListSearchByEmail(email);
         }else {
             return placeService.placeListSearchByEmail(userMail);
         }
     }
 
+
+    /**
+     * 맛집Id와 일치하는 맛집 삭제
+     * @param id  Place id
+     * @return // 삭제 완료 메세지
+     */
     @DeleteMapping("/places/{id}")
-    public PlaceDeleteResponseDto deletePlace(@PathVariable("id") Long id) {
-        long retId = placeService.deletePlace(id);
+    public PlaceDeleteResponseDto deletePlace(@PathVariable("id") Long id, @AuthenticationPrincipal UserPrincipal userPrincipal) {
+        UserRole userRole = userPrincipal.getRole();
         PlaceDeleteResponseDto placeDeleteResponseDto = new PlaceDeleteResponseDto();
-        placeDeleteResponseDto.setMsg("삭제 완료!!");
+        if(userRole.equals(UserRole.ADMIN)) {
+            long retId = placeService.deletePlace(id);
+            placeDeleteResponseDto.setMsg("삭제 완료!! \n (관리자 계정)");
+        } else {
+            String email = userPrincipal.getEmail();
+            long retId = placeService.deletPlaceByUserMail(id, email);
+            if(retId == 0) {
+                placeDeleteResponseDto.setMsg("본인이 아니라 삭제할 수 없습니다.");
+            } else {
+                placeDeleteResponseDto.setMsg("삭제 완료!!");
+            }
+        }
 
         return placeDeleteResponseDto;
     }
+
+
 }
