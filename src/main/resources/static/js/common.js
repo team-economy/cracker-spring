@@ -4,6 +4,12 @@
 function sign_out() {
     $.removeCookie('access_token', {path: '/'});
     $.removeCookie('refresh_token', {path: '/'});
-    alert('로그아웃!')
-    window.location.href = "/login"
+    $.ajax({
+        type: "DELETE",
+        url: `/api/cracker/logout`,
+        success: function (response) {
+            alert('로그아웃!');
+            window.location.href = "/login"
+        }
+    });
 }
