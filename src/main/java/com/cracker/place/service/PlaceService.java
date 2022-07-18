@@ -48,6 +48,8 @@ public class PlaceService {
                     .name(placeCreateRequestDto.getName())
                     .addr(placeCreateRequestDto.getAddr())
                     .addrRoad(placeCreateRequestDto.getAddrRoad())
+                    .coordX(placeCreateRequestDto.getCoordX())
+                    .coordY(placeCreateRequestDto.getCoordY())
                     .phoneNum(placeCreateRequestDto.getPhoneNum())
                     .cate(placeCreateRequestDto.getCate())
             .build();

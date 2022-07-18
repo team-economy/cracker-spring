@@ -6,8 +6,10 @@ let infowindows = [];
 // 지도 출력
 $(document).ready(function () {
     $("#user_id").hide();
-    console.log("dd")
-    get_place(null);
+    // 초기 화면 전체 목록
+    get_all_place();
+    // // 초기 화면 나의 목록
+    // get_all_place();
     map = new naver.maps.Map('map', {
         center: new naver.maps.LatLng(y_cen, x_cen),
         zoom: 12,
