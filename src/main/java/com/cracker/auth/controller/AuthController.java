@@ -3,6 +3,7 @@ package com.cracker.auth.controller;
 import com.cracker.auth.dto.LoginDto;
 import com.cracker.auth.dto.TokenDto;
 import com.cracker.auth.service.AuthService;
+import com.cracker.auth.util.CookieUtil;
 import com.cracker.common.ResponseDetails;
 import com.cracker.user.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -37,6 +38,11 @@ public class AuthController {
         }
         responseDetails = ResponseDetails.success(token, "/api/cracker/login");
         return new ResponseEntity<>(responseDetails, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/api/cracker/logout")
+    public void logout(HttpServletRequest request, HttpServletResponse response) {
+        CookieUtil.deleteCookie(request, response, "access_token", "localhost");
     }
 
     @GetMapping("/api/cracker/refresh")
