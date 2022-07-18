@@ -19,10 +19,10 @@ function listPlaces(i, places) {
     let place_info = places["matjip_address"]
     console.log(places)
     let html_temp = `<tr id="place-${i}">
-                        <td>${places['id']}</td>
-                        <td>${places['name']}</td>
-                        <td>${places['addr']}</td>
-                        <td> <button class="button" onclick="deleteAdminPlace(${places['id']})"> DELETE </button> </td>
+                        <td>${places.id}</td>
+                        <td>${places.name}</td>
+                        <td>${places.addr}</td>
+                        <td> <button class="button" onclick="deleteAdminPlace(${places.id})"> DELETE </button> </td>
                     </tr>`
     $('#adminList').append(html_temp);
 }
@@ -43,16 +43,16 @@ function deleteAdminPlace(id) {
     })
 }
 
-function adminComments() {
-    $.ajax( {
-        type: "GET",
-        url: "/manage/comments",
-        data: {},
-        success: function (response) {
-            for (let i = 0; i < response.length; i++) {
-                let place = response[i]
-                listPlaces(i, place)
-            }
-        }
-    })
-}
+// function adminComments() {
+//     $.ajax( {
+//         type: "GET",
+//         url: "/manage/comments",
+//         data: {},
+//         success: function (response) {
+//             for (let i = 0; i < response.length; i++) {
+//                 let place = response[i]
+//                 listPlaces(i, place)
+//             }
+//         }
+//     })
+// }

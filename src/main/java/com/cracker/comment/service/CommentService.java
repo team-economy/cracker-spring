@@ -99,4 +99,18 @@ public class CommentService{
         comment.updateComment(commentUpdateRequestDto);
         return comment;
     }
+
+    @Transactional
+    public List<Comment> adminCommentList() {
+        return commentRepository.findAll();
+    }
+
+    @Transactional
+    public Long adminDeleteComment(Long id) {
+        commentRepository.deleteById(id);
+        return id;
+    }
 }
+
+
+

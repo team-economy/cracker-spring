@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <th:block th:replace="fragments/adminHeader :: adminHeader"></th:block>
+</head>
+<body>
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<section class="hero logo-background">
+  <div class="hero-body has-text-centered" style="padding-bottom:1rem;margin:auto;">
+    <h1 class="title" style="font-style: italic">CRACKER Admin Page</h1>
+  </div>
+</section>
+
+<div class="user-info">
+  <p>
+    <button class="button"
+            style="font-family: 'Source Code Pro', monospace; font-weight: bolder; background-color: #E3B7A0"
+            onclick="adminPlaces()">PLACES
+    </button>
+
+    <button class="button"
+            style="font-family: 'Source Code Pro', monospace; font-weight: bolder; background-color: #E3B7A0"
+            onclick="adminComments()">COMMENT
+
+    </button>
+  </p>
+</div>
+
+<div>
+  <tr>
+    <th>ID</th>
+    <th>User</th>
+    <th>Comment</th>
+  </tr>
+  <table id = "adminList">
+  </table>
+</div>
+</body>
