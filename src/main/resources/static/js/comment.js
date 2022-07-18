@@ -87,7 +87,7 @@ function addHTML(id, userName, userEmail, comment, time_past, userProfileImg, us
                             <a id="${id}-delete" type="button" class="delete-comment" onclick="deleteOne('${id}')"><i class="fa fa-trash" aria-hidden="true"></i></a>     
                             <a id="${id}-edit" type="button" class="edit-comment" onclick="editComment('${id}')"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
                             <a id="${id}-update" type="button" class="update-comment" onclick="updateEdit('${id}')"><i class="fa fa-check" aria-hidden="true"></i></a>                                                                                                                         
-                        </div>                                          
+                        </div>
                     </div>
                     <div class="text-area">
                         <div id="${id}-comment">

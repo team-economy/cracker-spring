@@ -28,16 +28,16 @@
 .map-place-area {
     height: 600px;
     max-width: 1600px;
-    margin: 80px auto 0px auto;
+    margin: 75px auto 50px auto;
 }
 
 #map{
     float: left;
     width: 55%;
-    height: 90%;
+    height: 100%;
 
     margin-left: 20px;
-    margin-top: 20px;
+    margin-top: 25px;
     margin-bottom: 20px;
     background-color: #F3E9DD;
 

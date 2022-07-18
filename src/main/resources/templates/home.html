@@ -44,8 +44,20 @@
                     onclick='get_address();'>찾기
             </button>
         </div>
-        <div class="home place-list" id="place-box">
-            <!--      맛집 리스트 불러오기      -->
+        <div class="place-container">
+            <div class="tabs">
+                <ul>
+                    <li id="all-place-tabs" class="is-active">
+                        <a onclick="get_all_place()">All Places</a>
+                    </li>
+                    <li id="place-tabs" class="">
+                        <a onclick="get_place()">My Place</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="home place-list" id="place-box">
+                <!--      맛집 리스트 불러오기      -->
+            </div>
         </div>
     </div>
 </section>
