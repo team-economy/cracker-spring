@@ -2,6 +2,8 @@ package com.cracker.place.controller;
 
 import com.cracker.auth.security.UserPrincipal;
 import com.cracker.auth.util.token.AuthTokenProvider;
+import com.cracker.comment.service.CommentService;
+import com.cracker.community.service.CommunityService;
 import com.cracker.place.dto.PlaceCreateRequestDto;
 import com.cracker.place.dto.PlaceCreateResponseDto;
 import com.cracker.place.dto.PlaceDeleteResponseDto;
@@ -22,6 +24,8 @@ public class PlaceController {
 
     private final PlaceService placeService;
     private final AuthTokenProvider authTokenProvider;
+    private final CommentService commentService;
+    private final CommunityService communityService;
 
     @RequestMapping(value = "/places/create", method={RequestMethod.POST})
     public PlaceCreateResponseDto savePlace(@RequestBody PlaceCreateRequestDto placeCreateRequestDto, @AuthenticationPrincipal UserPrincipal userPrincipal) {
@@ -57,7 +61,7 @@ public class PlaceController {
         UserRole userRole = userPrincipal.getRole();
         PlaceDeleteResponseDto placeDeleteResponseDto = new PlaceDeleteResponseDto();
         if(userRole.equals(UserRole.ADMIN)) {
-            long retId = placeService.deletePlace(id);
+            placeService.deletePlace(id);
             placeDeleteResponseDto.setMsg("삭제 완료!! \n (관리자 계정)");
         } else {
             String email = userPrincipal.getEmail();

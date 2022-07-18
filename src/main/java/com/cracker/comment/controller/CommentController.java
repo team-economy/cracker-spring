@@ -6,6 +6,8 @@ import com.cracker.comment.domain.Comment;
 import com.cracker.comment.dto.*;
 import com.cracker.comment.repository.CommentRepository;
 import com.cracker.comment.service.CommentService;
+import com.cracker.community.entity.Community;
+import com.cracker.community.repository.CommunityRepository;
 import com.cracker.user.entity.UserRole;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -32,17 +34,18 @@ public class CommentController {
 
     @GetMapping("/comment")
     public List<CommentListResponseDto> getComment(@RequestParam("communityAddr")String communityAddr){
-//        System.out.println(placeId);
+
         return commentService.commentList(communityAddr);
-//        return commentRepository.findAllByOrderByModifiedAtDesc();
+
     }
 
     @DeleteMapping("/comment/{id}")
     public CommentDeleteResponseDto deleteComment(@PathVariable Long id, @AuthenticationPrincipal UserPrincipal userPrincipal){
         UserRole userRole = userPrincipal.getRole();
         CommentDeleteResponseDto commentDeleteResponseDto = new CommentDeleteResponseDto();
+
         if(userRole.equals(UserRole.ADMIN)) {
-            long retId = commentService.deleteComment(id);
+            commentService.deleteComment(id);
             commentDeleteResponseDto.setMsg("삭제 완료!! \n (관리자 계정)");
         } else {
             String email = userPrincipal.getEmail();
