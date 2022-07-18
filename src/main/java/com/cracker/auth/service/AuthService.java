@@ -137,9 +137,12 @@ public class AuthService {
      * 토큰 재발급
      */
     public ResponseDetails refreshToken(HttpServletRequest request, HttpServletResponse response) {
+//        // access token 확인
+//        String accessToken = HeaderUtil.getAccessToken(request);
+//        AuthToken authToken = tokenProvider.convertAuthToken(accessToken);
         // access token 확인
-        String accessToken = HeaderUtil.getAccessToken(request);
-        AuthToken authToken = tokenProvider.convertAuthToken(accessToken);
+        Cookie tokenStr = CookieUtil.getCookie(request, "access_token").orElse(null);
+        AuthToken authToken = tokenProvider.convertAuthToken(tokenStr != null ? tokenStr.getValue() : null);
 
         String path = "/api/cracker/refresh";
 
