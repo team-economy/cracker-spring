@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class CommunityPlaceListDto {
-    private Long id;
+    private Long communityId;
     private String name;
     private String addr;
     private String addrRoad;
@@ -21,7 +21,7 @@ public class CommunityPlaceListDto {
     @Builder
     public CommunityPlaceListDto(Long communityId, String name, String addr, String addrRoad, String coordX,
                                String coordY, String phoneNum, String cate, String markerPic) {
-        this.id = communityId;
+        this.communityId = communityId;
         this.name = name;
         this.addr = addr;
         this.addrRoad = addrRoad;
