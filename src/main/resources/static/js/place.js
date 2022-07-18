@@ -44,6 +44,7 @@ function get_all_place() {
         type: "GET",
         url: `/places/all`,
         success: function (response) {
+            console.log(response);
             for (let i = 0; i < response.length; i++) {
                 let place = response[i]
                 let marker = make_marker(place.coordX,place.coordY, place.markerPic)
