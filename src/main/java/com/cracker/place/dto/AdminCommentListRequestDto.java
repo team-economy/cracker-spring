@@ -6,17 +6,28 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class AdminCommentListRequestDto {
-    private Users users;
+
+    private Long id;
+    private String userNickname;
+
+    private String userEmail;
 
     private String comment;
 
+    private LocalDateTime modifiedAt;
+
     @Builder
-    public AdminCommentListRequestDto(Users users, String comment) {
-        this.users = users;
+    public AdminCommentListRequestDto(Long id, String userNickname, String userEmail, String comment, LocalDateTime modifiedAt) {
+        this.id = id;
+        this.userNickname = userNickname;
+        this.userEmail = userEmail;
         this.comment = comment;
+        this.modifiedAt = modifiedAt;
     }
 }
 

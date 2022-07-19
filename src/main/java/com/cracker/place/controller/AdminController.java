@@ -4,6 +4,7 @@ import com.cracker.comment.domain.Comment;
 import com.cracker.comment.service.CommentService;
 import com.cracker.place.domain.Place;
 import com.cracker.place.dto.AdminCommentDeleteResponseDto;
+import com.cracker.place.dto.AdminCommentListRequestDto;
 import com.cracker.place.dto.PlaceDeleteResponseDto;
 import com.cracker.place.service.PlaceService;
 import lombok.RequiredArgsConstructor;
@@ -38,10 +39,10 @@ public class AdminController {
     }
 
     @GetMapping("/admin/comments")
-    public List<Comment> readComment() {
-        List<Comment> comments = commentService.adminCommentList();
+    public List<AdminCommentListRequestDto> readComment() {
         return commentService.adminCommentList();
     }
+
 
     @DeleteMapping("/admin/comments/{id}")
     public AdminCommentDeleteResponseDto adminDeleteComment(@PathVariable("id") Long id) {
