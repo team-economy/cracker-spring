@@ -30,7 +30,7 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
         Cookie tokenStr = CookieUtil.getCookie(request, "access_token").orElse(null);
         AuthToken token = tokenProvider.convertAuthToken(tokenStr != null ? tokenStr.getValue() : null);
         try {
-            if (token.validate()) {
+            if (tokenStr != null && token.validate()) {
                 Authentication authentication = tokenProvider.getAuthentication(token);
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }
