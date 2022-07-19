@@ -1,10 +1,11 @@
 package com.cracker.place.controller;
 
-import com.cracker.comment.domain.Comment;
+import com.cracker.comment.entity.Comment;
 import com.cracker.comment.service.CommentService;
-import com.cracker.place.domain.Place;
+import com.cracker.place.entity.Place;
 import com.cracker.place.dto.AdminCommentDeleteResponseDto;
 import com.cracker.place.dto.AdminCommentListRequestDto;
+
 import com.cracker.place.dto.PlaceDeleteResponseDto;
 import com.cracker.place.service.PlaceService;
 import lombok.RequiredArgsConstructor;

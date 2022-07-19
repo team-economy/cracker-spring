@@ -51,7 +51,7 @@ public class SecurityConfig {
                 .and()
                 .authorizeRequests()
                 .antMatchers("/**/*.css", "/**/*.js", "/**/*.png", "/favicon.io").permitAll()
-                .antMatchers("/login", "/api/kakao/login", "/api/cracker/**").permitAll()
+                .antMatchers("/login", "/api/kakao/login", "/api/cracker/**", "/places/all").permitAll()
                 .antMatchers("/comment/**").hasAnyAuthority("USER", "ADMIN")
                 .antMatchers("/places/**").hasAnyAuthority("USER", "ADMIN")
                 .antMatchers("/user/**").hasAnyAuthority("USER", "ADMIN")

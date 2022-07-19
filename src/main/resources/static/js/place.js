@@ -1,6 +1,8 @@
 // 맛집 리스트 가져오기
 function get_place(flag) {
     $('#place-box').empty();
+    $('#place-tabs').addClass("is-active");
+    $('#all-place-tabs').removeClass("is-active");
     markers = []
     infowindows = []
     if (flag == null) {
@@ -12,13 +14,13 @@ function get_place(flag) {
                 console.log(response);
                 for (let i = 0; i < response.length; i++) {
                     let place = response[i]
-                    let marker = make_marker(place.coordX,place.coordY, place.markerPic)
+                    let marker = make_marker(place.coordX, place.coordY, place.markerPic)
                     add_info(i, marker, place)
                     make_card(i, place);
                 }
             }
         });
-    }else{
+    } else {
         $.ajax({
             type: "GET",
             url: `/places?userMail=${flag}`,
@@ -32,6 +34,25 @@ function get_place(flag) {
             }
         });
     }
+}
+
+function get_all_place() {
+    $('#place-box').empty();
+    $('#all-place-tabs').addClass("is-active");
+    $('#place-tabs').removeClass("is-active");
+    $.ajax({
+        type: "GET",
+        url: `/places/all`,
+        success: function (response) {
+            console.log(response);
+            for (let i = 0; i < response.length; i++) {
+                let place = response[i]
+                let marker = make_marker(place.coordX,place.coordY, place.markerPic)
+                add_info(i, marker, place)
+                make_card(i, place);
+            }
+        }
+    });
 }
 
 // 맛집 카드 만들기
@@ -149,12 +170,10 @@ function delete_place(id) {
         url: `/places/${id}`,
         data: {},
         success: function (response) {
-            if (response["msg"] == "삭제 완료!!") {
-                alert(response["msg"])
-                window.location.reload()
-            } else {
-                alert(response["msg"])
-            }
+
+            alert(response["msg"]);
+            window.location.reload();
+
         }
 
     })

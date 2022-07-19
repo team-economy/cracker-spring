@@ -1,6 +1,7 @@
-package com.cracker.comment.domain;
+package com.cracker.comment.entity;
 
 import com.cracker.comment.dto.CommentUpdateRequestDto;
+import com.cracker.common.entity.Timestamped;
 import com.cracker.community.entity.Community;
 import com.cracker.user.entity.Users;
 import com.fasterxml.jackson.annotation.JsonIgnore;

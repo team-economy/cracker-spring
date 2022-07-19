@@ -1,4 +1,4 @@
-package com.cracker.comment.domain;
+package com.cracker.common.entity;
 
 import lombok.Getter;
 import org.springframework.data.annotation.CreatedDate;

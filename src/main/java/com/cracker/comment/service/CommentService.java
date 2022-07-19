@@ -1,14 +1,16 @@
 package com.cracker.comment.service;
 
-import com.cracker.comment.domain.Comment;
+import com.cracker.comment.entity.Comment;
 import com.cracker.comment.dto.CommentCreateRequestDto;
 import com.cracker.comment.dto.CommentListResponseDto;
 import com.cracker.comment.dto.CommentUpdateRequestDto;
 import com.cracker.comment.repository.CommentRepository;
 import com.cracker.community.entity.Community;
 import com.cracker.community.repository.CommunityRepository;
-import com.cracker.place.domain.Place;
+
+import com.cracker.place.entity.Place;
 import com.cracker.place.dto.AdminCommentListRequestDto;
+
 import com.cracker.place.repository.PlaceRepository;
 import com.cracker.user.entity.Users;
 import com.cracker.user.repository.UserRepository;
@@ -86,18 +88,39 @@ public class CommentService{
 
     // comment를 지움
     @Transactional
-    public Long delete(@PathVariable Long id){
+    public Long deleteComment(@PathVariable Long id){
         commentRepository.deleteById(id);
         return id;
     }
+
+    /**
+     * 유저 정보와 일치하는 맛집 지우기
+     */
+    @Transactional
+    public long deleteCommentByUserMail(Long commentId, String userMail){
+        Comment comment = commentRepository.findById(commentId).orElseThrow(
+                () -> new NoSuchElementException("일치하는 저장된 댓글이 없습니다.")
+        );
+        if(comment.getUsers().getEmail().equals(userMail)) {
+            commentRepository.deleteById(commentId);
+            return commentId;
+        } else {
+            return 0;
+        }
+    }
+
     // comment 업데이트
     @Transactional
-    public Comment update(Long id, CommentUpdateRequestDto commentUpdateRequestDto){
-        Comment comment = commentRepository.findById(id).orElseThrow(
+    public long updateByUser(Long commentId, CommentUpdateRequestDto commentUpdateRequestDto, String userMail){
+        Comment comment = commentRepository.findById(commentId).orElseThrow(
                 () -> new IllegalArgumentException("사용자가 아닙니다.")
         );
-        comment.updateComment(commentUpdateRequestDto);
-        return comment;
+        if(comment.getUsers().getEmail().equals(userMail)) {
+            comment.updateComment(commentUpdateRequestDto);
+            return commentId;
+        } else {
+            return 0;
+        }
     }
 
     @Transactional
