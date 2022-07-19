@@ -1,6 +1,6 @@
 package com.cracker.auth.security;
 
-//import com.cracker.auth.properties.CorsProperties;
+import com.cracker.auth.properties.CorsProperties;
 import com.cracker.auth.util.token.AuthTokenProvider;
 import com.cracker.auth.filter.TokenAuthenticationFilter;
 import com.cracker.exception.JwtAccessDeniedHandler;
@@ -25,7 +25,7 @@ import java.util.Arrays;
 @EnableGlobalMethodSecurity(securedEnabled = true)
 @RequiredArgsConstructor
 public class SecurityConfig {
-//    private final CorsProperties corsProperties;
+    private final CorsProperties corsProperties;
     private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
     private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
     private final AuthTokenProvider tokenProvider;
@@ -67,18 +67,18 @@ public class SecurityConfig {
     /*
      * Cors 설정
      * */
-//    @Bean
-//    public CorsConfigurationSource corsConfigurationSource() {
-//        CorsConfiguration corsConfig = new CorsConfiguration();
-//        corsConfig.setAllowedHeaders(Arrays.asList(corsProperties.getAllowedHeaders().split(",")));
-//        corsConfig.setAllowedMethods(Arrays.asList(corsProperties.getAllowedMethods().split(",")));
-//        corsConfig.setAllowedOrigins(Arrays.asList(corsProperties.getAllowedOrigins().split(",")));
-//        corsConfig.setExposedHeaders(Arrays.asList(corsProperties.getExposedHeaders().split(",")));
-//        corsConfig.setAllowCredentials(true);
-//        corsConfig.setMaxAge(corsConfig.getMaxAge());
-//
-//        UrlBasedCorsConfigurationSource corsConfigSource = new UrlBasedCorsConfigurationSource();
-//        corsConfigSource.registerCorsConfiguration("/**", corsConfig);
-//        return corsConfigSource;
-//    }
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration corsConfig = new CorsConfiguration();
+        corsConfig.setAllowedHeaders(Arrays.asList(corsProperties.getAllowedHeaders().split(",")));
+        corsConfig.setAllowedMethods(Arrays.asList(corsProperties.getAllowedMethods().split(",")));
+        corsConfig.setAllowedOrigins(Arrays.asList(corsProperties.getAllowedOrigins().split(",")));
+        corsConfig.setExposedHeaders(Arrays.asList(corsProperties.getExposedHeaders().split(",")));
+        corsConfig.setAllowCredentials(true);
+        corsConfig.setMaxAge(corsConfig.getMaxAge());
+
+        UrlBasedCorsConfigurationSource corsConfigSource = new UrlBasedCorsConfigurationSource();
+        corsConfigSource.registerCorsConfiguration("/**", corsConfig);
+        return corsConfigSource;
+    }
 }

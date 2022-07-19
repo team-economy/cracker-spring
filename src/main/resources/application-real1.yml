@@ -24,13 +24,13 @@ spring:
     prefix: classpath:/templates/
 
 
-# cors policy
-#cors:
-#  allowed-origins: https://crackers.life
-#  allowed-methods: GET,POST,PUT,DELETE,OPTIONS
-#  allowed-headers: \*
-#  exposed-headers: Set-Cookie
-#  max-age: 3600
+ cors policy
+cors:
+  allowed-origins: https://crackers.life
+  allowed-methods: GET,POST,PUT,DELETE,OPTIONS
+  allowed-headers: \*
+  exposed-headers: Set-Cookie
+  max-age: 3600
 
 # jwt secret key
 jwt:
