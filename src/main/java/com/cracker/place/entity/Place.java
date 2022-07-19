@@ -1,7 +1,6 @@
-package com.cracker.place.domain;
+package com.cracker.place.entity;
 
 
-import com.cracker.comment.domain.Comment;
 import com.cracker.community.entity.Community;
 import com.cracker.user.entity.Users;
 
@@ -9,7 +8,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import javax.persistence.*;
 

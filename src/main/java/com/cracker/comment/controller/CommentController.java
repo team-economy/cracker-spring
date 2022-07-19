@@ -2,15 +2,11 @@ package com.cracker.comment.controller;
 
 import com.cracker.auth.security.UserPrincipal;
 import com.cracker.auth.util.token.AuthTokenProvider;
-import com.cracker.comment.domain.Comment;
-import com.cracker.comment.dto.CommentCreateRequestDto;
-import com.cracker.comment.dto.CommentListRequestDto;
-import com.cracker.comment.dto.CommentListResponseDto;
-import com.cracker.comment.dto.CommentUpdateRequestDto;
+import com.cracker.comment.dto.*;
 import com.cracker.comment.repository.CommentRepository;
 import com.cracker.comment.service.CommentService;
+import com.cracker.user.entity.UserRole;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.repository.query.Param;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
@@ -35,21 +31,43 @@ public class CommentController {
 
     @GetMapping("/comment")
     public List<CommentListResponseDto> getComment(@RequestParam("communityAddr")String communityAddr){
-//        System.out.println(placeId);
+
         return commentService.commentList(communityAddr);
-//        return commentRepository.findAllByOrderByModifiedAtDesc();
+
     }
 
     @DeleteMapping("/comment/{id}")
-    public void deleteComment(@PathVariable Long id){
+    public CommentDeleteResponseDto deleteComment(@PathVariable Long id, @AuthenticationPrincipal UserPrincipal userPrincipal){
+        UserRole userRole = userPrincipal.getRole();
+        CommentDeleteResponseDto commentDeleteResponseDto = new CommentDeleteResponseDto();
 
-        long retId = commentService.delete(id);
+        if(userRole.equals(UserRole.ADMIN)) {
+            commentService.deleteComment(id);
+            commentDeleteResponseDto.setMsg("삭제 완료!! \n (관리자 계정)");
+        } else {
+            String email = userPrincipal.getEmail();
+            long retId = commentService.deleteCommentByUserMail(id, email);
+            if(retId == 0) {
+                commentDeleteResponseDto.setMsg("본인이 아니라 삭제할 수 없습니다.");
+            } else {
+                commentDeleteResponseDto.setMsg("삭제 완료!!");
+            }
+        }
+
+        return commentDeleteResponseDto;
     }
 
     @PutMapping("/comment/{id}")
-    public long updateComment(@PathVariable Long id, @RequestBody CommentUpdateRequestDto commentUpdateRequestDto){
-        Comment comment = commentService.update(id, commentUpdateRequestDto);
-        return comment.getId();
+    public CommentUpdateResponseDto updateComment(@AuthenticationPrincipal UserPrincipal userPrincipal, @PathVariable Long id, @RequestBody CommentUpdateRequestDto commentUpdateRequestDto){
+        String email = userPrincipal.getEmail();
+        CommentUpdateResponseDto commentUpdateResponseDto = new CommentUpdateResponseDto();
+        long retId = commentService.updateByUser(id, commentUpdateRequestDto, email);
+        if(retId == 0) {
+            commentUpdateResponseDto.setMsg("본인이 아니라 수정할 수 없습니다.");
+        } else {
+            commentUpdateResponseDto.setMsg("수정 완료!!");
+        }
+        return commentUpdateResponseDto;
     }
 
 }
