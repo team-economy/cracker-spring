@@ -209,7 +209,7 @@ function sign_in() {
     }
     $.ajax({
         type: "POST",
-        url: '/api/cracker/login',
+        url: 'https://crackers.life/api/cracker/login',
         contentType: "application/json",
         data: JSON.stringify(loginDTO),
         success: function (response) {
