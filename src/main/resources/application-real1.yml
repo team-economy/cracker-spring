@@ -26,7 +26,7 @@ spring:
 
  cors policy
 cors:
-  allowed-origins: https://crackers.life
+  allowed-origins: https://crackers.life,http://crackers.life:8081
   allowed-methods: GET,POST,PUT,DELETE,OPTIONS
   allowed-headers: \*
   exposed-headers: Set-Cookie
