@@ -7,6 +7,7 @@ import com.cracker.exception.JwtAccessDeniedHandler;
 import com.cracker.exception.JwtAuthenticationEntryPoint;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -50,12 +51,13 @@ public class SecurityConfig {
                 .accessDeniedHandler(jwtAccessDeniedHandler)
                 .and()
                 .authorizeRequests()
-//                .antMatchers("/**/*.css", "/**/*.js", "/**/*.png", "/favicon.io").permitAll()
-//                .antMatchers("/login", "/api/kakao/login", "/api/cracker/**").permitAll()
-//                .antMatchers("/comment/**").hasAnyAuthority("USER", "ADMIN")
-//                .antMatchers("/places/**").hasAnyAuthority("USER", "ADMIN")
-//                .antMatchers("/user/**").hasAnyAuthority("USER", "ADMIN")
-//                .antMatchers("/admin/**").hasAuthority("ADMIN")
+                .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()  // cors 때문에 추가
+                .antMatchers("/**/*.css", "/**/*.js", "/**/*.png", "/favicon.io").permitAll()
+                .antMatchers("/login", "/api/kakao/login", "/api/cracker/**").permitAll()
+                .antMatchers("/comment/**").hasAnyAuthority("USER", "ADMIN")
+                .antMatchers("/places/**").hasAnyAuthority("USER", "ADMIN")
+                .antMatchers("/user/**").hasAnyAuthority("USER", "ADMIN")
+                .antMatchers("/admin/**").hasAuthority("ADMIN")
                 .anyRequest().permitAll()
                 .and()
                 .addFilterBefore(new TokenAuthenticationFilter(tokenProvider), UsernamePasswordAuthenticationFilter.class);
