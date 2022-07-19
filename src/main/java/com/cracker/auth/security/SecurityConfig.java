@@ -1,6 +1,6 @@
 package com.cracker.auth.security;
 
-import com.cracker.auth.properties.CorsProperties;
+//import com.cracker.auth.properties.CorsProperties;
 import com.cracker.auth.util.token.AuthTokenProvider;
 import com.cracker.auth.filter.TokenAuthenticationFilter;
 import com.cracker.exception.JwtAccessDeniedHandler;
@@ -25,7 +25,7 @@ import java.util.Arrays;
 @EnableGlobalMethodSecurity(securedEnabled = true)
 @RequiredArgsConstructor
 public class SecurityConfig {
-    private final CorsProperties corsProperties;
+//    private final CorsProperties corsProperties;
     private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
     private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
     private final AuthTokenProvider tokenProvider;
