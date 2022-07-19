@@ -27,6 +27,7 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
             HttpServletRequest request,
             HttpServletResponse response,
             FilterChain filterChain) throws ServletException, IOException {
+        log.info(request.getRequestURI());
         log.info("commit");
 //        String tokenStr = HeaderUtil.getAccessToken(request);
 //        AuthToken token = tokenProvider.convertAuthToken(tokenStr);
