@@ -1,7 +1,7 @@
 package com.cracker.community.entity;
 
-import com.cracker.comment.domain.Comment;
-import com.cracker.place.domain.Place;
+import com.cracker.comment.entity.Comment;
+import com.cracker.place.entity.Place;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

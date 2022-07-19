@@ -2,7 +2,7 @@ package com.cracker.place.service;
 
 import com.cracker.community.entity.Community;
 import com.cracker.community.repository.CommunityRepository;
-import com.cracker.place.domain.Place;
+import com.cracker.place.entity.Place;
 import com.cracker.place.dto.PlaceCreateRequestDto;
 import com.cracker.place.dto.PlaceListRequestDto;
 import com.cracker.place.repository.PlaceRepository;

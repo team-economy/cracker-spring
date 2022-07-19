@@ -1,6 +1,6 @@
 package com.cracker.place.controller;
 
-import com.cracker.place.domain.Place;
+import com.cracker.place.entity.Place;
 import com.cracker.place.dto.PlaceDeleteResponseDto;
 import com.cracker.place.service.PlaceService;
 import lombok.RequiredArgsConstructor;

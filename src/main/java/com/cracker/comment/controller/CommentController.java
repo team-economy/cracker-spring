@@ -2,12 +2,9 @@ package com.cracker.comment.controller;
 
 import com.cracker.auth.security.UserPrincipal;
 import com.cracker.auth.util.token.AuthTokenProvider;
-import com.cracker.comment.domain.Comment;
 import com.cracker.comment.dto.*;
 import com.cracker.comment.repository.CommentRepository;
 import com.cracker.comment.service.CommentService;
-import com.cracker.community.entity.Community;
-import com.cracker.community.repository.CommunityRepository;
 import com.cracker.user.entity.UserRole;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;

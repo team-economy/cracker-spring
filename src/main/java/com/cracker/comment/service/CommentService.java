@@ -1,6 +1,6 @@
 package com.cracker.comment.service;
 
-import com.cracker.comment.domain.Comment;
+import com.cracker.comment.entity.Comment;
 import com.cracker.comment.dto.CommentCreateRequestDto;
 import com.cracker.comment.dto.CommentListResponseDto;
 import com.cracker.comment.dto.CommentUpdateRequestDto;
