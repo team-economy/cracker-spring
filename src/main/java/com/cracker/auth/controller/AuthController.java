@@ -29,6 +29,7 @@ public class AuthController {
 
     @PostMapping("/api/cracker/login")
     public ResponseEntity<?> login(HttpServletRequest request, HttpServletResponse response, @RequestBody LoginDto requestLoginDTO) {
+        System.out.println(requestLoginDTO);
         TokenDto token = authService.login(request, response, requestLoginDTO);
         ResponseDetails responseDetails;
         if (token == null) {
