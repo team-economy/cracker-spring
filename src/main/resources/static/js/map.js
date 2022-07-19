@@ -6,7 +6,6 @@ let infowindows = [];
 // 지도 출력
 $(document).ready(function () {
     $("#user_id").hide();
-    console.log("dd")
     // 초기 화면 전체 목록
     get_all_place();
     // // 초기 화면 나의 목록
