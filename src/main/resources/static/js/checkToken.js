@@ -1,16 +1,14 @@
-function refreshToken() {
-    $.ajax({
-        type: "GET",
-        url: "/api/cracker/refresh",
-        success: function (response) {
-            console.log(response)
-        }
-    })
-}
-
-$( document ).ajaxStart(function() {
-    refreshToken();
-});
+$( document ).ajaxStart(
+    function checkToken() {
+        $.ajax({
+            type: "GET",
+            url: "/api/cracker/refresh",
+            success: function (response) {
+            }
+        })
+        console.log("response")
+    }
+);
 
 // let token = $.cookie('access_token');
 // if (token!=null){
