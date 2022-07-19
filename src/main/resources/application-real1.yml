@@ -1,5 +1,6 @@
 server:
   port: 8081
+  address: crackers.life
 
 # DB 연결
 spring:
