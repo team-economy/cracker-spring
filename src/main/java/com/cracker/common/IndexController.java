@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Optional;
 
@@ -32,14 +33,27 @@ public class IndexController {
     private final CommunityService communityService;
 
     @GetMapping("/")
-    public String home(@AuthenticationPrincipal UserPrincipal userPrincipal, Model model) {
-        String email = userPrincipal.getEmail();
-        Users user = authService.findUserByEmail(email);
-        if (user == null) {
+    public String home(HttpServletRequest request, HttpServletResponse response, @AuthenticationPrincipal UserPrincipal userPrincipal, Model model) {
+        authService.refreshToken(request, response);
+        // guest token 쓰지 않을 경우 null 처리 필요
+        if (userPrincipal == null) {
             model.addAttribute("user", null);
         } else {
-            model.addAttribute("user", user);
+            String email = userPrincipal.getEmail();
+            Users user = authService.findUserByEmail(email);
+            if (user == null) {
+                model.addAttribute("user", null);
+            } else {
+                model.addAttribute("user", user);
+            }
         }
+//        String email = userPrincipal.getEmail();
+//        Users user = authService.findUserByEmail(email);
+//        if (user == null) {
+//            model.addAttribute("user", null);
+//        } else {
+//            model.addAttribute("user", user);
+//        }
         return "home";
     }
 
