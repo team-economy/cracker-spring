@@ -7,7 +7,6 @@ import com.cracker.comment.dto.CommentUpdateRequestDto;
 import com.cracker.comment.repository.CommentRepository;
 import com.cracker.community.entity.Community;
 import com.cracker.community.repository.CommunityRepository;
-import com.cracker.place.domain.Place;
 import com.cracker.place.dto.AdminCommentListRequestDto;
 import com.cracker.place.repository.PlaceRepository;
 import com.cracker.user.entity.Users;
@@ -73,7 +72,6 @@ public class CommentService{
         Collections.sort(dtos, new CompareModifiedDesc());
 
         return dtos;
-//        return commentRepository.findAllByOrderByModifiedAtDesc();
     }
 
     //수정 시간별 내림차순 정리
@@ -125,21 +123,6 @@ public class CommentService{
             return o2.getModifiedAt().compareTo(o1.getModifiedAt());
         }
     }
-//        List<AdminCommentListRequestDto> dtos = new ArrayList<AdminCommentListRequestDto>();
-//
-//        List<Comment> comments = community.getComments();
-//        for(Comment comment : comments){
-//            CommentListResponseDto dto = CommentListResponseDto.builder()
-//                    .userEmail(comment.getUsers().getEmail())
-//                    .comment(comment.getComment())
-//                    .build();
-//            dtos.add(dto);
-//        }
-//
-//        Collections.sort(dtos, new CompareModifiedDesc());
-//
-//        return dtos;
-
 
     @Transactional
     public Long adminDeleteComment(Long id) {

@@ -35,9 +35,7 @@ public class CommentController {
 
     @GetMapping("/comment")
     public List<CommentListResponseDto> getComment(@RequestParam("communityAddr")String communityAddr){
-//        System.out.println(placeId);
         return commentService.commentList(communityAddr);
-//        return commentRepository.findAllByOrderByModifiedAtDesc();
     }
 
     @DeleteMapping("/comment/{id}")
