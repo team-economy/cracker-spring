@@ -8,8 +8,6 @@ $(document).ready(function () {
     $("#user_id").hide();
     // 초기 화면 전체 목록
     get_all_place();
-    // // 초기 화면 나의 목록
-    // get_all_place();
     map = new naver.maps.Map('map', {
         center: new naver.maps.LatLng(y_cen, x_cen),
         zoom: 12,
@@ -72,6 +70,11 @@ function add_info(i, marker, place) {
     });
 }
 
+function resetMarkers() {
+    infowindows = []
+    markers = []
+}
+
 // 마커 클릭시 화면 중앙으로 이동
 function click2center(i) {
     let marker = markers[i]
@@ -83,6 +86,3 @@ function click2center(i) {
         map.setCenter(infowindow.position)
     }
 }
-
-
-
