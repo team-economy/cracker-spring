@@ -4,10 +4,10 @@ server:
 # DB 연결
 spring:
   datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://cracker-database.cohjhikof3c8.ap-northeast-2.rds.amazonaws.com:3306/cracker?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
-    username: admin
-    password: cracker!1765
+    driver-class-name: com.amazonaws.secretsmanager.sql.AWSSecretsManagerMySQLDriver
+    url: jdbc-secretsmanager:mysql://cracker-database.cohjhikof3c8.ap-northeast-2.rds.amazonaws.com:3306/cracker?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+    username: /secret/cracker/db
+    password: /secret/cracker/db
 
   jpa:
     properties:
