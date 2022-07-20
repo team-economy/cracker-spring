@@ -1,12 +1,13 @@
 package com.cracker.comment.service;
 
-import com.cracker.comment.entity.Comment;
 import com.cracker.comment.dto.CommentCreateRequestDto;
 import com.cracker.comment.dto.CommentListResponseDto;
 import com.cracker.comment.dto.CommentUpdateRequestDto;
+import com.cracker.comment.entity.Comment;
 import com.cracker.comment.repository.CommentRepository;
 import com.cracker.community.entity.Community;
 import com.cracker.community.repository.CommunityRepository;
+import com.cracker.place.dto.AdminCommentListRequestDto;
 import com.cracker.place.repository.PlaceRepository;
 import com.cracker.user.entity.Users;
 import com.cracker.user.repository.UserRepository;
@@ -71,12 +72,10 @@ public class CommentService{
         Collections.sort(dtos, new CompareModifiedDesc());
 
         return dtos;
-//        return commentRepository.findAllByOrderByModifiedAtDesc();
     }
 
     //수정 시간별 내림차순 정리
     static class CompareModifiedDesc implements Comparator<CommentListResponseDto>{
-
         @Override
         public int compare(CommentListResponseDto o1, CommentListResponseDto o2){
             return o2.getModifiedAt().compareTo(o1.getModifiedAt());
@@ -85,38 +84,52 @@ public class CommentService{
 
     // comment를 지움
     @Transactional
-    public Long deleteComment(@PathVariable Long id){
+    public Long delete(@PathVariable Long id){
         commentRepository.deleteById(id);
         return id;
     }
-
-    /**
-     * 유저 정보와 일치하는 맛집 지우기
-     */
-    @Transactional
-    public long deleteCommentByUserMail(Long commentId, String userMail){
-        Comment comment = commentRepository.findById(commentId).orElseThrow(
-                () -> new NoSuchElementException("일치하는 저장된 댓글이 없습니다.")
-        );
-        if(comment.getUsers().getEmail().equals(userMail)) {
-            commentRepository.deleteById(commentId);
-            return commentId;
-        } else {
-            return 0;
-        }
-    }
-
     // comment 업데이트
     @Transactional
-    public long updateByUser(Long commentId, CommentUpdateRequestDto commentUpdateRequestDto, String userMail){
-        Comment comment = commentRepository.findById(commentId).orElseThrow(
+    public Comment update(Long id, CommentUpdateRequestDto commentUpdateRequestDto){
+        Comment comment = commentRepository.findById(id).orElseThrow(
                 () -> new IllegalArgumentException("사용자가 아닙니다.")
         );
-        if(comment.getUsers().getEmail().equals(userMail)) {
-            comment.updateComment(commentUpdateRequestDto);
-            return commentId;
-        } else {
-            return 0;
+        comment.updateComment(commentUpdateRequestDto);
+        return comment;
+    }
+
+    @Transactional
+    public List<AdminCommentListRequestDto> adminCommentList() {
+        List<Comment> comments = commentRepository.findAll();
+
+        List<AdminCommentListRequestDto> dtos = new ArrayList<AdminCommentListRequestDto>();
+        for (Comment comment : comments) {
+            AdminCommentListRequestDto dto = AdminCommentListRequestDto.builder()
+                    .id(comment.getId())
+                    .userNickname(comment.getUsers().getNickname())
+                    .userEmail(comment.getUsers().getEmail())
+                    .comment(comment.getComment())
+                    .modifiedAt(comment.getModifiedAt())
+                    .build();
+            dtos.add(dto);
+        }
+        Collections.sort(dtos, new AdminCompareModifiedDesc());
+        return dtos;
+    }
+
+    static class AdminCompareModifiedDesc implements Comparator<AdminCommentListRequestDto>{
+        @Override
+        public int compare(AdminCommentListRequestDto o1, AdminCommentListRequestDto o2){
+            return o2.getModifiedAt().compareTo(o1.getModifiedAt());
         }
     }
+
+    @Transactional
+    public Long adminDeleteComment(Long id) {
+        commentRepository.deleteById(id);
+        return id;
+    }
 }
+
+
+
