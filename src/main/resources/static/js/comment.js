@@ -4,7 +4,7 @@ $(document).ready(function () {
 })
 
 function isValidcomment(comment) {
-    if (comment == " ") {
+    if (comment == "") {
         alert('내용을 입력해주세요');
         return false;
     }
