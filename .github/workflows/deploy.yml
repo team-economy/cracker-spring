@@ -34,8 +34,25 @@ jobs:
         run: chmod +x ./gradlew
 
       # 빌드
-      - name: Buld with Gradle
+      - name: Build with Gradle
         run: ./gradlew clean build
+
+      # Secret manager 환경변수 등록
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+            aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+            aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+            aws-region: ap-northeast-2
+      - name: Read secrets from AWS Secrets Manager into environment variables
+        uses: abhilash1in/aws-secrets-manager-action@v1.1.0
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ap-northeast-2
+          secrets: |
+            /secret/cracker/key
+          parse-json: false
 
       # 전송할 파일을 담을 디렉토리 생성
       - name: Make Directory for deliver
@@ -64,23 +81,6 @@ jobs:
          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         run: |
           aws s3 cp --region ap-northeast-2 --acl private ./cracker-build.zip s3://cracker-build/
-
-      # Secret manager 환경변수 등록
-#      - name: Configure AWS credentials
-#        uses: aws-actions/configure-aws-credentials@v1
-#        with:
-#            aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-#            aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-#            aws-region: ap-northeast-2
-#      - name: Read secrets from AWS Secrets Manager into environment variables
-#        uses: abhilash1in/aws-secrets-manager-action@v1.1.0
-#        with:
-#          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-#          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-#          aws-region: ap-northeast-2
-#          secrets: |
-#            /secret/cracker/key
-#          parse-json: false
 
       # Deploy
       - name: Deploy
