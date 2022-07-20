@@ -34,4 +34,4 @@ nohup java -jar \
     -Dspring.config.location=classpath:/application-$IDLE_PROFILE.yml \
     -Dspring.profiles.active=$IDLE_PROFILE \
     -Duser.timezone=Asia/Seoul \
-    $JAR_NAME > $REPOSITORY/nohup.out 2>&1 &
+    $JAR_NAME --spring.profiles.active=qa > $REPOSITORY/nohup.out 2>&1 &
