@@ -1,10 +1,11 @@
 package com.cracker.user.entity;
 
-import com.cracker.comment.domain.Comment;
+import com.cracker.comment.entity.Comment;
 import com.cracker.auth.util.Timestamped;
 
+import com.cracker.userupdate.dto.UpdateMarkerRequestDto;
 import com.cracker.userupdate.dto.UpdateUserRequestDto;
-import com.cracker.place.domain.Place;
+import com.cracker.place.entity.Place;
 
 import com.cracker.user.dto.JoinDto;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -82,6 +83,10 @@ public class Users extends Timestamped {
         this.nickname = updateUserRequestDto.getNickname();
         this.pic = filepath;
         this.statusMessage = updateUserRequestDto.getStatusMessage();
+    }
+
+    public void updateUserMarker(String markerpath){
+        this.marker_pic = markerpath;
     }
 
     public void updateRefreshToken(String refreshToken) {

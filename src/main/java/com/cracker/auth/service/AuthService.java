@@ -137,23 +137,28 @@ public class AuthService {
      * 토큰 재발급
      */
     public ResponseDetails refreshToken(HttpServletRequest request, HttpServletResponse response) {
-        // access token 확인
-        String accessToken = HeaderUtil.getAccessToken(request);
-        AuthToken authToken = tokenProvider.convertAuthToken(accessToken);
-
         String path = "/api/cracker/refresh";
-
-        if (!authToken.validate()) {
-            return ResponseDetails.invalidAccessToken(path);
-        }
-
-        // expired access token 인지 확인
-        Claims claims = authToken.getExpiredTokenClaims();
-        if (claims == null) {
-            return ResponseDetails.notExpiredTokenYet(path);
-        }
-
-        String email = (String) claims.get(AuthToken.USER_ID);
+//          // front-back 분리시 사용
+//          // access token 확인 1
+//        String accessToken = HeaderUtil.getAccessToken(request);
+//        AuthToken authToken = tokenProvider.convertAuthToken(accessToken);
+//          // access token 확인 2
+//        String accessToken = CookieUtil.getCookie(request, AuthToken.ACCESS_TOKEN)
+//                .map(Cookie::getValue)
+//                .orElse((null));
+//        AuthToken authToken = tokenProvider.convertAuthToken(accessToken);
+//
+//        if (!authToken.validate()) {
+//            return ResponseDetails.invalidAccessToken(path);
+//        }
+//
+//        // expired access token 인지 확인
+//        Claims claims = authToken.getExpiredTokenClaims();
+//        if (claims == null) {
+//            return ResponseDetails.notExpiredTokenYet(path);
+//        }
+//
+//        String email = claims.getSubject();
 
         // refresh token
         String refreshToken = CookieUtil.getCookie(request, AuthToken.REFRESH_TOKEN)
@@ -161,9 +166,12 @@ public class AuthService {
                 .orElse((null));
         AuthToken authRefreshToken = tokenProvider.convertAuthToken(refreshToken);
 
-        if (authRefreshToken.validate()) {
+        if (!authRefreshToken.validate()) {
             return ResponseDetails.invalidRefreshToken(path);
         }
+
+        Claims claims = authRefreshToken.getTokenClaims();
+        String email = claims.getSubject();
 
         // userId refresh token 으로 DB 확인
         Users user = userRepository.findByEmail(email).orElseThrow(
@@ -183,6 +191,9 @@ public class AuthService {
                 new Date(now.getTime() + appProperties.getTokenExpiry())
         );
 
+        CookieUtil.deleteCookie(request, response, AuthToken.ACCESS_TOKEN, "localhost");
+        accessTokenAddCookie(response, newAccessToken.getToken());
+
         long validTime = authRefreshToken.getTokenClaims().getExpiration().getTime() - now.getTime();
 
         // refresh 토큰 기간이 3일 이하로 남은 경우, refresh 토큰 갱신
@@ -190,7 +201,7 @@ public class AuthService {
             // refresh 토큰 설정
             long refreshTokenExpiry = appProperties.getRefreshTokenExpiry();
 
-            authRefreshToken = tokenProvider.createAuthToken(user.getEmail(), user.getNickname(), user.getRole().getCode(), new Date(now.getTime() + refreshTokenExpiry));
+            authRefreshToken = tokenProvider.createAuthToken(user.getEmail(), new Date(now.getTime() + refreshTokenExpiry));
 
             // DB에 refresh 토큰 업데이트
             user.updateRefreshToken(authRefreshToken.getToken());

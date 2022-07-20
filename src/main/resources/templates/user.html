@@ -19,7 +19,7 @@
                         <strong id="user_name"><span th:text="${userInfo.nickname}"></span></strong>
                         <small id="user_mail"><span th:text="${userInfo.email}"></span></small>
                         <br><br>
-                        <span th:text="${userInfo.statusMessage}"></span>
+                        <span id="user_about" th:text="${userInfo.statusMessage}"></span>
                     </p>
                 </div>
             </div>
@@ -129,7 +129,7 @@
                                         <span class="file-label">파일 선택</span>
                                         </span>
                                         <span id="file-name" class="file-name"
-                                              style="width:100%;max-width:100%">{{ user_info.marker_pic }}</span>
+                                              style="width:100%;max-width:100%"></span>
                                     </label>
                                 </div>
 
@@ -141,7 +141,7 @@
                             </div>
                             <div class="level-right">
                                 <div class="level-item">
-                                    <a class="button is-sparta" onclick="update_marker()">업데이트</a>
+                                    <a class="button is-sparta" th:onclick="'update_marker('+${user.get().getId()}+')'">업데이트</a>
                                 </div>
                                 <div class="level-item">
                                     <a class="button is-sparta is-outlined"

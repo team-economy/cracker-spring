@@ -1,6 +1,8 @@
 package com.cracker.userupdate.controller;
 
 
+import com.cracker.userupdate.dto.UpdateMarkerRequestDto;
+import com.cracker.userupdate.dto.UpdateMarkerResponseDto;
 import com.cracker.userupdate.dto.UpdateUserRequestDto;
 import com.cracker.userupdate.dto.UpdateUserResponseDto;
 import com.cracker.userupdate.service.UpdateService;
@@ -37,4 +39,15 @@ public class UpdateController {
 
         return updateUserResponseDto;
     }
+
+    @ResponseBody
+    @PostMapping(value = "/user/update_marker/{id}", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
+    public UpdateMarkerResponseDto UpdateMarker(@PathVariable long id, @Validated @ModelAttribute UpdateMarkerRequestDto updateMarkerRequestDto, BindingResult result)
+            throws IOException {
+
+        UpdateMarkerResponseDto updateMarkerResponseDto = updateService.updateMarker(id, updateMarkerRequestDto);
+
+        return updateMarkerResponseDto;
+    }
 }
+

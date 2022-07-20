@@ -1,6 +1,11 @@
 package com.cracker.place.controller;
 
-import com.cracker.place.domain.Place;
+import com.cracker.comment.entity.Comment;
+import com.cracker.comment.service.CommentService;
+import com.cracker.place.entity.Place;
+import com.cracker.place.dto.AdminCommentDeleteResponseDto;
+import com.cracker.place.dto.AdminCommentListRequestDto;
+
 import com.cracker.place.dto.PlaceDeleteResponseDto;
 import com.cracker.place.service.PlaceService;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +21,7 @@ import java.util.List;
 public class AdminController {
 
     private final PlaceService placeService;
+    private final CommentService commentService;
 
     @GetMapping("/admin/places")
     public List<Place> readPlace() {
@@ -31,5 +37,20 @@ public class AdminController {
         placeDeleteResponseDto.setMsg("삭제 완료!!");
 
         return placeDeleteResponseDto;
+    }
+
+    @GetMapping("/admin/comments")
+    public List<AdminCommentListRequestDto> readComment() {
+        return commentService.adminCommentList();
+    }
+
+
+    @DeleteMapping("/admin/comments/{id}")
+    public AdminCommentDeleteResponseDto adminDeleteComment(@PathVariable("id") Long id) {
+        long retId = commentService.adminDeleteComment(id);
+        AdminCommentDeleteResponseDto adminCommentDeleteResponseDto = new AdminCommentDeleteResponseDto();
+        adminCommentDeleteResponseDto.setMsg("삭제 완료!!");
+
+        return adminCommentDeleteResponseDto;
     }
 }

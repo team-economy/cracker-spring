@@ -20,7 +20,15 @@ function update_profile(id) {
     let file = $('#input-pic')[0].files[0]
     let about = $("#textarea-about").val()
 
-    if (name != $('#user_name').text()) {
+    if (name =='') {
+        name = $('#user_name').text()
+    }
+
+    if (about =='') {
+        about = $('#user_about').text()
+    }
+
+    if (name !='' && name != $('#user_name').text()) {
         if ($("#help-name").hasClass("is-danger")) {
             alert("별명을 다시 확인해주세요.")
             return;
@@ -56,21 +64,25 @@ function update_profile(id) {
 }
 
 // 유저 마커 이미지 변경
-function update_marker() {
+function update_marker(id) {
     let marker = $('#input-marker')[0].files[0]
     let form_marker_data = new FormData()
-    form_marker_data.append("marker_give", marker)
+    form_marker_data.append("file", marker)
     $.ajax({
         type: "POST",
-        url: "/user/update_marker",
+        url: `/user/update_marker/${id}`,
         data: form_marker_data,
         cache: false,
         contentType: false,
         processData: false,
         success: function (response) {
-            if (response["result"] == "success") {
+            if (response["msg"] == "변경 완료!!") {
                 alert(response["msg"])
+                $("#modal-edit_marker").removeClass("is-active")
                 window.location.reload()
+            } else {
+                alert(response["msg"])
+                $("#modal-edit_marker").removeClass("is-active")
             }
         }
     });

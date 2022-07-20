@@ -27,15 +27,12 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
             HttpServletRequest request,
             HttpServletResponse response,
             FilterChain filterChain) throws ServletException, IOException {
-        log.info(request.getRequestURI());
-        log.info(String.valueOf(request.getRequestURL()));
-        log.info("commit");
-//        String tokenStr = HeaderUtil.getAccessToken(request);
-//        AuthToken token = tokenProvider.convertAuthToken(tokenStr);
-        Cookie tokenStr = CookieUtil.getCookie(request, "access_token").orElse(null);
-        AuthToken token = tokenProvider.convertAuthToken(tokenStr != null ? tokenStr.getValue() : null);
+        String accessToken = CookieUtil.getCookie(request, AuthToken.ACCESS_TOKEN)
+                .map(Cookie::getValue)
+                .orElse((null));
+        AuthToken token = tokenProvider.convertAuthToken(accessToken);
         try {
-            if (tokenStr != null && token.validate()) {
+            if (accessToken != null && token.validate()) {
                 Authentication authentication = tokenProvider.getAuthentication(token);
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }

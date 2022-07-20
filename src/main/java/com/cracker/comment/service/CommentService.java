@@ -1,13 +1,13 @@
 package com.cracker.comment.service;
 
-import com.cracker.comment.domain.Comment;
 import com.cracker.comment.dto.CommentCreateRequestDto;
 import com.cracker.comment.dto.CommentListResponseDto;
 import com.cracker.comment.dto.CommentUpdateRequestDto;
+import com.cracker.comment.entity.Comment;
 import com.cracker.comment.repository.CommentRepository;
 import com.cracker.community.entity.Community;
 import com.cracker.community.repository.CommunityRepository;
-import com.cracker.place.domain.Place;
+import com.cracker.place.dto.AdminCommentListRequestDto;
 import com.cracker.place.repository.PlaceRepository;
 import com.cracker.user.entity.Users;
 import com.cracker.user.repository.UserRepository;
@@ -72,12 +72,10 @@ public class CommentService{
         Collections.sort(dtos, new CompareModifiedDesc());
 
         return dtos;
-//        return commentRepository.findAllByOrderByModifiedAtDesc();
     }
 
     //수정 시간별 내림차순 정리
     static class CompareModifiedDesc implements Comparator<CommentListResponseDto>{
-
         @Override
         public int compare(CommentListResponseDto o1, CommentListResponseDto o2){
             return o2.getModifiedAt().compareTo(o1.getModifiedAt());
@@ -99,4 +97,39 @@ public class CommentService{
         comment.updateComment(commentUpdateRequestDto);
         return comment;
     }
+
+    @Transactional
+    public List<AdminCommentListRequestDto> adminCommentList() {
+        List<Comment> comments = commentRepository.findAll();
+
+        List<AdminCommentListRequestDto> dtos = new ArrayList<AdminCommentListRequestDto>();
+        for (Comment comment : comments) {
+            AdminCommentListRequestDto dto = AdminCommentListRequestDto.builder()
+                    .id(comment.getId())
+                    .userNickname(comment.getUsers().getNickname())
+                    .userEmail(comment.getUsers().getEmail())
+                    .comment(comment.getComment())
+                    .modifiedAt(comment.getModifiedAt())
+                    .build();
+            dtos.add(dto);
+        }
+        Collections.sort(dtos, new AdminCompareModifiedDesc());
+        return dtos;
+    }
+
+    static class AdminCompareModifiedDesc implements Comparator<AdminCommentListRequestDto>{
+        @Override
+        public int compare(AdminCommentListRequestDto o1, AdminCommentListRequestDto o2){
+            return o2.getModifiedAt().compareTo(o1.getModifiedAt());
+        }
+    }
+
+    @Transactional
+    public Long adminDeleteComment(Long id) {
+        commentRepository.deleteById(id);
+        return id;
+    }
 }
+
+
+

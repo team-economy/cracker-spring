@@ -53,7 +53,7 @@ public class SecurityConfig {
                 .authorizeRequests()
                 .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()  // cors 때문에 추가
                 .antMatchers("/**/*.css", "/**/*.js", "/**/*.png", "/favicon.io").permitAll()
-                .antMatchers("/login", "/api/kakao/login", "/api/cracker/**").permitAll()
+                .antMatchers("/login", "/api/kakao/login", "/api/cracker/**", "/places/all").permitAll()
                 .antMatchers("/comment/**").hasAnyAuthority("USER", "ADMIN")
                 .antMatchers("/places/**").hasAnyAuthority("USER", "ADMIN")
                 .antMatchers("/user/**").hasAnyAuthority("USER", "ADMIN")
