@@ -2,7 +2,7 @@ package com.cracker.comment.controller;
 
 import com.cracker.auth.security.UserPrincipal;
 import com.cracker.auth.util.token.AuthTokenProvider;
-import com.cracker.comment.domain.Comment;
+import com.cracker.comment.entity.Comment;
 import com.cracker.comment.dto.CommentCreateRequestDto;
 import com.cracker.comment.dto.CommentListRequestDto;
 import com.cracker.comment.dto.CommentListResponseDto;

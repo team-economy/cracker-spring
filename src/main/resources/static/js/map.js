@@ -32,6 +32,7 @@ function make_marker(coordX, coordY, user_marker) {
     let marker = new naver.maps.Marker({
         position: new naver.maps.LatLng(coordY, coordX),
         map: map,
+        icon :user_marker
     });
     markers.push(marker);
     return marker
