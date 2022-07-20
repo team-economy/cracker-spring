@@ -74,7 +74,7 @@ public class UserService {
         }
 
         String pic;
-        if (requestJoinDTO.getPic() == null) {
+        if (requestJoinDTO.getPic().equals("")) {
             pic = "static/profile_pics/profile_placeholder.png";
         } else {
             pic = requestJoinDTO.getPic();
