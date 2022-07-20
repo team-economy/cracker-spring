@@ -42,7 +42,7 @@ app:
     tokenExpiry: 10800000            # 3??
     refreshTokenExpiry: 604800000    # 7?
     adminToken: TODO
-    cookieDomain : crackers.life
+    cookieDomain : .crackers.life
 
   message: Message has been sent Successfully..
 

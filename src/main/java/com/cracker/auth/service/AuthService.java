@@ -206,7 +206,7 @@ public class AuthService {
             // DB에 refresh 토큰 업데이트
             user.updateRefreshToken(authRefreshToken.getToken());
 
-            CookieUtil.deleteCookie(request, response, AuthToken.REFRESH_TOKEN, "crackers.life");
+            CookieUtil.deleteCookie(request, response, AuthToken.REFRESH_TOKEN, appProperties.getCookieDomain());
             refreshTokenAddCookie(response, authRefreshToken.getToken());
         }
 
