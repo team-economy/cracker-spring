@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration scan="true" scanPeriod="30 seconds">
     <!--로그 파일 저장 위치-->
-    <property name="LOGS_PATH" value="/home/ubuntu/app/cracker-log"/>>
+    <property name="LOGS_PATH" value="/home/ubuntu/app/cracker-log"/>
     <appender name="ROLLING" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
             <level>WARN</level>
