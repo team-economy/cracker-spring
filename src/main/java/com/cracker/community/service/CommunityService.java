@@ -35,7 +35,7 @@ public class CommunityService {
                     .coordY(community.getCoordY())
                     .phoneNum(community.getPhoneNum())
                     .cate(community.getCate())
-                    .markerPic("static/marker_pics/marker-default.png")
+                    .markerPic(community.getMarkerPic())
                     .build();
             dtos.add(dto);
         }
