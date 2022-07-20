@@ -29,7 +29,7 @@ function get_place(flag) {
                 console.log(response);
                 for (let i = 0; i < response.length; i++) {
                     let place = response[i]
-                    make_card(i, place, 0);
+                    make_card(i, place, false);
                 }
             }
         });
@@ -49,7 +49,7 @@ function get_all_place() {
                 let place = response[i]
                 let marker = make_marker(place.coordX, place.coordY, place.markerPic)
                 add_info(i, marker, place)
-                make_card(i, place, 1);
+                make_card(i, place, true);
             }
         }
     });
@@ -74,7 +74,7 @@ function make_card(i, place, flag) {
                      </div>`
     let html_temp;
 
-    if(flag == 1) {
+    if(flag) {
         html_temp = html_temp_start + html_temp_end;
     } else {
         html_temp = html_temp_start + html_temp_my_place + html_temp_end;
