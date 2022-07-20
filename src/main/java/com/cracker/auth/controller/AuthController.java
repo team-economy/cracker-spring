@@ -7,6 +7,7 @@ import com.cracker.auth.util.CookieUtil;
 import com.cracker.common.ResponseDetails;
 import com.cracker.user.service.UserService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,6 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 
 @RestController
 @RequiredArgsConstructor
+@Slf4j
 public class AuthController {
     private final AuthService authService;
     private final UserService userService;
@@ -30,6 +32,7 @@ public class AuthController {
 
     @PostMapping("/api/cracker/login")
     public ResponseEntity<?> login(HttpServletRequest request, HttpServletResponse response, @RequestBody LoginDto requestLoginDTO) {
+        log.info(requestLoginDTO.getEmail());
         TokenDto token = authService.login(request, response, requestLoginDTO);
         ResponseDetails responseDetails;
         if (token == null) {

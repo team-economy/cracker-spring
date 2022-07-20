@@ -112,7 +112,7 @@ public class AuthService {
     public void guestTokenAddCookie(HttpServletResponse response, String guestToken) {
         long accessTokenExpiry = appProperties.getTokenExpiry();
         int cookieMaxAge = (int) accessTokenExpiry / 60;
-        CookieUtil.addCookie(response, AuthToken.ACCESS_TOKEN, guestToken, cookieMaxAge, "localhost");
+        CookieUtil.addCookie(response, AuthToken.ACCESS_TOKEN, guestToken, cookieMaxAge, "crackers.life");
     }
 
     /**
@@ -121,7 +121,7 @@ public class AuthService {
     public void refreshTokenAddCookie(HttpServletResponse response, String refreshToken) {
         long refreshTokenExpiry = appProperties.getRefreshTokenExpiry();
         int cookieMaxAge = (int) refreshTokenExpiry / 60;
-        CookieUtil.addCookie(response, AuthToken.REFRESH_TOKEN, refreshToken, cookieMaxAge, "localhost");
+        CookieUtil.addCookie(response, AuthToken.REFRESH_TOKEN, refreshToken, cookieMaxAge, "crackers.life");
     }
 
     /**
@@ -130,7 +130,7 @@ public class AuthService {
     public void accessTokenAddCookie(HttpServletResponse response, String accessToken) {
         long accessTokenExpiry = appProperties.getTokenExpiry();
         int cookieMaxAge = (int) accessTokenExpiry / 60;
-        CookieUtil.addCookie(response, AuthToken.ACCESS_TOKEN, accessToken, cookieMaxAge, "localhost");
+        CookieUtil.addCookie(response, AuthToken.ACCESS_TOKEN, accessToken, cookieMaxAge, "crackers.life");
     }
 
     /**
@@ -206,7 +206,7 @@ public class AuthService {
             // DB에 refresh 토큰 업데이트
             user.updateRefreshToken(authRefreshToken.getToken());
 
-            CookieUtil.deleteCookie(request, response, AuthToken.REFRESH_TOKEN, "localhost");
+            CookieUtil.deleteCookie(request, response, AuthToken.REFRESH_TOKEN, "crackers.life");
             refreshTokenAddCookie(response, authRefreshToken.getToken());
         }
 
