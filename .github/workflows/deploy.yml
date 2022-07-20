@@ -67,16 +67,16 @@ jobs:
 
       # Secret manager 환경변수 등록
       - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@master
+        uses: aws-actions/configure-aws-credentials@v1
         with:
-            aws-access-key-id: ${{ secrets.ACCESS_KEY_ID }}
-            aws-secret-access-key: ${{ secrets.ACCESS_KEY_SECRET }}
+            aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+            aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
             aws-region: ap-northeast-2
       - name: Read secrets from AWS Secrets Manager into environment variables
         uses: abhilash1in/aws-secrets-manager-action@v1.1.0
         with:
-          aws-access-key-id: ${{ secrets.ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.ACCESS_KEY_SECRET }}
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ap-northeast-2
           secrets: |
             /secret/cracker/key
