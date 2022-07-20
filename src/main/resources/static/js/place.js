@@ -67,7 +67,7 @@ function make_card(i, place, flag) {
                                         
                                     `
 
-    let html_temp_my_place = `<button class="button is-danger delete-place-btn" onclick="delete_confirm('${place.id}','${place.name}')">삭제</button>`;
+    let html_temp_my_place = `<button class="button is-danger delete-place-btn" onclick="place_delete_confirm('${place.id}','${place.name}')">삭제</button>`;
 
     let html_temp_end = `</p>
                     </div>
@@ -84,7 +84,7 @@ function make_card(i, place, flag) {
     $('#place-box').append(html_temp);
 }
 
-function delete_confirm(place_id, place_name){
+function place_delete_confirm(place_id, place_name){
     let html_temp_delete_modal = `
                                 <div class="modal" id="confirm-deletion">
                                     <div class="modal-background" onclick='$("#confirm-deletion").removeClass("is-active")'></div>
