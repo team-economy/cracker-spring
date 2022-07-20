@@ -112,7 +112,7 @@ public class AuthService {
     public void guestTokenAddCookie(HttpServletResponse response, String guestToken) {
         long accessTokenExpiry = appProperties.getTokenExpiry();
         int cookieMaxAge = (int) accessTokenExpiry / 60;
-        CookieUtil.addCookie(response, AuthToken.ACCESS_TOKEN, guestToken, cookieMaxAge, "crackers.life");
+        CookieUtil.addCookie(response, AuthToken.ACCESS_TOKEN, guestToken, cookieMaxAge, appProperties.getCookieDomain());
     }
 
     /**
@@ -121,7 +121,7 @@ public class AuthService {
     public void refreshTokenAddCookie(HttpServletResponse response, String refreshToken) {
         long refreshTokenExpiry = appProperties.getRefreshTokenExpiry();
         int cookieMaxAge = (int) refreshTokenExpiry / 60;
-        CookieUtil.addCookie(response, AuthToken.REFRESH_TOKEN, refreshToken, cookieMaxAge, "crackers.life");
+        CookieUtil.addCookie(response, AuthToken.REFRESH_TOKEN, refreshToken, cookieMaxAge, appProperties.getCookieDomain());
     }
 
     /**
@@ -130,7 +130,7 @@ public class AuthService {
     public void accessTokenAddCookie(HttpServletResponse response, String accessToken) {
         long accessTokenExpiry = appProperties.getTokenExpiry();
         int cookieMaxAge = (int) accessTokenExpiry / 60;
-        CookieUtil.addCookie(response, AuthToken.ACCESS_TOKEN, accessToken, cookieMaxAge, "crackers.life");
+        CookieUtil.addCookie(response, AuthToken.ACCESS_TOKEN, accessToken, cookieMaxAge, appProperties.getCookieDomain());
     }
 
     /**
@@ -191,7 +191,7 @@ public class AuthService {
                 new Date(now.getTime() + appProperties.getTokenExpiry())
         );
 
-        CookieUtil.deleteCookie(request, response, AuthToken.ACCESS_TOKEN, "localhost");
+        CookieUtil.deleteCookie(request, response, AuthToken.ACCESS_TOKEN, appProperties.getCookieDomain());
         accessTokenAddCookie(response, newAccessToken.getToken());
 
         long validTime = authRefreshToken.getTokenClaims().getExpiration().getTime() - now.getTime();
