@@ -48,7 +48,7 @@ app:
 
 # kakao 로그인 REST API 키
 kakao:
-  secret: c68ff2766979dad52191b316a0b99f22
+  secret: ${KAKAO_SECRET} # c68ff2766979dad52191b316a0b99f22
   adminToken: b0f4cc083b3493de772e56d92cc5bdbe
 
 
