@@ -29,7 +29,7 @@ function get_place(flag) {
                 console.log(response);
                 for (let i = 0; i < response.length; i++) {
                     let place = response[i]
-                    make_card(i, place);
+                    make_card(i, place, 0);
                 }
             }
         });
@@ -47,28 +47,37 @@ function get_all_place() {
             console.log(response);
             for (let i = 0; i < response.length; i++) {
                 let place = response[i]
-                let marker = make_marker(place.coordX,place.coordY, place.markerPic)
+                let marker = make_marker(place.coordX, place.coordY, place.markerPic)
                 add_info(i, marker, place)
-                make_card(i, place);
+                make_card(i, place, 1);
             }
         }
     });
 }
 
 // 맛집 카드 만들기
-function make_card(i, place) {
-    let html_temp = `<div class="card" id="card-${i}">
+function make_card(i, place, flag) {
+    let html_temp_start = `<div class="card" id="card-${i}">
                                 <div class="card-body" id="card-body-${i}" style="background-color: #FDF6EC">
                                     <h5 class="card-title"><a href="javascript:click2center(${i})" class="place-title">${place.name}</a></h5>
                                     <p class="card-text">지번 주소 : ${place.addr}</p>
                                     <p class="card-text">도로명 주소 : ${place.addrRoad}</p>
                                     <p class="place-list-button-area">
                                         <button class="button is-success community-btn" onclick="location.href='/community/'+'${place.communityId}'">커뮤니티</button>
-                                        <button class="button is-danger delete-place-btn" onclick="delete_place('${place.id}')">삭제</button>
-                                    </p>
-                                </div>
-                            </div>`
+                                        
+                                    `
 
+    let html_temp_my_place = `<button class="button is-danger delete-place-btn" onclick="delete_place('${place.id}')">삭제</button>`;
+
+    let html_temp_end = `</p>
+                                </div>
+                     </div>`
+    let html_temp;
+    if(flag == 1) {
+        html_temp = html_temp_start + html_temp_end;
+    } else {
+        html_temp = html_temp_start + html_temp_my_place + html_temp_end;
+    }
     $('#place-box').append(html_temp);
 }
 
