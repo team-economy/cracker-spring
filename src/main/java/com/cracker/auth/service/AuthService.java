@@ -143,9 +143,6 @@ public class AuthService {
 //        String accessToken = HeaderUtil.getAccessToken(request);
 //        AuthToken authToken = tokenProvider.convertAuthToken(accessToken);
 //          // access token 확인 2
-//        Cookie tokenStr = CookieUtil.getCookie(request, "access_token").orElse(null);
-//        AuthToken authToken = tokenProvider.convertAuthToken(tokenStr != null ? tokenStr.getValue() : null);
-//          // access token 확인 3
 //        String accessToken = CookieUtil.getCookie(request, AuthToken.ACCESS_TOKEN)
 //                .map(Cookie::getValue)
 //                .orElse((null));

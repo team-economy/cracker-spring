@@ -90,14 +90,8 @@ public class UserService {
             }
             role = UserRole.ADMIN;
         }
-        Users user = new Users(email, nickname, pic, marker_pic, role);
 
-//        // admin 신경 안쓸 때 사용
-//        Users user = new Users(requestJoinDTO, uuid);
-//        // 이메일이 중복되는 경우
-//        if (emailDuplicate(requestJoinDTO.getEmail())) {
-//            return null;
-//        }
+        Users user = new Users(email, nickname, pic, marker_pic, role);
 
         AuthToken refreshToken = authService.refreshToken(user);
         user.updateRefreshToken(refreshToken.getToken());
@@ -165,9 +159,6 @@ public class UserService {
         String marker_pic = "static/profile_pics/profile_placeholder.png";
         String role = UserRole.USER.getCode();
         String adminToken = "";
-//        // 소셜 회원가입시 초기 nickname을 nickname으로
-//        JoinDto joinDto = new JoinDto(userInfo.getEmail(), password, userInfo.getNickname(), userInfo.getPic(), marker_pic, role, adminToken);
-        // 소셜 회원가입시 초기 nickname을 email으로
         JoinDto joinDto = new JoinDto(userInfo.getEmail(), password, userInfo.getEmail(), userInfo.getPic(), marker_pic, role, adminToken);
         return join(response, joinDto);
     }

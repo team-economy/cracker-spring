@@ -35,25 +35,27 @@ public class IndexController {
     @GetMapping("/")
     public String home(HttpServletRequest request, HttpServletResponse response, @AuthenticationPrincipal UserPrincipal userPrincipal, Model model) {
         authService.refreshToken(request, response);
-        // guest token 쓰지 않을 경우 null 처리 필요
-        if (userPrincipal == null) {
-            model.addAttribute("user", null);
-        } else {
-            String email = userPrincipal.getEmail();
-            Users user = authService.findUserByEmail(email);
-            if (user == null) {
-                model.addAttribute("user", null);
-            } else {
-                model.addAttribute("user", user);
-            }
-        }
-//        String email = userPrincipal.getEmail();
-//        Users user = authService.findUserByEmail(email);
-//        if (user == null) {
+//        // guest token 사용하지 않을 경우
+//        if (userPrincipal == null) {
 //            model.addAttribute("user", null);
 //        } else {
-//            model.addAttribute("user", user);
+//            String email = userPrincipal.getEmail();
+//            Users user = authService.findUserByEmail(email);
+//            if (user == null) {
+//                model.addAttribute("user", null);
+//            } else {
+//                model.addAttribute("user", user);
+//            }
 //        }
+
+        // guest token 사용할 경우
+        String email = userPrincipal.getEmail();
+        Users user = authService.findUserByEmail(email);
+        if (user == null) {
+            model.addAttribute("user", null);
+        } else {
+            model.addAttribute("user", user);
+        }
         return "home";
     }
 
