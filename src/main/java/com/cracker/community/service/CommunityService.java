@@ -29,20 +29,24 @@ public class CommunityService {
 
     @Transactional
     public List<CommunityPlaceListDto> allPlaceList(String userMail) {
+
         Users user = userRepository.findByEmail(userMail).orElseThrow(
                 () -> new IllegalArgumentException("일치하는 메일이 없습니다.")
         );
+
         List<CommunityPlaceListDto> dtos = new ArrayList<CommunityPlaceListDto>();
         List<Community> communities = communityRepository.findAll();
         for (Community community : communities) {
             String marker_pic = "static/marker_pics/marker-default.png";
             List<Place> places = community.getPlaces();
+
             for (Place place : places) {
                 if (place.getUsers().getEmail().equals(userMail)) {
                     marker_pic = user.getMarker_pic();
                     break;
                 }
             }
+
             CommunityPlaceListDto dto = CommunityPlaceListDto.builder()
                     .communityId(community.getId())
                     .name(community.getName())
