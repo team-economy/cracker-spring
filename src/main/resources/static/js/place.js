@@ -73,6 +73,7 @@ function make_card(i, place, flag) {
                                 </div>
                      </div>`
     let html_temp;
+
     if(flag == 1) {
         html_temp = html_temp_start + html_temp_end;
     } else {
