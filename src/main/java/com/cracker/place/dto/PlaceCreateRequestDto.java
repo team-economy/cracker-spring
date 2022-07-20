@@ -19,4 +19,5 @@ public class PlaceCreateRequestDto {
     String coordY;
     String phoneNum;
     String cate;
+    String markerPic;
 }
