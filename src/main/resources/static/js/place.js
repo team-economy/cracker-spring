@@ -67,11 +67,13 @@ function make_card(i, place, flag) {
                                         
                                     `
 
-    let html_temp_my_place = `<button class="button is-danger delete-place-btn" onclick="delete_place('${place.id}')">삭제</button>`;
+    let html_temp_my_place = `<button class="button is-danger delete-place-btn" onclick="delete_confirm('${place.id}','${place.name}')">삭제</button>`;
 
     let html_temp_end = `</p>
                     </div>
              </div>`
+
+
     let html_temp;
 
     if(flag) {
@@ -80,6 +82,31 @@ function make_card(i, place, flag) {
         html_temp = html_temp_start + html_temp_my_place + html_temp_end;
     }
     $('#place-box').append(html_temp);
+}
+
+function delete_confirm(place_id, place_name){
+    let html_temp_delete_modal = `
+                                <div class="modal" id="confirm-deletion">
+                                    <div class="modal-background" onclick='$("#confirm-deletion").removeClass("is-active")'></div>
+                                    <div class="modal-content">
+                                        <div class="box">
+                                            <div class="cofirm msg-section">
+                                                <p class="confirm msg"><span><b>${place_name}</b></span>을(를) 삭제하시겠습니까?</p>
+                                            </div>
+                                            <div class="level-right">
+                                                <div class="level-item">
+                                                    <button class="button save-button" onclick="delete_place('${place_id}')">예</button>
+                                                </div>
+                                                <div class="level-item">
+                                                    <button class="button confirm cancel-button"
+                                                       onclick='$("#confirm-deletion").removeClass("is-active")'>아니오</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>`
+    $("#delete-confirm-section").append(html_temp_delete_modal);
+    $("#confirm-deletion").addClass("is-active");
 }
 
 // 주소 검색

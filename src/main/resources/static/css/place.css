@@ -84,3 +84,13 @@
 
     border-bottom:none;
 }
+
+/*삭제 확인 메시지*/
+.confirm.msg {
+    font-size: larger;
+}
+
+.confirm.cancel-button {
+    background-color: #eddfca;
+    border-color: #eddfca;
+}
