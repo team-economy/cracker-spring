@@ -70,8 +70,8 @@ function make_card(i, place, flag) {
     let html_temp_my_place = `<button class="button is-danger delete-place-btn" onclick="delete_place('${place.id}')">삭제</button>`;
 
     let html_temp_end = `</p>
-                                </div>
-                     </div>`
+                    </div>
+             </div>`
     let html_temp;
 
     if(flag) {
