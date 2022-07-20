@@ -114,14 +114,14 @@ public class PlaceService {
         Place place = placeRepository.findById(placeId).orElseThrow(
                 ()-> new NoSuchElementException("일치하는 저장된 맛집이 없습니다.")
         );
-        String addr = place.getAddr();
-        Community community = communityRepository.findByAddr(addr);
+        Community community = communityRepository.findByAddr(place.getAddr());
         Long communityId = place.getCommunity().getId();
-        // place를 통해 comment와 comment의 id 확인
         List<Comment> comments = commentRepository.findAll();
         if (comments.size() != 0) {
             for (Comment comment : comments) {
-                if (comment.getUsers().getEmail().equals(userMail) && comment.getCommunity().getId().equals(communityId)) {
+                String commentEmail = comment.getUsers().getEmail();
+                Long commentCommunityId = comment.getCommunity().getId();
+                if (commentEmail.equals(userMail) && commentCommunityId.equals(communityId)) {
                     Long commentId = comment.getId();
                     // place 삭제
                     commentRepository.deleteById(commentId);
@@ -141,12 +141,11 @@ public class PlaceService {
         }
 
         // 지운 place의 community에 존재하는 place가 없다면 community 삭제
-        if (community.getPlaces().size() == 0) {
+        if (placeRepository.findByAddr(place.getAddr()) == null) {
             communityRepository.deleteById(communityId);
         }
         return placeId;
     }
-
 
     @Transactional
     public Place placeSearch(Long id){
