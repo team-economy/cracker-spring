@@ -55,7 +55,7 @@ public class PlaceService {
                     .coordY(placeCreateRequestDto.getCoordY())
                     .phoneNum(placeCreateRequestDto.getPhoneNum())
                     .cate(placeCreateRequestDto.getCate())
-                    .markerPic(user.getMarker_pic())
+                    .markerPic("static/marker_pics/marker-default.png")
             .build();
             place.placeCommunity(community);
             communityRepository.save(community);
