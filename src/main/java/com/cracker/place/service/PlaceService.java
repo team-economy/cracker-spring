@@ -1,5 +1,7 @@
 package com.cracker.place.service;
 
+import com.cracker.comment.entity.Comment;
+import com.cracker.comment.repository.CommentRepository;
 import com.cracker.community.entity.Community;
 import com.cracker.community.repository.CommunityRepository;
 import com.cracker.place.entity.Place;
@@ -15,6 +17,7 @@ import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -22,7 +25,7 @@ public class PlaceService {
     private final PlaceRepository placeRepository;
     private final UserRepository userRepository;
     private final CommunityRepository communityRepository;
-
+    private final CommentRepository commentRepository;
 
     @Transactional
     public Long save(PlaceCreateRequestDto placeCreateRequestDto, String email) {
@@ -52,13 +55,13 @@ public class PlaceService {
                     .coordY(placeCreateRequestDto.getCoordY())
                     .phoneNum(placeCreateRequestDto.getPhoneNum())
                     .cate(placeCreateRequestDto.getCate())
+                    .markerPic("static/marker_pics/marker-default.png")
             .build();
             place.placeCommunity(community);
             communityRepository.save(community);
         }else{
             place.placeCommunity(savedCommunity);
         }
-
 
         return placeRepository.save(place).getId();
     }
@@ -106,18 +109,43 @@ public class PlaceService {
      * 유저 정보와 일치하는 맛집 지우기
      */
     @Transactional
-    public long deletPlaceByUserMail(Long placeId, String userMail){
+    public long deletePlaceByUserMail(Long placeId, String userMail){
+        // place를 통해 community와 community의 id 확인
         Place place = placeRepository.findById(placeId).orElseThrow(
                 ()-> new NoSuchElementException("일치하는 저장된 맛집이 없습니다.")
         );
-        if(place.getUsers().getEmail().equals(userMail)) {
-            placeRepository.deleteById(placeId);
-            return placeId;
-        }else {
-            return 0;
+        Community community = communityRepository.findByAddr(place.getAddr());
+        Long communityId = place.getCommunity().getId();
+        List<Comment> comments = commentRepository.findAll();
+        if (comments.size() != 0) {
+            for (Comment comment : comments) {
+                String commentEmail = comment.getUsers().getEmail();
+                Long commentCommunityId = comment.getCommunity().getId();
+                if (commentEmail.equals(userMail) && commentCommunityId.equals(communityId)) {
+                    Long commentId = comment.getId();
+                    // place 삭제
+                    commentRepository.deleteById(commentId);
+                }
+            }
+            if(place.getUsers().getEmail().equals(userMail)) {
+                placeRepository.deleteById(placeId);
+            } else {
+                return 0;
+            }
+        } else {
+            if(place.getUsers().getEmail().equals(userMail)) {
+                placeRepository.deleteById(placeId);
+            } else {
+                return 0;
+            }
         }
-    }
 
+        // 지운 place의 community에 존재하는 place가 없다면 community 삭제
+        if (placeRepository.findByAddr(place.getAddr()) == null) {
+            communityRepository.deleteById(communityId);
+        }
+        return placeId;
+    }
 
     @Transactional
     public Place placeSearch(Long id){

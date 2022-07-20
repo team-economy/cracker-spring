@@ -65,7 +65,7 @@ public class PlaceController {
             placeDeleteResponseDto.setMsg("삭제 완료!! \n (관리자 계정)");
         } else {
             String email = userPrincipal.getEmail();
-            long retId = placeService.deletPlaceByUserMail(id, email);
+            long retId = placeService.deletePlaceByUserMail(id, email);
             if(retId == 0) {
                 placeDeleteResponseDto.setMsg("본인이 아니라 삭제할 수 없습니다.");
             } else {

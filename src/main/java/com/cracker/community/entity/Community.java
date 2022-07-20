@@ -39,6 +39,9 @@ public class Community {
     @Column
     private String cate;
 
+    @Column
+    private String markerPic;
+
     @OneToMany(mappedBy = "community")
     private List<Place> places = new ArrayList<>();
 
@@ -46,7 +49,7 @@ public class Community {
     private List<Comment> comments = new ArrayList<>();
 
     @Builder
-    public Community(String name, String addr, String addrRoad, String coordX, String coordY, String phoneNum, String cate) {
+    public Community(String name, String addr, String addrRoad, String coordX, String coordY, String phoneNum, String cate, String markerPic) {
         this.name = name;
         this.addr = addr;
         this.addrRoad = addrRoad;
@@ -54,5 +57,6 @@ public class Community {
         this.coordY = coordY;
         this.phoneNum = phoneNum;
         this.cate = cate;
+        this.markerPic = markerPic;
     }
 }
