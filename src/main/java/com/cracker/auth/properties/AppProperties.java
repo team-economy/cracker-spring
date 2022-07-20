@@ -17,6 +17,7 @@ public class AppProperties {
     private long refreshTokenExpiry;
     @Value("${app.auth.adminToken}")
     private String adminToken;
-    @Value("${app.auth.cookieDomain")
+
+    @Value("${app.auth.cookieDomain}")
     private String cookieDomain;
 }
