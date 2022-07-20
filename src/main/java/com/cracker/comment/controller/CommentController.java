@@ -33,7 +33,6 @@ public class CommentController {
     public List<CommentListResponseDto> getComment(@RequestParam("communityAddr")String communityAddr){
 
         return commentService.commentList(communityAddr);
-
     }
 
     @DeleteMapping("/comment/{id}")
