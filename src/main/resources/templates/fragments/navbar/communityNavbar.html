@@ -9,7 +9,7 @@
   </div>
   <div class="navbar-btn">
     <button class="button"
-            th:onclick="|location.href ='@{/user/{userId}(userId=${userCommu.get().getId})}'|">My Page
+            th:onclick="|location.href ='@{/user/{nickname}(nickname=${userCommu.get().getNickname()})}'|">My Page
     </button>
     <button class="button sign-out-btn" onclick="sign_out()">Crack OUT</button>
   </div>
