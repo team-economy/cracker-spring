@@ -109,8 +109,14 @@ public class UserService {
      * 이메일 중복 체크
      */
     public Boolean duplicateEmailCheck(Map<String, String> requestObject) {
+        String regExp = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}$";
         String email = requestObject.get("email");
-        return emailDuplicate(email);
+        if(email.matches(regExp)){
+            return emailDuplicate(email);
+        }else {
+            return email.matches(regExp);
+        }
+
     }
 
     /**
