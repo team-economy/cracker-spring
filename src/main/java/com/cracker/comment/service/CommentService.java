@@ -30,7 +30,7 @@ public class CommentService{
 
     //comment 작성
     @Transactional
-    public Long save(CommentCreateRequestDto commentCreateRequestDto, String email){
+    public void save(CommentCreateRequestDto commentCreateRequestDto, String email){
         Comment comment = Comment.builder()
                 .comment(commentCreateRequestDto.getComment())
                 .build();
@@ -45,7 +45,7 @@ public class CommentService{
         comment.communityComment(community);
         comment.UserComment(user);
 
-        return commentRepository.save(comment).getId();
+        commentRepository.save(comment).getId();
     }
 
     @Transactional
@@ -66,6 +66,7 @@ public class CommentService{
                     .modifiedAt(comment.getModifiedAt())
                     .userProfileImg(comment.getUsers().getPic())
                     .userId(comment.getUsers().getId())
+                    .modified(comment.isModified())
             .build();
             dtos.add(dto);
         }

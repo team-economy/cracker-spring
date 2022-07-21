@@ -22,8 +22,10 @@ public class CommentListResponseDto {
 
     private Long userId;
 
+    private boolean modified;
+
     @Builder
-    public CommentListResponseDto(Long id, String userNickname, String userEmail, String comment, LocalDateTime modifiedAt,LocalDateTime createdAt, String userProfileImg, Long userId) {
+    public CommentListResponseDto(Long id, String userNickname, String userEmail, String comment, LocalDateTime modifiedAt,LocalDateTime createdAt, String userProfileImg, Long userId, boolean modified) {
         this.id = id;
         this.userNickname = userNickname;
         this.userEmail = userEmail;
@@ -32,5 +34,6 @@ public class CommentListResponseDto {
         this.modifiedAt = modifiedAt;
         this.userProfileImg = userProfileImg;
         this.userId = userId;
+        this.modified = modified;
     }
 }

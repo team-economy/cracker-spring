@@ -34,12 +34,16 @@ public class Comment extends Timestamped {
     @JoinColumn(name="user_id", nullable = false)
     private Users users;
 
+    @Column(nullable = false)
+    private boolean modified = false;
+
     @Builder
     public Comment(String comment){
         this.comment = comment;
     }
 
-    public void updateComment(CommentUpdateRequestDto commentUpdateRequestDto){
+public void updateComment(CommentUpdateRequestDto commentUpdateRequestDto){
+        this.modified = true;
         this.comment = commentUpdateRequestDto.getComment();
     }
 
