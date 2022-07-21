@@ -70,11 +70,6 @@ function add_info(i, marker, place) {
     });
 }
 
-function resetMarkers() {
-    infowindows = []
-    markers = []
-}
-
 // 마커 클릭시 화면 중앙으로 이동
 function click2center(i) {
     let marker = markers[i]

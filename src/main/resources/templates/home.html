@@ -16,7 +16,7 @@
     <!--    로그인     -->
     <p th:if="${user !=null}">
         <span class="user-name">
-        <a id="user_name" th:href="@{/user/{id}(id = ${user.getId()})}">
+        <a id="user_name" th:href="@{/user/{nickname}(nickname = ${user.getNickname()})}">
             <span th:text="${user.getNickname()}"></span>
             <span id="user_id" th:text="${user.getId()}"></span>
         </a>님 안녕하세요?

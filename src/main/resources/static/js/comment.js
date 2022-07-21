@@ -74,7 +74,7 @@ function addHTML(id, userName, userEmail, comment, time_past, userProfileImg, us
         <div class="box comment-list">
             <article class="media">
                 <div class="media-left profile-img-area">
-                    <a class="image is-64x64" href="/user/${userId}">
+                    <a class="image is-64x64" href="/user/${userName}">
                         <img class="is-rounded  profile-img" src='${userProfileImg}'>
                     </a>
                 </div>
