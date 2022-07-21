@@ -10,6 +10,7 @@ import com.cracker.place.dto.PlaceDeleteResponseDto;
 import com.cracker.place.dto.PlaceListRequestDto;
 import com.cracker.place.service.PlaceService;
 import com.cracker.user.entity.UserRole;
+import com.cracker.user.entity.Users;
 import lombok.RequiredArgsConstructor;
 
 
@@ -59,9 +60,11 @@ public class PlaceController {
     @DeleteMapping("/places/{id}")
     public PlaceDeleteResponseDto deletePlace(@PathVariable("id") Long id, @AuthenticationPrincipal UserPrincipal userPrincipal) {
         UserRole userRole = userPrincipal.getRole();
+        Users user = placeService.findUserByPlaceId(id);
+        long userId = user.getId();
         PlaceDeleteResponseDto placeDeleteResponseDto = new PlaceDeleteResponseDto();
         if(userRole.equals(UserRole.ADMIN)) {
-            placeService.deletePlace(id);
+            placeService.deletePlace(id, userId);
             placeDeleteResponseDto.setMsg("삭제 완료!! \n (관리자 계정)");
         } else {
             String email = userPrincipal.getEmail();
