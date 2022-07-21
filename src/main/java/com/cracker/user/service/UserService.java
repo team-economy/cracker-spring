@@ -191,7 +191,7 @@ public class UserService {
         return token;
     }
 
-    public Users userSearch(Long id){
-        return userRepository.getById(id);
+    public Users userSearch(String nickname) {
+        return userRepository.getByNickname(nickname);
     }
 }

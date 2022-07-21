@@ -1,3 +1,8 @@
+function resetMarkers() {
+    infowindows = []
+    markers = []
+}
+
 // 맛집 리스트 가져오기
 function get_place(flag) {
     $('#place-box').empty();
