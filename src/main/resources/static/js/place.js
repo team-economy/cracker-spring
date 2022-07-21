@@ -3,8 +3,7 @@ function get_place(flag) {
     $('#place-box').empty();
     $('#place-tabs').addClass("is-active");
     $('#all-place-tabs').removeClass("is-active");
-    markers = []
-    infowindows = []
+    resetMarkers()
     if (flag == null) {
         $.ajax({
             type: "GET",
@@ -40,6 +39,7 @@ function get_all_place() {
     $('#place-box').empty();
     $('#all-place-tabs').addClass("is-active");
     $('#place-tabs').removeClass("is-active");
+    resetMarkers()
     $.ajax({
         type: "GET",
         url: `/places/all`,
