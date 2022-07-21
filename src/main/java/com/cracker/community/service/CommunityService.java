@@ -29,37 +29,56 @@ public class CommunityService {
 
     @Transactional
     public List<CommunityPlaceListDto> allPlaceList(String userMail) {
-
-        Users user = userRepository.findByEmail(userMail).orElseThrow(
-                () -> new IllegalArgumentException("일치하는 메일이 없습니다.")
-        );
-
-        List<CommunityPlaceListDto> dtos = new ArrayList<CommunityPlaceListDto>();
-        List<Community> communities = communityRepository.findAll();
-        for (Community community : communities) {
-            String marker_pic = "static/marker_pics/marker-default.png";
-            List<Place> places = community.getPlaces();
-
-            for (Place place : places) {
-                if (place.getUsers().getEmail().equals(userMail)) {
-                    marker_pic = user.getMarker_pic();
-                    break;
-                }
+        if (userMail == null) {
+            List<CommunityPlaceListDto> dtos = new ArrayList<CommunityPlaceListDto>();
+            List<Community> communities = communityRepository.findAll();
+            for (Community community : communities) {
+                CommunityPlaceListDto dto = CommunityPlaceListDto.builder()
+                        .communityId(community.getId())
+                        .name(community.getName())
+                        .addr(community.getAddr())
+                        .addrRoad(community.getAddrRoad())
+                        .coordX(community.getCoordX())
+                        .coordY(community.getCoordY())
+                        .phoneNum(community.getPhoneNum())
+                        .cate(community.getCate())
+                        .markerPic("static/marker_pics/marker-default.png")
+                        .build();
+                dtos.add(dto);
             }
+            return dtos;
+        } else {
+            Users user = userRepository.findByEmail(userMail).orElseThrow(
+                    () -> new IllegalArgumentException("일치하는 메일이 없습니다.")
+            );
 
-            CommunityPlaceListDto dto = CommunityPlaceListDto.builder()
-                    .communityId(community.getId())
-                    .name(community.getName())
-                    .addr(community.getAddr())
-                    .addrRoad(community.getAddrRoad())
-                    .coordX(community.getCoordX())
-                    .coordY(community.getCoordY())
-                    .phoneNum(community.getPhoneNum())
-                    .cate(community.getCate())
-                    .markerPic(marker_pic)
-                    .build();
-            dtos.add(dto);
+            List<CommunityPlaceListDto> dtos = new ArrayList<CommunityPlaceListDto>();
+            List<Community> communities = communityRepository.findAll();
+            for (Community community : communities) {
+                String marker_pic = "static/marker_pics/marker-default.png";
+                List<Place> places = community.getPlaces();
+
+                for (Place place : places) {
+                    if (place.getUsers().getEmail().equals(userMail)) {
+                        marker_pic = user.getMarker_pic();
+                        break;
+                    }
+                }
+
+                CommunityPlaceListDto dto = CommunityPlaceListDto.builder()
+                        .communityId(community.getId())
+                        .name(community.getName())
+                        .addr(community.getAddr())
+                        .addrRoad(community.getAddrRoad())
+                        .coordX(community.getCoordX())
+                        .coordY(community.getCoordY())
+                        .phoneNum(community.getPhoneNum())
+                        .cate(community.getCate())
+                        .markerPic(marker_pic)
+                        .build();
+                dtos.add(dto);
+            }
+            return dtos;
         }
-        return dtos;
     }
 }
