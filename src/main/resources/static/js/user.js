@@ -54,7 +54,7 @@ function update_profile(id) {
             if (response["msg"] == "변경 완료!!") {
                 alert(response["msg"])
                 $("#modal-edit").removeClass("is-active")
-                window.location.reload()
+                window.location.replace("/user/" + name)
             } else {
                 alert(response["msg"])
                 $("#modal-edit").removeClass("is-active")

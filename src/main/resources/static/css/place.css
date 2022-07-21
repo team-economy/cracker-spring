@@ -62,18 +62,6 @@
     overflow: auto;
 }
 
-.button.save-button {
-    background-color: #3A3845;
-    border-color: transparent;
-    color: #FDF6EC !important;
-}
-
-.button.cancel-button {
-    background-color: #FDF6EC;
-    border-color: #FDF6EC;
-    color: #3A3845 !important;
-}
-
 .place-search-info {
     padding-top : 10px;
     padding-bottom: 10px;

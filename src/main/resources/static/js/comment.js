@@ -59,32 +59,38 @@ function getMessages() {
                 let time_past = timePassed(time_comment)
                 let userProfileImg = message['userProfileImg'];
                 let userId = message['userId'];
+                let isModified = message['modified'];
 
                 console.log(comment)
 
-                addHTML(id, username, userEmail, comment, time_past, userProfileImg, userId);
+                addHTML(id, username, userEmail, comment, time_past, userProfileImg, userId, isModified);
             }
         }
     })
 }
 
 
-function addHTML(id, userName, userEmail, comment, time_past, userProfileImg, userId) {
-    let tempHtml = `
+function addHTML(id, userName, userEmail, comment, time_past, userProfileImg, userId, isModified) {
+    let tempHtml_start = `
         <div class="box comment-list">
             <article class="media">
                 <div class="media-left profile-img-area">
-                    <a class="image is-64x64" href="/user/${userId}">
+                    <a class="image is-64x64" href="/user/${userName}">
                         <img class="is-rounded  profile-img" src='${userProfileImg}'>
                     </a>
                 </div>
                 <div class="media-content comment-area">
                     <div class="content">
                         <div class="comment-userinfo">                         
-                            <strong>${userName}</strong> <small>(${userEmail})</small><small class="comment-time">${time_past}</small>                            
-                        </div>
+                            `;
+    let tempHtml_not_modified = `<strong>${userName}</strong> <small>(${userEmail})</small><small class="comment-time">${time_past}</small>`;
+
+    let tempHtml_is_modified = `<strong>${userName}</strong> <small>(${userEmail})</small><small class="comment-time">${time_past} (수정됨)</small>`;
+
+    let tempHtml_end = `
+                            </div>
                         <div class = "comment-buttons-area">
-                            <a id="${id}-delete" type="button" class="delete-comment" onclick="deleteOne('${id}')"><i class="fa fa-trash" aria-hidden="true"></i></a>     
+                            <a id="${id}-delete" type="button" class="delete-comment" onclick="comment_delete_confirm('${id}')"><i class="fa fa-trash" aria-hidden="true"></i></a>     
                             <a id="${id}-edit" type="button" class="edit-comment" onclick="editComment('${id}')"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
                             <a id="${id}-update" type="button" class="update-comment" onclick="updateEdit('${id}')"><i class="fa fa-check" aria-hidden="true"></i></a>                                                                                                                         
                         </div>
@@ -100,7 +106,41 @@ function addHTML(id, userName, userEmail, comment, time_past, userProfileImg, us
                 </div>
             </article>
         </div>`;
+
+    let tempHtml;
+
+    if(isModified) {
+        tempHtml = tempHtml_start + tempHtml_is_modified + tempHtml_end;
+    } else {
+        tempHtml = tempHtml_start + tempHtml_not_modified + tempHtml_end;
+    }
     $('#post-box').append(tempHtml);
+}
+
+function comment_delete_confirm(comment_id){
+    let html_temp_delete_modal = `
+                                <div class="modal" id="confirm-deletion">
+                                    <div class="modal-background" onclick='$("#confirm-deletion").removeClass("is-active")'></div>
+                                    <div class="modal-content">
+                                        <div class="box">
+                                            <div class="cofirm msg-section">
+                                                <p class="confirm msg"><span><b>댓글 삭제</b></span></p>
+                                                <p>댓글을 완전히 삭제할까요?</p>
+                                            </div>
+                                            <div class="level-right">
+                                                <div class="level-item">
+                                                    <button class="button save-button" onclick="deleteOne('${comment_id}')">예</button>
+                                                </div>
+                                                <div class="level-item">
+                                                    <button class="button confirm cancel-button"
+                                                       onclick='$("#confirm-deletion").removeClass("is-active")'>아니오</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>`
+    $("#delete-confirm-section").append(html_temp_delete_modal);
+    $("#confirm-deletion").addClass("is-active");
 }
 
 function timePassed(date) {

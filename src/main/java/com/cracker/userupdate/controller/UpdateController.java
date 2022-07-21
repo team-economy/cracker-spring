@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
 
 @Slf4j
 @Controller
@@ -33,7 +34,7 @@ public class UpdateController {
     @ResponseBody
     @PostMapping(value = "/user/update_profile/{id}", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     public UpdateUserResponseDto UpdateProfile(@PathVariable long id, @Validated @ModelAttribute UpdateUserRequestDto updateUserRequestDto, BindingResult result)
-            throws IOException {
+            throws IOException, NoSuchAlgorithmException {
 
         UpdateUserResponseDto updateUserResponseDto = updateService.updateProfile(id, updateUserRequestDto);
 
@@ -43,7 +44,7 @@ public class UpdateController {
     @ResponseBody
     @PostMapping(value = "/user/update_marker/{id}", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     public UpdateMarkerResponseDto UpdateMarker(@PathVariable long id, @Validated @ModelAttribute UpdateMarkerRequestDto updateMarkerRequestDto, BindingResult result)
-            throws IOException {
+            throws IOException, NoSuchAlgorithmException {
 
         UpdateMarkerResponseDto updateMarkerResponseDto = updateService.updateMarker(id, updateMarkerRequestDto);
 

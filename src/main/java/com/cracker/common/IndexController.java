@@ -5,6 +5,7 @@ import com.cracker.auth.service.AuthService;
 import com.cracker.auth.util.token.AuthTokenProvider;
 import com.cracker.community.entity.Community;
 import com.cracker.community.service.CommunityService;
+import com.cracker.place.entity.Place;
 import com.cracker.place.service.PlaceService;
 import com.cracker.user.entity.Users;
 import com.cracker.user.service.UserService;
@@ -12,7 +13,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.UnsatisfiedServletRequestParameterException;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -35,27 +35,27 @@ public class IndexController {
     @GetMapping("/")
     public String home(HttpServletRequest request, HttpServletResponse response, @AuthenticationPrincipal UserPrincipal userPrincipal, Model model) {
         authService.refreshToken(request, response);
-//        // guest token 사용하지 않을 경우
-//        if (userPrincipal == null) {
-//            model.addAttribute("user", null);
-//        } else {
-//            String email = userPrincipal.getEmail();
-//            Users user = authService.findUserByEmail(email);
-//            if (user == null) {
-//                model.addAttribute("user", null);
-//            } else {
-//                model.addAttribute("user", user);
-//            }
-//        }
-
-        // guest token 사용할 경우
-        String email = userPrincipal.getEmail();
-        Users user = authService.findUserByEmail(email);
-        if (user == null) {
+        // guest token 사용하지 않을 경우
+        if (userPrincipal == null) {
             model.addAttribute("user", null);
         } else {
-            model.addAttribute("user", user);
+            String email = userPrincipal.getEmail();
+            Users user = authService.findUserByEmail(email);
+            if (user == null) {
+                model.addAttribute("user", null);
+            } else {
+                model.addAttribute("user", user);
+            }
         }
+
+//        // guest token 사용할 경우
+//        String email = userPrincipal.getEmail();
+//        Users user = authService.findUserByEmail(email);
+//        if (user == null) {
+//            model.addAttribute("user", null);
+//        } else {
+//            model.addAttribute("user", user);
+//        }
         return "home";
     }
 
@@ -82,17 +82,15 @@ public class IndexController {
     }
 
     //user page 연결
-    @GetMapping("/user/{id}")
-    public String user(@PathVariable Long id, @AuthenticationPrincipal UserPrincipal userPrincipal, Model model)
+    @GetMapping("/user/{nickname}")
+    public String user(@PathVariable String nickname, @AuthenticationPrincipal UserPrincipal userPrincipal, Model model)
     {
         String email = userPrincipal.getEmail();
         Optional<Users> user = authService.getUserByEmail(email);
-        Users userInfo = userService.userSearch(id);
+        Users userInfo = userService.userSearch(nickname);
         model.addAttribute("user", user);
         model.addAttribute("userInfo", userInfo);
-
         return "user";
-
     }
 
     @GetMapping("/manage")

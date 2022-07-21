@@ -30,7 +30,7 @@ public class CommentService{
 
     //comment 작성
     @Transactional
-    public Long save(CommentCreateRequestDto commentCreateRequestDto, String email){
+    public void save(CommentCreateRequestDto commentCreateRequestDto, String email){
         Comment comment = Comment.builder()
                 .comment(commentCreateRequestDto.getComment())
                 .build();
@@ -45,7 +45,7 @@ public class CommentService{
         comment.communityComment(community);
         comment.UserComment(user);
 
-        return commentRepository.save(comment).getId();
+        commentRepository.save(comment).getId();
     }
 
     @Transactional
@@ -62,23 +62,25 @@ public class CommentService{
                     .userNickname(comment.getUsers().getNickname())
                     .userEmail(comment.getUsers().getEmail())
                     .comment(comment.getComment())
+                    .createdAt(comment.getCreatedAt())
                     .modifiedAt(comment.getModifiedAt())
                     .userProfileImg(comment.getUsers().getPic())
                     .userId(comment.getUsers().getId())
+                    .modified(comment.isModified())
             .build();
             dtos.add(dto);
         }
 
-        Collections.sort(dtos, new CompareModifiedDesc());
+        Collections.sort(dtos, new CompareCreatedAtDesc());
 
         return dtos;
     }
 
     //수정 시간별 내림차순 정리
-    static class CompareModifiedDesc implements Comparator<CommentListResponseDto>{
+    static class CompareCreatedAtDesc implements Comparator<CommentListResponseDto>{
         @Override
         public int compare(CommentListResponseDto o1, CommentListResponseDto o2){
-            return o2.getModifiedAt().compareTo(o1.getModifiedAt());
+            return o2.getCreatedAt().compareTo(o1.getCreatedAt());
         }
     }
 
