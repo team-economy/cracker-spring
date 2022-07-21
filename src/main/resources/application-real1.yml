@@ -33,7 +33,7 @@ cors:
   max-age: 3600
 
 # jwt secret key
-jwt:
+#jwt:
 #  secret: 'secretkeyforspartaprojectcracker'
 
 app:
@@ -55,7 +55,7 @@ app:
 # AWS S3
 cloud:
   aws:
-    credentials:
+#    credentials:
 #      accesskey: AKIAWWHMVBI5FRDS3YPP
 #      secretkey: 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
     s3:
