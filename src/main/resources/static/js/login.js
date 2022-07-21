@@ -3,10 +3,10 @@
  */
 //회원 가입
 function sign_up() {
-    let user_mail = $("#input-user_mail").val()
+    let user_mail = $("#input-user_mail").val().trim()
     let user_name = $("#input-user_name").val()
-    let user_pw = $("#input-user_pw").val()
-    let user_pw2 = $("#input-password2").val()
+    let user_pw = $("#input-user_pw").val().trim()
+    let user_pw2 = $("#input-password2").val().trim()
     let user_role = $("#input-role").val()
     let adminToken = $("#input-adminToken").val()
 
@@ -108,7 +108,7 @@ function admin_sign_up() {
 
 //이메일 중복 확인
 function check_email_dup() {
-    let user_mail = $("#input-user_mail").val()
+    let user_mail = $("#input-user_mail").val().trim()
     let requestObject = {
         "email": user_mail
     }
@@ -145,7 +145,7 @@ function check_email_dup() {
 
 //유저이름 중복 확인
 function check_user_dup() {
-    let user_name = $("#input-user_name").val().toString()
+    let user_name = $("#input-user_name").val().toString().trim()
     let requestObject = {
         "nickname": user_name
     }

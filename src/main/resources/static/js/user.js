@@ -16,7 +16,7 @@ fileTarget.on('change', function(){ // 값이 변경되면
 });
 // 유저 프로필 이미지 변경
 function update_profile(id) {
-    let name = $('#input-user_name').val()
+    let name = $('#input-user_name').val().trim()
     let file = $('#input-pic')[0].files[0]
     let about = $("#textarea-about").val()
 
