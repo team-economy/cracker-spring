@@ -15,6 +15,7 @@ public class CommentListResponseDto {
     private String userEmail;
     private String comment;
 
+    private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
 
     private String userProfileImg;
@@ -22,11 +23,12 @@ public class CommentListResponseDto {
     private Long userId;
 
     @Builder
-    public CommentListResponseDto(Long id, String userNickname, String userEmail, String comment, LocalDateTime modifiedAt, String userProfileImg, Long userId) {
+    public CommentListResponseDto(Long id, String userNickname, String userEmail, String comment, LocalDateTime modifiedAt,LocalDateTime createdAt, String userProfileImg, Long userId) {
         this.id = id;
         this.userNickname = userNickname;
         this.userEmail = userEmail;
         this.comment = comment;
+        this.createdAt = createdAt;
         this.modifiedAt = modifiedAt;
         this.userProfileImg = userProfileImg;
         this.userId = userId;
