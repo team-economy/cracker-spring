@@ -2,6 +2,7 @@ package com.cracker.auth.controller;
 
 import com.cracker.auth.dto.LoginDto;
 import com.cracker.auth.dto.TokenDto;
+import com.cracker.auth.properties.AppProperties;
 import com.cracker.auth.service.AuthService;
 import com.cracker.auth.util.CookieUtil;
 import com.cracker.common.ResponseDetails;
@@ -21,6 +22,7 @@ import javax.servlet.http.HttpServletResponse;
 public class AuthController {
     private final AuthService authService;
     private final UserService userService;
+    private final AppProperties appProperties;
 
     @PostMapping("/api/cracker/guest")
     public ResponseEntity<?> guest(HttpServletRequest request, HttpServletResponse response) {
@@ -45,8 +47,8 @@ public class AuthController {
 
     @DeleteMapping("/api/cracker/logout")
     public void logout(HttpServletRequest request, HttpServletResponse response) {
-        CookieUtil.deleteCookie(request, response, "access_token", "localhost");
-        CookieUtil.deleteCookie(request, response, "refresh_token", "localhost");
+        CookieUtil.deleteCookie(request, response, "access_token", appProperties.getCookieDomain());
+        CookieUtil.deleteCookie(request, response, "refresh_token", appProperties.getCookieDomain());
     }
 
     @GetMapping("/api/cracker/refresh")
