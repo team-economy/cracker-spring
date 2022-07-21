@@ -13,6 +13,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 @RequiredArgsConstructor
 @Service
@@ -21,9 +23,25 @@ public class UpdateService {
     private final UserRepository userRepository;
     private final S3Service s3Service;
 
+    //파일명 암호화를 위한 세팅
+    public String encrypt(String text) throws NoSuchAlgorithmException {
+        MessageDigest md = MessageDigest.getInstance("SHA-256");
+        md.update(text.getBytes());
+
+        return bytesToHex(md.digest());
+    }
+
+    private String bytesToHex(byte[] bytes) {
+        StringBuilder builder = new StringBuilder();
+        for (byte b : bytes) {
+            builder.append(String.format("%02x", b));
+        }
+        return builder.toString();
+    }
+
     @Transactional
     public UpdateUserResponseDto updateProfile(Long id, UpdateUserRequestDto updateUserRequestDto)
-            throws IOException {
+            throws IOException, NoSuchAlgorithmException {
         Users users = userRepository.findById(id).orElseThrow(
                 () -> new NullPointerException("해당 사용자 없음")
         );
@@ -33,7 +51,8 @@ public class UpdateService {
             MultipartFile file = updateUserRequestDto.getFile();
 
 
-        String userMail = users.getEmail();
+        String mail = users.getEmail();
+        String userMail = encrypt(mail);
         String filepath = null;
 
         try {
@@ -71,12 +90,13 @@ public class UpdateService {
 
     @Transactional
     public UpdateMarkerResponseDto updateMarker(Long id, UpdateMarkerRequestDto updateMarkerRequestDto)
-            throws IOException {
+            throws IOException, NoSuchAlgorithmException {
         Users users = userRepository.findById(id).orElseThrow(
                 () -> new NullPointerException("해당 사용자 없음")
         );
 
-        String userMail = users.getEmail();
+        String mail = users.getEmail();
+        String userMail = encrypt(mail);
         MultipartFile file = updateMarkerRequestDto.getFile();
 
         String markerpath = null;
