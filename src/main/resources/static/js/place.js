@@ -122,7 +122,7 @@ function get_address() {
 
     $.ajax({
         type: "GET",
-        url: `https://dapi.kakao.com/v2/local/search/keyword?query=${place_name}`,
+        url: `https://dapi.kakao.com/v2/local/search/keyword?query=${place_name}&category_group_code=CS2,FD6,CE7`,
         beforeSend: function (header) {
             header.setRequestHeader("Authorization", 'KakaoAK b2cd5fe8152984068e62cf5b85fbb75a');
         },
