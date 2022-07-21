@@ -46,7 +46,7 @@ dependencies {
 
     implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-aws', version: '2.2.6.RELEASE'
 
-//    Secret manager 의존성
+//    Secret manager 의존성gr
     // https://mvnrepository.com/artifact/com.amazonaws.secretsmanager/aws-secretsmanager-jdbc
     implementation 'com.amazonaws.secretsmanager:aws-secretsmanager-jdbc:1.0.8'
     implementation 'org.springframework.cloud:spring-cloud-starter-bootstrap:3.1.3'
