@@ -8,6 +8,7 @@ import com.cracker.place.dto.AdminCommentListRequestDto;
 
 import com.cracker.place.dto.PlaceDeleteResponseDto;
 import com.cracker.place.service.PlaceService;
+import com.cracker.user.entity.Users;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,7 +33,9 @@ public class AdminController {
 
     @DeleteMapping("/admin/places/{id}")
     public PlaceDeleteResponseDto deletePlace(@PathVariable("id") Long id) {
-        long retId = placeService.deletePlace(id);
+        Users user = placeService.findUserByPlaceId(id);
+        long userId = user.getId();
+        long retId = placeService.deletePlace(id, userId);
         PlaceDeleteResponseDto placeDeleteResponseDto = new PlaceDeleteResponseDto();
         placeDeleteResponseDto.setMsg("삭제 완료!!");
 
