@@ -40,3 +40,26 @@ body {
 .textarea {
     resize: none;
 }
+
+/*삭제 확인 모달*/
+.confirm.msg {
+    font-size: larger;
+}
+
+.confirm.cancel-button {
+    background-color: #eddfca;
+    border-color: #eddfca;
+}
+
+/*예, 아니오 버튼*/
+.button.save-button {
+    background-color: #3A3845;
+    border-color: transparent;
+    color: #FDF6EC !important;
+}
+
+.button.cancel-button {
+    background-color: #FDF6EC;
+    border-color: #FDF6EC;
+    color: #3A3845 !important;
+}

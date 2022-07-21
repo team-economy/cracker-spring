@@ -84,7 +84,7 @@ function addHTML(id, userName, userEmail, comment, time_past, userProfileImg, us
                             <strong>${userName}</strong> <small>(${userEmail})</small><small class="comment-time">${time_past}</small>                            
                         </div>
                         <div class = "comment-buttons-area">
-                            <a id="${id}-delete" type="button" class="delete-comment" onclick="deleteOne('${id}')"><i class="fa fa-trash" aria-hidden="true"></i></a>     
+                            <a id="${id}-delete" type="button" class="delete-comment" onclick="comment_delete_confirm('${id}')"><i class="fa fa-trash" aria-hidden="true"></i></a>     
                             <a id="${id}-edit" type="button" class="edit-comment" onclick="editComment('${id}')"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
                             <a id="${id}-update" type="button" class="update-comment" onclick="updateEdit('${id}')"><i class="fa fa-check" aria-hidden="true"></i></a>                                                                                                                         
                         </div>
@@ -101,6 +101,32 @@ function addHTML(id, userName, userEmail, comment, time_past, userProfileImg, us
             </article>
         </div>`;
     $('#post-box').append(tempHtml);
+}
+
+function comment_delete_confirm(comment_id){
+    let html_temp_delete_modal = `
+                                <div class="modal" id="confirm-deletion">
+                                    <div class="modal-background" onclick='$("#confirm-deletion").removeClass("is-active")'></div>
+                                    <div class="modal-content">
+                                        <div class="box">
+                                            <div class="cofirm msg-section">
+                                                <p class="confirm msg"><span><b>댓글 삭제</b></span></p>
+                                                <p>댓글을 완전히 삭제할까요?</p>
+                                            </div>
+                                            <div class="level-right">
+                                                <div class="level-item">
+                                                    <button class="button save-button" onclick="deleteOne('${comment_id}')">예</button>
+                                                </div>
+                                                <div class="level-item">
+                                                    <button class="button confirm cancel-button"
+                                                       onclick='$("#confirm-deletion").removeClass("is-active")'>아니오</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>`
+    $("#delete-confirm-section").append(html_temp_delete_modal);
+    $("#confirm-deletion").addClass("is-active");
 }
 
 function timePassed(date) {
