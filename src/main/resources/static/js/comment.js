@@ -59,18 +59,19 @@ function getMessages() {
                 let time_past = timePassed(time_comment)
                 let userProfileImg = message['userProfileImg'];
                 let userId = message['userId'];
+                let isModified = message['modified'];
 
                 console.log(comment)
 
-                addHTML(id, username, userEmail, comment, time_past, userProfileImg, userId);
+                addHTML(id, username, userEmail, comment, time_past, userProfileImg, userId, isModified);
             }
         }
     })
 }
 
 
-function addHTML(id, userName, userEmail, comment, time_past, userProfileImg, userId) {
-    let tempHtml = `
+function addHTML(id, userName, userEmail, comment, time_past, userProfileImg, userId, isModified) {
+    let tempHtml_start = `
         <div class="box comment-list">
             <article class="media">
                 <div class="media-left profile-img-area">
@@ -81,8 +82,13 @@ function addHTML(id, userName, userEmail, comment, time_past, userProfileImg, us
                 <div class="media-content comment-area">
                     <div class="content">
                         <div class="comment-userinfo">                         
-                            <strong>${userName}</strong> <small>(${userEmail})</small><small class="comment-time">${time_past}</small>                            
-                        </div>
+                            `;
+    let tempHtml_not_modified = `<strong>${userName}</strong> <small>(${userEmail})</small><small class="comment-time">${time_past}</small>`;
+
+    let tempHtml_is_modified = `<strong>${userName}</strong> <small>(${userEmail})</small><small class="comment-time">${time_past} (수정됨)</small>`;
+
+    let tempHtml_end = `
+                            </div>
                         <div class = "comment-buttons-area">
                             <a id="${id}-delete" type="button" class="delete-comment" onclick="comment_delete_confirm('${id}')"><i class="fa fa-trash" aria-hidden="true"></i></a>     
                             <a id="${id}-edit" type="button" class="edit-comment" onclick="editComment('${id}')"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
@@ -100,6 +106,14 @@ function addHTML(id, userName, userEmail, comment, time_past, userProfileImg, us
                 </div>
             </article>
         </div>`;
+
+    let tempHtml;
+
+    if(isModified) {
+        tempHtml = tempHtml_start + tempHtml_is_modified + tempHtml_end;
+    } else {
+        tempHtml = tempHtml_start + tempHtml_not_modified + tempHtml_end;
+    }
     $('#post-box').append(tempHtml);
 }
 
