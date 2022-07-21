@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <th:block th:replace="fragments/header :: header"></th:block>
+    <th:block th:replace="fragments/common/header :: header"></th:block>
     <th:block th:replace="fragments/communityHeader :: communityHeader"></th:block>
 </head>
 
 <body>
-<nav th:replace="fragments/communityNavbar :: communityNavbar"/>
+<nav th:replace="fragments/navbar/communityNavbar :: communityNavbar"/>
 <section class="hero is-white">
     <div class="hero-body place-info">
         <article class="media">
@@ -55,7 +55,7 @@
 </section>
 
 <footer>
-    <div th:replace="fragments/footer :: footer"/>
+    <div th:replace="fragments/common/footer :: footer"/>
 </footer>
 </body>
 </html>
