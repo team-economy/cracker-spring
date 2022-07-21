@@ -100,8 +100,29 @@ public class PlaceService {
      * 맛집 지우기
      */
     @Transactional
-    public Long deletePlace(Long id) {
+    public Long deletePlace(Long id, Long userId) {
+        Place place = placeRepository.findById(id).orElseThrow(
+                ()-> new NoSuchElementException("일치하는 저장된 맛집이 없습니다.")
+        );
+        Community community = communityRepository.findByAddr(place.getAddr());
+        Long communityId = place.getCommunity().getId();
+        List<Comment> comments = commentRepository.findAll();
+        if (comments.size() != 0) {
+            for (Comment comment : comments) {
+                Long commentUserId = comment.getUsers().getId();
+                Long commentCommunityId = comment.getCommunity().getId();
+                if (commentUserId.equals(userId) && commentCommunityId.equals(communityId)) {
+                    Long commentId = comment.getId();
+                    // place 삭제
+                    commentRepository.deleteById(commentId);
+                }
+            }
+        }
         placeRepository.deleteById(id);
+        // 지운 place의 community에 존재하는 place가 없다면 community 삭제
+        if (placeRepository.findByAddr(place.getAddr()) == null) {
+            communityRepository.deleteById(communityId);
+        }
         return id;
     }
 
@@ -145,6 +166,14 @@ public class PlaceService {
             communityRepository.deleteById(communityId);
         }
         return placeId;
+    }
+
+    @Transactional
+    public Users findUserByPlaceId(Long id) {
+        Place place = placeRepository.findById(id).orElseThrow(
+                () -> new IllegalArgumentException("해당하는 장소가 없습니다.")
+        );
+        return place.getUsers();
     }
 
     @Transactional
