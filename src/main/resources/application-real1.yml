@@ -34,30 +34,30 @@ cors:
 
 # jwt secret key
 jwt:
-  secret: 'secretkeyforspartaprojectcracker'
+#  secret: 'secretkeyforspartaprojectcracker'
 
 app:
   auth:
     guestExpiry: 10800000
     tokenExpiry: 10800000            # 3??
     refreshTokenExpiry: 604800000    # 7?
-    adminToken: TODO
-    cookieDomain : crackers.life
+#    adminToken: TODO
+#    cookieDomain : crackers.life
 
   message: Message has been sent Successfully..
 
 # kakao 로그인 REST API 키
-kakao:
-  secret: c68ff2766979dad52191b316a0b99f22
-  adminToken: b0f4cc083b3493de772e56d92cc5bdbe
+#kakao:
+#  secret: c68ff2766979dad52191b316a0b99f22
+#  adminToken: b0f4cc083b3493de772e56d92cc5bdbe
 
 
 # AWS S3
 cloud:
   aws:
     credentials:
-      accesskey: AKIAWWHMVBI5FRDS3YPP
-      secretkey: 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
+#      accesskey: AKIAWWHMVBI5FRDS3YPP
+#      secretkey: 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
     s3:
       bucket: crackertest
     region:
