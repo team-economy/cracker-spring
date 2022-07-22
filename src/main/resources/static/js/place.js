@@ -125,7 +125,7 @@ function get_address() {
     let place_name = $("#input-post").val()
     $("#input-post").val("");
     $("#place_list").empty();
-
+    console.log(place_name)
     $.ajax({
         type: "GET",
         url: `https://dapi.kakao.com/v2/local/search/keyword?query=${place_name}&category_group_code=CS2,FD6,CE7`,
