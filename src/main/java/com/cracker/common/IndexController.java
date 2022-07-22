@@ -67,8 +67,7 @@ public class IndexController {
 
     //community page 연결
     @GetMapping("/community/{id}")
-    public String commnuity(@PathVariable Long id, HttpServletRequest request, HttpServletResponse response, @AuthenticationPrincipal UserPrincipal userPrincipal, Model model){
-        authService.refreshToken(request, response);
+    public String commnuity(@PathVariable Long id, @AuthenticationPrincipal UserPrincipal userPrincipal, Model model){
         String email = userPrincipal.getEmail();
         Optional<Users> user = authService.getUserByEmail(email);
         Community community = communityService.communitySearch(id);
@@ -79,8 +78,7 @@ public class IndexController {
 
     //user page 연결
     @GetMapping("/user/{nickname}")
-    public String user(@PathVariable String nickname, HttpServletRequest request, HttpServletResponse response, @AuthenticationPrincipal UserPrincipal userPrincipal, Model model) {
-        authService.refreshToken(request, response);
+    public String user(@PathVariable String nickname, @AuthenticationPrincipal UserPrincipal userPrincipal, Model model) {
         String email = userPrincipal.getEmail();
         Optional<Users> user = authService.getUserByEmail(email);
         Users userInfo = userService.userSearch(nickname);
