@@ -23,7 +23,7 @@ public class CommunityService {
     private final UserRepository userRepository;
 
     @Transactional
-    public Community communitySearch(Long id){
+    public Community communitySearch(Object id){
         return communityRepository.getById(id);
     }
 
