@@ -13,13 +13,15 @@ function isValidcomment(comment) {
 
 function registerComment() {
     if(event.key === "Enter") {
-        post()
+        if(!event.shiftKey) {
+            post()
+        }
     }
 }
 
 function post() {
     // 작성한 메모
-    let comment = $('#textarea-post').val().replace(/(?:\r\n|\r|\n)/g, '<br />');
+    let comment = $('#textarea-post').val();
     // 작성한 메모가 올바른지 isValidContents 함수를 통해 확인
     if (isValidcomment(comment) == false) {
         return;
@@ -60,7 +62,7 @@ function getMessages() {
                 let id = message['id'];
                 let username = message['userNickname'];
                 let userEmail = message['userEmail'];
-                let comment = message['comment'];
+                let comment = message['comment'].replace(/(?:\r\n|\r|\n)/g, '<br />');
                 let time_comment = new Date(message['modifiedAt'])
                 let time_past = timePassed(time_comment)
                 let userProfileImg = message['userProfileImg'];
