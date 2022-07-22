@@ -13,7 +13,7 @@ public class ExceptionHandlingController implements ErrorController {
     private final String ERROR_400_PAGE_PATH = "/error/400";
     private final String ERROR_404_PAGE_PATH = "/error/404";
     private final String ERROR_500_PAGE_PATH = "/error/500";
-    private final String ERROR_ETC_PAGE_PATH = "/error/error";
+    private final String ERROR_ETC_PAGE_PATH = "/error/error_page";
 
     @RequestMapping(value = "/error")
     public String handleError(HttpServletRequest request) {
