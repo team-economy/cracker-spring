@@ -1,1 +1,15 @@
-.is-cracker
+.social-login {
+    background-image:url(/kakao_login_medium_narrow.png);
+    background-repeat: no-repeat;
+    border: none;
+    width: 183px;
+    height: 45px;
+    margin: auto;
+}
+
+hr {
+    background-color: #9f8a8a;
+    border: none;
+    display: block;
+    margin: 0px 0px 20px 0px;
+}
