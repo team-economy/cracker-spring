@@ -41,7 +41,7 @@ function post() {
             window.location.reload();
         },
         error: function (response) {
-            alert("GUEST 유저입니다.")
+            alert("글자 수가 255자 이내여야합니다.")
         },
     });
 

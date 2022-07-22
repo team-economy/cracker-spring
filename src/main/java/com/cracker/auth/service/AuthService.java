@@ -136,30 +136,7 @@ public class AuthService {
     /**
      * 토큰 재발급
      */
-    public ResponseDetails refreshToken(HttpServletRequest request, HttpServletResponse response) {
-        String path = "/api/cracker/refresh";
-//          // front-back 분리시 사용
-//          // access token 확인 1
-//        String accessToken = HeaderUtil.getAccessToken(request);
-//        AuthToken authToken = tokenProvider.convertAuthToken(accessToken);
-//          // access token 확인 2
-//        String accessToken = CookieUtil.getCookie(request, AuthToken.ACCESS_TOKEN)
-//                .map(Cookie::getValue)
-//                .orElse((null));
-//        AuthToken authToken = tokenProvider.convertAuthToken(accessToken);
-//
-//        if (!authToken.validate()) {
-//            return ResponseDetails.invalidAccessToken(path);
-//        }
-//
-//        // expired access token 인지 확인
-//        Claims claims = authToken.getExpiredTokenClaims();
-//        if (claims == null) {
-//            return ResponseDetails.notExpiredTokenYet(path);
-//        }
-//
-//        String email = claims.getSubject();
-
+    public String refreshToken(HttpServletRequest request, HttpServletResponse response) {
         // refresh token
         String refreshToken = CookieUtil.getCookie(request, AuthToken.REFRESH_TOKEN)
                 .map(Cookie::getValue)
@@ -167,7 +144,11 @@ public class AuthService {
         AuthToken authRefreshToken = tokenProvider.convertAuthToken(refreshToken);
 
         if (!authRefreshToken.validate()) {
-            return ResponseDetails.invalidRefreshToken(path);
+            CookieUtil.deleteCookie(request, response, AuthToken.ACCESS_TOKEN, appProperties.getCookieDomain());
+            if (refreshToken != null) {
+                CookieUtil.deleteCookie(request, response, AuthToken.REFRESH_TOKEN, appProperties.getCookieDomain());
+            }
+            return null;
         }
 
         Claims claims = authRefreshToken.getTokenClaims();
@@ -180,7 +161,9 @@ public class AuthService {
 
         String userRefreshToken = user.getRefreshToken();
         if (!userRefreshToken.equals(refreshToken)) {
-            return ResponseDetails.invalidRefreshToken(path);
+            CookieUtil.deleteCookie(request, response, AuthToken.ACCESS_TOKEN, appProperties.getCookieDomain());
+            CookieUtil.deleteCookie(request, response, AuthToken.REFRESH_TOKEN, appProperties.getCookieDomain());
+            return null;
         }
 
         Date now = new Date();
@@ -197,7 +180,7 @@ public class AuthService {
         long validTime = authRefreshToken.getTokenClaims().getExpiration().getTime() - now.getTime();
 
         // refresh 토큰 기간이 3일 이하로 남은 경우, refresh 토큰 갱신
-        if (validTime >= THREE_DAYS_MSEC) {
+        if (validTime <= THREE_DAYS_MSEC) {
             // refresh 토큰 설정
             long refreshTokenExpiry = appProperties.getRefreshTokenExpiry();
 
@@ -210,7 +193,7 @@ public class AuthService {
             refreshTokenAddCookie(response, authRefreshToken.getToken());
         }
 
-        return ResponseDetails.success(new TokenDto(newAccessToken.getToken()), path);
+        return email;
     }
 
     public Users findUserByEmail(String email) {
