@@ -47,7 +47,7 @@ public class AuthController {
 
     @DeleteMapping("/api/cracker/logout")
     public void logout(HttpServletRequest request, HttpServletResponse response) {
-        CookieUtil.deleteCookie(request, response, "access_token", appProperties.getCookieDomain());
+        CookieUtil.deleteCookie(request, response, "access_token", "localhost");
         CookieUtil.deleteCookie(request, response, "refresh_token", appProperties.getCookieDomain());
     }
 
