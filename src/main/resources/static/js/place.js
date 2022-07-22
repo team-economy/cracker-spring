@@ -114,6 +114,15 @@ function place_delete_confirm(place_id, place_name){
     $("#confirm-deletion").addClass("is-active");
 }
 
+const inputTxtEl = document.getElementById('inputTxt')
+const searchBtnEl = document.getElementById('searchBtn')
+
+inputTxtEl.addEventListener('keydown', (event) => {
+    if (event.key === "Enter") {
+        searchBtnEl.click()
+    }
+})
+
 // 주소 검색
 function get_address() {
     let place_name = $("#input-post").val()
