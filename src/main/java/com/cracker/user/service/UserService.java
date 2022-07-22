@@ -75,12 +75,12 @@ public class UserService {
 
         String pic;
         if (requestJoinDTO.getPic().equals("")) {
-            pic = "static/profile_pics/profile_placeholder.png";
+            pic = "/profile_pics/profile_placeholder.png";
         } else {
             pic = requestJoinDTO.getPic();
         }
 
-        String marker_pic = "static/marker_pics/marker-default.png";
+        String marker_pic = "/marker_pics/marker-default.png";
 
         // 사용자 ROLE 확인
         UserRole role = UserRole.USER;
