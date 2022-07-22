@@ -113,15 +113,21 @@ function place_delete_confirm(place_id, place_name){
     $("#delete-confirm-section").append(html_temp_delete_modal);
     $("#confirm-deletion").addClass("is-active");
 }
+//
+// const inputTxtEl = document.getElementById('inputTxt')
+// const searchBtnEl = document.getElementById('searchBtn')
+//
+// inputTxtEl.addEventListener('keydown', (event) => {
+//     if (event.key === "Enter") {
+//         searchBtnEl.click()
+//     }
+// })
 
-const inputTxtEl = document.getElementById('inputTxt')
-const searchBtnEl = document.getElementById('searchBtn')
-
-inputTxtEl.addEventListener('keydown', (event) => {
+function searchEvent() {
     if (event.key === "Enter") {
-        searchBtnEl.click()
+        get_address()
     }
-})
+}
 
 // 주소 검색
 function get_address() {
