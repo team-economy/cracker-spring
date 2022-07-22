@@ -42,9 +42,9 @@ public class Comment extends Timestamped {
         this.comment = comment;
     }
 
-public void updateComment(CommentUpdateRequestDto commentUpdateRequestDto){
+public void updateComment(String comment){
         this.modified = true;
-        this.comment = commentUpdateRequestDto.getComment();
+        this.comment = comment;
     }
 
     public void communityComment(Community community){
