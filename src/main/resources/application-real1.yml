@@ -34,8 +34,8 @@ cors:
 
 app:
   auth:
-    guestExpiry: 10800000
-    tokenExpiry: 10800000            # 3??
+    guestExpiry: 259200000
+    tokenExpiry: 259200000            # 3??
     refreshTokenExpiry: 604800000    # 7?
 
 
