@@ -114,7 +114,7 @@ public class UserService {
     }
 
     /**
-     * 닉네임 유효성 체크
+     * 이메일 유효성 체크
      */
     public Boolean validateEmailCheck(Map<String, String> requestObject) {
         String regExp = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}$";
