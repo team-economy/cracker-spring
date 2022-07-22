@@ -64,9 +64,15 @@ public class UpdateService {
             else if(contentType.contains("image/png")){
                 originalFileExtensionBack = ".png";
             }
-            else if(contentType.contains("video/mp4")){
-                originalFileExtensionBack = ".mp4";
+            else if(contentType.contains("image/gif")){
+                originalFileExtensionBack = ".gif";
             }
+            else if(contentType.contains("image/bmp")){
+                originalFileExtensionBack = ".bmp";
+            } else {
+                return null;
+            }
+
 
             if (file != null) {
                 filepath = s3Service.upload(file, userMail + originalFileExtensionBack);
@@ -108,8 +114,12 @@ public class UpdateService {
                 originalFileExtensionBack = ".jpg";
             } else if (contentType.contains("image/png")) {
                 originalFileExtensionBack = ".png";
-            } else if (contentType.contains("video/mp4")) {
-                originalFileExtensionBack = ".mp4";
+            } else if(contentType.contains("image/gif")){
+                originalFileExtensionBack = ".gif";
+            } else if(contentType.contains("image/bmp")){
+                originalFileExtensionBack = ".bmp";
+            } else {
+                return null;
             }
 
             if (file != null) {
