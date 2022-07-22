@@ -114,6 +114,12 @@ function place_delete_confirm(place_id, place_name){
     $("#confirm-deletion").addClass("is-active");
 }
 
+function searchEvent() {
+    if (event.key === "Enter") {
+        get_address()
+    }
+}
+
 // 주소 검색
 function get_address() {
     let place_name = $("#input-post").val()
