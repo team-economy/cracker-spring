@@ -43,6 +43,7 @@ public class CommunityService {
                         .phoneNum(community.getPhoneNum())
                         .cate(community.getCate())
                         .markerPic("static/marker_pics/marker-default.png")
+                        .role("GUEST")
                         .build();
                 dtos.add(dto);
             }
@@ -75,6 +76,7 @@ public class CommunityService {
                         .phoneNum(community.getPhoneNum())
                         .cate(community.getCate())
                         .markerPic(marker_pic)
+                        .role("USER")
                         .build();
                 dtos.add(dto);
             }
