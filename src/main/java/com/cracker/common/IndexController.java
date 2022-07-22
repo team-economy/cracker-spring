@@ -44,6 +44,7 @@ public class IndexController {
             Users user = authService.findUserByEmail(email);
             if (user == null) {
                 model.addAttribute("user", null);
+                return "home";
             } else {
                 model.addAttribute("user", user);
             }
