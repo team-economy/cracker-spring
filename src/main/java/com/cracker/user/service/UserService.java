@@ -109,14 +109,18 @@ public class UserService {
      * 이메일 중복 체크
      */
     public Boolean duplicateEmailCheck(Map<String, String> requestObject) {
+        String email = requestObject.get("email");
+        return emailDuplicate(email);
+    }
+
+    /**
+     * 닉네임 유효성 체크
+     */
+    public Boolean validateEmailCheck(Map<String, String> requestObject) {
         String regExp = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}$";
         String email = requestObject.get("email");
-        if(email.matches(regExp)){
-            return emailDuplicate(email);
-        }else {
-            return email.matches(regExp);
-        }
 
+        return email.matches(regExp);
     }
 
     /**
@@ -125,6 +129,23 @@ public class UserService {
     public Boolean duplicateNicknameCheck(Map<String, String> requestObject) {
         String nickname = requestObject.get("nickname");
         return nicknameDuplicate(nickname);
+    }
+
+    /**
+     * 닉네임 유효성 체크
+     */
+    public Boolean validateNicknameCheck(Map<String, String> requestObject) {
+        String regExp = "^([a-zA-Z0-9ㄱ-ㅎ가-힣]).{1,10}$";
+        String nickname = requestObject.get("nickname");
+        return nickname.matches(regExp);
+    }
+
+    /**
+     * 비밀번호 유효성 체크
+     */
+    public Boolean validatePasswordCheck(String password){
+        String regExp = "^(?=.*\\d)(?=.*[a-zA-Z])[0-9a-zA-Z!@#$%^&*_?]{8,20}$";
+        return password.matches(regExp);
     }
 
     /**
