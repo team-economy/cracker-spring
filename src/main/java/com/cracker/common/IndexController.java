@@ -1,5 +1,6 @@
 package com.cracker.common;
 
+import com.cracker.auth.properties.AppProperties;
 import com.cracker.auth.security.UserPrincipal;
 import com.cracker.auth.service.AuthService;
 import com.cracker.auth.util.token.AuthTokenProvider;
@@ -44,6 +45,7 @@ public class IndexController {
             Users user = authService.findUserByEmail(email);
             if (user == null) {
                 model.addAttribute("user", null);
+                return "home";
             } else {
                 model.addAttribute("user", user);
             }
