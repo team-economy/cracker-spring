@@ -29,7 +29,7 @@ dependencies {
 
     implementation 'com.auth0:java-jwt:3.19.2'
 
-    implementation 'org.hibernate.validator:hibernate-validator:7.0.4.Final'
+//    implementation 'org.hibernate.validator:hibernate-validator:7.0.4.Final'
     implementation group: 'org.json', name: 'json', version: '20200518'
 //
 //    // S3 - AWS
