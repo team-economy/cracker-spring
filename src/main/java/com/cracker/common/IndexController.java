@@ -7,6 +7,7 @@ import com.cracker.community.entity.Community;
 import com.cracker.community.service.CommunityService;
 import com.cracker.place.entity.Place;
 import com.cracker.place.service.PlaceService;
+import com.cracker.user.entity.UserRole;
 import com.cracker.user.entity.Users;
 import com.cracker.user.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -46,16 +47,10 @@ public class IndexController {
             } else {
                 model.addAttribute("user", user);
             }
+            if (user.getRole() == UserRole.ADMIN) {
+                return "admin";
+            }
         }
-
-//        // guest token 사용할 경우
-//        String email = userPrincipal.getEmail();
-//        Users user = authService.findUserByEmail(email);
-//        if (user == null) {
-//            model.addAttribute("user", null);
-//        } else {
-//            model.addAttribute("user", user);
-//        }
         return "home";
     }
 
@@ -87,8 +82,7 @@ public class IndexController {
 
     //user page 연결
     @GetMapping("/user/{nickname}")
-    public String user(@PathVariable String nickname, @AuthenticationPrincipal UserPrincipal userPrincipal, Model model)
-    {
+    public String user(@PathVariable String nickname, @AuthenticationPrincipal UserPrincipal userPrincipal, Model model) {
         String email = userPrincipal.getEmail();
         Optional<Users> user = authService.getUserByEmail(email);
         Users userInfo = userService.userSearch(nickname);
