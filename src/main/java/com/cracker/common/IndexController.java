@@ -76,9 +76,13 @@ public class IndexController {
         String email = userPrincipal.getEmail();
         Optional<Users> user = authService.getUserByEmail(email);
         Community community = communityService.communitySearch(id);
-        model.addAttribute("communityInfo", community);
-        model.addAttribute("userCommu", user);
-        return "community";
+        if(community == null) {
+            return "error/500html";
+        } else {
+            model.addAttribute("communityInfo", community);
+            model.addAttribute("userCommu", user);
+            return "community";
+        }
     }
 
     //user page 연결
@@ -88,9 +92,13 @@ public class IndexController {
         String email = userPrincipal.getEmail();
         Optional<Users> user = authService.getUserByEmail(email);
         Users userInfo = userService.userSearch(nickname);
-        model.addAttribute("user", user);
-        model.addAttribute("userInfo", userInfo);
-        return "user";
+        if(user.isEmpty()) {
+            return "error/500html";
+        }else {
+            model.addAttribute("user", user);
+            model.addAttribute("userInfo", userInfo);
+            return "user";
+        }
     }
 
     @GetMapping("/manage")
