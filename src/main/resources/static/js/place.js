@@ -113,15 +113,6 @@ function place_delete_confirm(place_id, place_name){
     $("#delete-confirm-section").append(html_temp_delete_modal);
     $("#confirm-deletion").addClass("is-active");
 }
-//
-// const inputTxtEl = document.getElementById('inputTxt')
-// const searchBtnEl = document.getElementById('searchBtn')
-//
-// inputTxtEl.addEventListener('keydown', (event) => {
-//     if (event.key === "Enter") {
-//         searchBtnEl.click()
-//     }
-// })
 
 function searchEvent() {
     if (event.key === "Enter") {
