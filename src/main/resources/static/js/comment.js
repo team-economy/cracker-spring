@@ -11,6 +11,12 @@ function isValidcomment(comment) {
     return true;
 }
 
+function registerComment() {
+    if(event.key === "Enter") {
+        post()
+    }
+}
+
 function post() {
     // 작성한 메모
     let comment = $('#textarea-post').val().replace(/(?:\r\n|\r|\n)/g, '<br />');
