@@ -8,7 +8,7 @@ import org.hibernate.validator.constraints.Length;
 public class CommentCreateRequestDto {
 
 //    private String userName;
-    @Length(min=1, max=255)
+//    @Length(min=1, max=255)
     private String comment;
 
     private String communityAddr;
