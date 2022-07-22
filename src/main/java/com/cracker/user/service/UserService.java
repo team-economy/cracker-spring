@@ -28,7 +28,6 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-@Transactional
 public class UserService {
     private final UserRepository userRepository;
     private final AuthService authService;
@@ -42,6 +41,7 @@ public class UserService {
     /**
      * 이메일 중복 체크
      */
+    @Transactional
     public boolean emailDuplicate(String email) {
         Optional<Users> user = userRepository.findByEmail(email);
         return user.isPresent();
@@ -50,6 +50,7 @@ public class UserService {
     /**
      * 닉네임 중복 체크
      */
+    @Transactional
     public boolean nicknameDuplicate(String nickname) {
         Optional<Users> user = userRepository.findByNickname(nickname);
         return user.isPresent();
@@ -58,6 +59,7 @@ public class UserService {
     /**
      * 회원가입
      */
+    @Transactional
     public TokenDto join(HttpServletResponse response, JoinDto requestJoinDTO) {
         // adminToken 설정시 사용
         String email = requestJoinDTO.getEmail();
@@ -108,6 +110,7 @@ public class UserService {
     /**
      * 이메일 중복 체크
      */
+    @Transactional
     public Boolean duplicateEmailCheck(Map<String, String> requestObject) {
         String email = requestObject.get("email");
         return emailDuplicate(email);
@@ -116,6 +119,7 @@ public class UserService {
     /**
      * 닉네임 중복 체크
      */
+    @Transactional
     public Boolean duplicateNicknameCheck(Map<String, String> requestObject) {
         String nickname = requestObject.get("nickname");
         return nicknameDuplicate(nickname);
@@ -124,6 +128,7 @@ public class UserService {
     /**
      * 카카오 로그인 시 DB에 회원 정보가 있다면 토큰 발급
      */
+    @Transactional
     public TokenDto getToken(Users user, HttpServletResponse response) {
         // refresh token 발급 및 쿠키에 저장
         AuthToken refreshToken = authService.refreshToken(user);
@@ -139,6 +144,7 @@ public class UserService {
     /**
      * 카카오 로그인 시 DB에 회원 정보가 있다면 비밀번호 체크 로직 실행
      */
+    @Transactional
     public TokenDto kakaoLogin(KakaoUserInfo userInfo, Users user, HttpServletResponse response) {
         Long kakaoId = userInfo.getId();
         // 패스워드를 카카오 Id + ADMIN TOKEN 로 지정
@@ -152,6 +158,7 @@ public class UserService {
     /**
      * 카카오 로그인 시 DB에 회원 정보가 없다면 회원가입 로직 실행
      */
+    @Transactional
     public TokenDto kakaoJoin(KakaoUserInfo userInfo, HttpServletResponse response) {
         Long kakaoId = userInfo.getId();
         // 패스워드를 카카오 Id + ADMIN TOKEN 로 지정
@@ -166,6 +173,7 @@ public class UserService {
     /**
      * 프론트에서 카카오 로그인 클릭 시 실행되는 서비스 로직
      */
+    @Transactional
     public TokenDto kakao(String authorizedCode, HttpServletResponse response) {
         // 카카오 OAuth2 를 통해 카카오 사용자 정보 조회
         KakaoUserInfo userInfo = kakaoOAuth2.getUserInfo(authorizedCode);
@@ -191,6 +199,7 @@ public class UserService {
         return token;
     }
 
+    @Transactional
     public Users userSearch(String nickname) {
         return userRepository.getByNickname(nickname);
     }

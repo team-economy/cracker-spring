@@ -30,27 +30,25 @@ public class IndexController {
     private final AuthTokenProvider authTokenProvider;
     private final AuthService authService;
     private final UserService userService;
-
     private final CommunityService communityService;
 
     @GetMapping("/")
     public String home(HttpServletRequest request, HttpServletResponse response, @AuthenticationPrincipal UserPrincipal userPrincipal, Model model) {
-        authService.refreshToken(request, response);
-        // guest token 사용하지 않을 경우
+        String email;
         if (userPrincipal == null) {
-            model.addAttribute("user", null);
+            email = authService.refreshToken(request, response);
         } else {
-            String email = userPrincipal.getEmail();
-            Users user = authService.findUserByEmail(email);
-            if (user == null) {
-                model.addAttribute("user", null);
-                return "home";
-            } else {
-                model.addAttribute("user", user);
-            }
-            if (user.getRole() == UserRole.ADMIN) {
-                return "admin";
-            }
+            email = userPrincipal.getEmail();
+        }
+        Users user = authService.getUserByEmail(email).orElse(null);
+        if (user == null) {
+            model.addAttribute("user", null);
+            return "home";
+        } else {
+            model.addAttribute("user", user);
+        }
+        if (user.getRole() == UserRole.ADMIN) {
+            return "admin";
         }
         return "home";
     }
@@ -68,8 +66,13 @@ public class IndexController {
 
     //community page 연결
     @GetMapping("/community/{id}")
-    public String commnuity(@PathVariable Long id, @AuthenticationPrincipal UserPrincipal userPrincipal, Model model){
-        String email = userPrincipal.getEmail();
+    public String commnuity(@PathVariable Long id, HttpServletRequest request, HttpServletResponse response, @AuthenticationPrincipal UserPrincipal userPrincipal, Model model){
+        String email;
+        if (userPrincipal == null) {
+            email = authService.refreshToken(request, response);
+        } else {
+            email = userPrincipal.getEmail();
+        }
         Optional<Users> user = authService.getUserByEmail(email);
         Community community = communityService.communitySearch(id);
         model.addAttribute("communityInfo", community);
@@ -79,8 +82,13 @@ public class IndexController {
 
     //user page 연결
     @GetMapping("/user/{nickname}")
-    public String user(@PathVariable String nickname, @AuthenticationPrincipal UserPrincipal userPrincipal, Model model) {
-        String email = userPrincipal.getEmail();
+    public String user(@PathVariable String nickname, HttpServletRequest request, HttpServletResponse response, @AuthenticationPrincipal UserPrincipal userPrincipal, Model model) {
+        String email;
+        if (userPrincipal == null) {
+            email = authService.refreshToken(request, response);
+        } else {
+            email = userPrincipal.getEmail();
+        }
         Optional<Users> user = authService.getUserByEmail(email);
         Users userInfo = userService.userSearch(nickname);
         model.addAttribute("user", user);
@@ -90,7 +98,6 @@ public class IndexController {
 
     @GetMapping("/manage")
     public String admin(){
-
         return "admin";
     }
 }

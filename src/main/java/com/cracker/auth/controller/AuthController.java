@@ -52,8 +52,8 @@ public class AuthController {
     }
 
     @GetMapping("/api/cracker/refresh")
-    public ResponseEntity<?> refreshToken(HttpServletRequest request, HttpServletResponse response) {
-        ResponseDetails responseDetails = authService.refreshToken(request, response);
-        return new ResponseEntity<>(responseDetails, HttpStatus.valueOf(responseDetails.getHttpStatus()));
+    public String refreshToken(HttpServletRequest request, HttpServletResponse response) {
+        String email = authService.refreshToken(request, response);
+        return email;
     }
 }
