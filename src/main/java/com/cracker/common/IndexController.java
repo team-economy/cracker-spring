@@ -1,5 +1,6 @@
 package com.cracker.common;
 
+import com.cracker.auth.properties.AppProperties;
 import com.cracker.auth.security.UserPrincipal;
 import com.cracker.auth.service.AuthService;
 import com.cracker.auth.util.token.AuthTokenProvider;
