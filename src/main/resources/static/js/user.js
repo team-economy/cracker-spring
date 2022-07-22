@@ -16,9 +16,10 @@ fileTarget.on('change', function(){ // 값이 변경되면
 });
 // 유저 프로필 이미지 변경
 function update_profile(id) {
+
     let name = $('#input-user_name').val().trim()
     let file = $('#input-pic')[0].files[0]
-    let about = $("#textarea-about").val()
+    let about = $('#textarea-about').val()
 
     if (name =='') {
         name = $('#user_name').text()
@@ -56,7 +57,7 @@ function update_profile(id) {
                 $("#modal-edit").removeClass("is-active")
                 window.location.replace("/user/" + name)
             } else {
-                alert(response["msg"])
+                alert("첨부파일은 이미지 파일만 가능합니다.")
                 $("#modal-edit").removeClass("is-active")
             }
         }
@@ -65,6 +66,16 @@ function update_profile(id) {
 
 // 유저 마커 이미지 변경
 function update_marker(id) {
+
+    let fileSize = $('#input-marker')[0].files[0].size;
+    let maxSize = 1 * 32 * 32;
+
+    if(fileSize > maxSize){
+        alert("첨부파일 사이즈는 1MB(32x32px) 이내로 등록 가능합니다.");
+        $(this).val('');
+        return false;
+    }
+
     let marker = $('#input-marker')[0].files[0]
     let form_marker_data = new FormData()
     form_marker_data.append("file", marker)
@@ -81,7 +92,7 @@ function update_marker(id) {
                 $("#modal-edit_marker").removeClass("is-active")
                 window.location.reload()
             } else {
-                alert(response["msg"])
+                alert("첨부파일은 이미지 파일만 가능합니다.")
                 $("#modal-edit_marker").removeClass("is-active")
             }
         }

@@ -137,15 +137,21 @@ function place_delete_confirm(place_id, place_name){
     $("#confirm-deletion").addClass("is-active");
 }
 
+function searchEvent() {
+    if (event.key === "Enter") {
+        get_address()
+    }
+}
+
 // 주소 검색
 function get_address() {
     let place_name = $("#input-post").val()
     $("#input-post").val("");
     $("#place_list").empty();
-
+    console.log(place_name)
     $.ajax({
         type: "GET",
-        url: `https://dapi.kakao.com/v2/local/search/keyword?query=${place_name}`,
+        url: `https://dapi.kakao.com/v2/local/search/keyword?query=${place_name}&category_group_code=CS2,FD6,CE7`,
         beforeSend: function (header) {
             header.setRequestHeader("Authorization", 'KakaoAK b2cd5fe8152984068e62cf5b85fbb75a');
         },

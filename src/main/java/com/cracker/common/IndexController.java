@@ -1,5 +1,6 @@
 package com.cracker.common;
 
+import com.cracker.auth.properties.AppProperties;
 import com.cracker.auth.security.UserPrincipal;
 import com.cracker.auth.service.AuthService;
 import com.cracker.auth.util.token.AuthTokenProvider;
@@ -75,9 +76,13 @@ public class IndexController {
         }
         Optional<Users> user = authService.getUserByEmail(email);
         Community community = communityService.communitySearch(id);
-        model.addAttribute("communityInfo", community);
-        model.addAttribute("userCommu", user);
-        return "community";
+        if(community == null) {
+            return "error/500html";
+        } else {
+            model.addAttribute("communityInfo", community);
+            model.addAttribute("userCommu", user);
+            return "community";
+        }
     }
 
     //user page 연결
@@ -91,9 +96,13 @@ public class IndexController {
         }
         Optional<Users> user = authService.getUserByEmail(email);
         Users userInfo = userService.userSearch(nickname);
-        model.addAttribute("user", user);
-        model.addAttribute("userInfo", userInfo);
-        return "user";
+        if(user.isEmpty()) {
+            return "error/500html";
+        }else {
+            model.addAttribute("user", user);
+            model.addAttribute("userInfo", userInfo);
+            return "user";
+        }
     }
 
     @GetMapping("/manage")

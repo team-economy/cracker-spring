@@ -15,10 +15,10 @@ function sign_up() {
             "email": user_mail,
             "password": user_pw,
             "nickname": user_name,
-            "pic" : "",
-            "marker_pic" : "",
+            "pic": "",
+            "marker_pic": "",
             "role": user_role,
-            "adminToken" : adminToken
+            "adminToken": adminToken
         }
 
     if ($("#help-mail").hasClass("is-danger")) {
@@ -41,10 +41,10 @@ function sign_up() {
         $("#help-password").text("비밀번호를 입력해주세요.").removeClass("is-safe").addClass("is-danger")
         $("#input-password").focus()
         return;
-    } else if (!is_password(user_pw)) {
-        $("#help-password").text("비밀번호의 형식을 확인해주세요. 영문과 숫자 필수 포함, 특수문자(!@#$%^&*) 사용가능 8-20자").removeClass("is-safe").addClass("is-danger")
-        $("#input-password").focus()
-        return
+        } else if (!is_password(user_pw)) {
+            $("#help-password").text("비밀번호의 형식을 확인해주세요. 영문과 숫자 필수 포함, 특수문자(!@#$%^&*_?) 사용가능 8-20자").removeClass("is-safe").addClass("is-danger")
+            $("#input-password").focus()
+            return;
     } else {
         $("#help-password").text("사용할 수 있는 비밀번호입니다.").removeClass("is-danger").addClass("is-success")
     }
@@ -66,9 +66,16 @@ function sign_up() {
         contentType: "application/json",
         data: JSON.stringify(requestJoinDTO),
         success: function (response) {
+            console.log(response["data"])
             alert("회원가입을 축하드립니다!")
             window.location.replace("/login")
+        },
+        error: function (response) {
+            console.log(response["data"])
+            $("#help-password").text("비밀번호의 형식을 확인해주세요. 영문과 숫자 필수 포함, 특수문자(!@#$%^&*_?) 사용가능 8-20자").removeClass("is-safe").addClass("is-danger")
+            $("#input-password").focus();
         }
+
     });
 }
 
@@ -84,7 +91,7 @@ function is_name(asValue) {
 }
 
 function is_password(asValue) {
-    var regExp = /^(?=.*\d)(?=.*[a-zA-Z])[0-9a-zA-Z!@#$%^&*]{8,20}$/;
+    var regExp = /^(?=.*\d)(?=.*[a-zA-Z])[0-9a-zA-Z!@#$%^&*_?]{8,20}$/;
     return regExp.test(asValue);
 }
 
@@ -131,11 +138,13 @@ function check_email_dup() {
         contentType: "application/json",
         data: JSON.stringify(requestObject),
         success: function (response) {
-            if (response["data"] === true) {
-                $("#help-mail").text("이미 존재하는 이메일입니다.").removeClass("is-safe").addClass("is-danger")
+            if (response["data"] === "이미 존재하는 이메일 입니다.") {
+                $("#help-mail").text(response["data"]).removeClass("is-safe").addClass("is-danger")
                 $("#input-user_mail").focus()
+            } else if ((response["data"] === "이메일의 형식을 확인해주세요.")) {
+                $("#help-mail").text(response["data"]).removeClass("is-safe").addClass("is-danger")
             } else {
-                $("#help-mail").text("사용할 수 있는 이메일입니다.").removeClass("is-danger").addClass("is-success")
+                $("#help-mail").text(response["data"]).removeClass("is-danger").addClass("is-success")
             }
             $("#help-mail").removeClass("is-loading")
 
@@ -168,11 +177,13 @@ function check_user_dup() {
         contentType: "application/json",
         data: JSON.stringify(requestObject),
         success: function (response) {
-            if (response["data"] === true) {
-                $("#help-name").text("이미 존재하는 별명입니다.").removeClass("is-safe").addClass("is-danger")
+            if (response["data"] === "이미 존재하는 별명입니다.") {
+                $("#help-name").text(response["data"]).removeClass("is-safe").addClass("is-danger")
                 $("#input-user_name").focus()
+            } else if (response["data"] === "별명의 형식을 확인해주세요.") {
+                $("#help-name").text(response["data"]).removeClass("is-safe").addClass("is-danger")
             } else {
-                $("#help-name").text("사용할 수 있는 별명입니다.").removeClass("is-danger").addClass("is-success")
+                $("#help-name").text(response["data"]).removeClass("is-danger").addClass("is-success")
             }
             $("#help-name").removeClass("is-loading")
         }
@@ -188,8 +199,8 @@ function sign_in() {
 
     let loginDTO =
         {
-            "email" : user_mail,
-            "password" : user_pw
+            "email": user_mail,
+            "password": user_pw
         }
 
     if (user_mail == "") {

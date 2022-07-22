@@ -77,12 +77,12 @@ public class UserService {
 
         String pic;
         if (requestJoinDTO.getPic().equals("")) {
-            pic = "static/profile_pics/profile_placeholder.png";
+            pic = "/profile_pics/profile_placeholder.png";
         } else {
             pic = requestJoinDTO.getPic();
         }
 
-        String marker_pic = "static/marker_pics/marker-default.png";
+        String marker_pic = "/marker_pics/marker-default.png";
 
         // 사용자 ROLE 확인
         UserRole role = UserRole.USER;
@@ -117,12 +117,39 @@ public class UserService {
     }
 
     /**
+     * 이메일 유효성 체크
+     */
+    public Boolean validateEmailCheck(Map<String, String> requestObject) {
+        String regExp = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}$";
+        String email = requestObject.get("email");
+
+        return email.matches(regExp);
+    }
+
+    /**
      * 닉네임 중복 체크
      */
     @Transactional
     public Boolean duplicateNicknameCheck(Map<String, String> requestObject) {
         String nickname = requestObject.get("nickname");
         return nicknameDuplicate(nickname);
+    }
+
+    /**
+     * 닉네임 유효성 체크
+     */
+    public Boolean validateNicknameCheck(Map<String, String> requestObject) {
+        String regExp = "^([a-zA-Z0-9ㄱ-ㅎ가-힣]).{1,10}$";
+        String nickname = requestObject.get("nickname");
+        return nickname.matches(regExp);
+    }
+
+    /**
+     * 비밀번호 유효성 체크
+     */
+    public Boolean validatePasswordCheck(String password){
+        String regExp = "^(?=.*\\d)(?=.*[a-zA-Z])[0-9a-zA-Z!@#$%^&*_?]{8,20}$";
+        return password.matches(regExp);
     }
 
     /**

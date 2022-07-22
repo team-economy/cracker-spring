@@ -11,6 +11,7 @@ import com.cracker.place.dto.AdminCommentListRequestDto;
 import com.cracker.place.repository.PlaceRepository;
 import com.cracker.user.entity.Users;
 import com.cracker.user.repository.UserRepository;
+import com.nhncorp.lucy.security.xss.XssPreventer;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -31,10 +32,14 @@ public class CommentService{
     //comment 작성
     @Transactional
     public void save(CommentCreateRequestDto commentCreateRequestDto, String email){
-        Comment comment = Comment.builder()
-                .comment(commentCreateRequestDto.getComment())
-                .build();
 
+        String commentGet = commentCreateRequestDto.getComment();
+        String cleanComment = XssPreventer.escape(commentGet);
+
+        Comment comment = Comment.builder()
+                .comment(cleanComment)
+//                .comment(commentCreateRequestDto.getComment())
+                .build();
 
         Users user = userRepository.findByEmail(email).orElseThrow(
                 () -> new NoSuchElementException("일치하는 메일이 없습니다.")
@@ -113,8 +118,12 @@ public class CommentService{
         Comment comment = commentRepository.findById(commentId).orElseThrow(
                 () -> new IllegalArgumentException("사용자가 아닙니다.")
         );
+
+        String commentGet = commentUpdateRequestDto.getComment();
+        String cleanComment = XssPreventer.escape(commentGet);
+
         if(comment.getUsers().getEmail().equals(userMail)) {
-            comment.updateComment(commentUpdateRequestDto);
+            comment.updateComment(cleanComment);
             return commentId;
         } else {
             return 0;
