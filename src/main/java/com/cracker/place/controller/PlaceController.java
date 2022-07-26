@@ -46,9 +46,9 @@ public class PlaceController {
         if(userName == null) {
             String email = userPrincipal.getEmail();
 
-            return placeService.placeListSearchByEmail(email);
+            return placeService.placeListSearch(email, true);
         }else {
-            return placeService.placeListSearchByUserName(userName);
+            return placeService.placeListSearch(userName, false);
         }
     }
 
