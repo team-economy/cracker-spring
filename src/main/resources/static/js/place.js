@@ -27,7 +27,7 @@ function get_place(flag) {
     } else {
         $.ajax({
             type: "GET",
-            url: `/places?userMail=${flag}`,
+            url: `/places?userName=${flag}`,
             data: {},
             success: function (response) {
                 console.log(response);

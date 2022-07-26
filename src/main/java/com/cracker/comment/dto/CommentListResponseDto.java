@@ -12,7 +12,6 @@ import java.time.LocalDateTime;
 public class CommentListResponseDto {
     private Long id;
     private String userNickname;
-    private String userEmail;
     private String comment;
 
     private LocalDateTime createdAt;
@@ -25,10 +24,9 @@ public class CommentListResponseDto {
     private boolean modified;
 
     @Builder
-    public CommentListResponseDto(Long id, String userNickname, String userEmail, String comment, LocalDateTime modifiedAt,LocalDateTime createdAt, String userProfileImg, Long userId, boolean modified) {
+    public CommentListResponseDto(Long id, String userNickname, String comment, LocalDateTime modifiedAt,LocalDateTime createdAt, String userProfileImg, Long userId, boolean modified) {
         this.id = id;
         this.userNickname = userNickname;
-        this.userEmail = userEmail;
         this.comment = comment;
         this.createdAt = createdAt;
         this.modifiedAt = modifiedAt;

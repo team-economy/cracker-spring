@@ -96,6 +96,31 @@ public class PlaceService {
         return dtos;
     }
 
+    @Transactional
+    public List<PlaceListRequestDto> placeListSearchByUserName(String userName) {
+        Users user = userRepository.findByNickname(userName).orElseThrow(
+                () -> new IllegalArgumentException("일치하는 회원정보가 없습니다.")
+        );
+        List<PlaceListRequestDto> dtos = new ArrayList<PlaceListRequestDto>();
+        List<Place> places = user.getPlaces();
+        for(Place place : places){
+            PlaceListRequestDto dto = PlaceListRequestDto.builder()
+                    .id(place.getId())
+                    .name(place.getName())
+                    .addr(place.getAddr())
+                    .addrRoad(place.getAddrRoad())
+                    .coordX(place.getCoordX())
+                    .coordY(place.getCoordY())
+                    .phoneNum(place.getPhoneNum())
+                    .cate(place.getCate())
+                    .communityId(place.getCommunity().getId())
+                    .markerPic(user.getMarker_pic())
+                    .build();
+            dtos.add(dto);
+        }
+        return dtos;
+    }
+
     /**
      * 맛집 지우기
      */
