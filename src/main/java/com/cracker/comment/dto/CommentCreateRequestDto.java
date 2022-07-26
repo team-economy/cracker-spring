@@ -7,6 +7,7 @@ import lombok.*;
 public class CommentCreateRequestDto {
 
 //    private String userName;
+    
     private String comment;
 
     private String communityAddr;
