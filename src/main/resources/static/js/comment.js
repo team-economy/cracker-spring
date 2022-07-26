@@ -65,7 +65,6 @@ function getMessages() {
                 let message = response[i];
                 let id = message['id'];
                 let username = message['userNickname'];
-                let userEmail = message['userEmail'];
                 let comment = message['comment'].replace(/(?:\r\n|\r|\n)/g, '<br />');
                 let time_comment = new Date(message['modifiedAt'])
                 let time_past = timePassed(time_comment)
@@ -75,14 +74,14 @@ function getMessages() {
 
                 console.log(comment)
 
-                addHTML(id, username, userEmail, comment, time_past, userProfileImg, userId, isModified);
+                addHTML(id, username, comment, time_past, userProfileImg, userId, isModified);
             }
         }
     })
 }
 
 
-function addHTML(id, userName, userEmail, comment, time_past, userProfileImg, userId, isModified) {
+function addHTML(id, userName, comment, time_past, userProfileImg, userId, isModified) {
     let tempHtml_start = `
         <div class="box comment-list">
             <article class="media">
@@ -95,9 +94,9 @@ function addHTML(id, userName, userEmail, comment, time_past, userProfileImg, us
                     <div class="content">
                         <div class="comment-userinfo">                         
                             `;
-    let tempHtml_not_modified = `<strong>${userName}</strong> <small>(${userEmail})</small><small class="comment-time">${time_past}</small>`;
+    let tempHtml_not_modified = `<strong>${userName}</strong><small class="comment-time">${time_past}</small>`;
 
-    let tempHtml_is_modified = `<strong>${userName}</strong> <small>(${userEmail})</small><small class="comment-time">${time_past} (수정됨)</small>`;
+    let tempHtml_is_modified = `<strong>${userName}</strong><small class="comment-time">${time_past} (수정됨)</small>`;
 
     let tempHtml_end = `
                             </div>
