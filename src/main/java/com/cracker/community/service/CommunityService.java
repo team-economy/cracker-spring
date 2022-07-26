@@ -42,8 +42,7 @@ public class CommunityService {
                         .coordY(community.getCoordY())
                         .phoneNum(community.getPhoneNum())
                         .cate(community.getCate())
-                        .markerPic("static/marker_pics/marker-default.png")
-                        .role("GUEST")
+                        .markerPic("/marker_pics/marker-default.png")
                         .build();
                 dtos.add(dto);
             }
@@ -56,7 +55,7 @@ public class CommunityService {
             List<CommunityPlaceListDto> dtos = new ArrayList<CommunityPlaceListDto>();
             List<Community> communities = communityRepository.findAll();
             for (Community community : communities) {
-                String marker_pic = "static/marker_pics/marker-default.png";
+                String marker_pic = "/marker_pics/marker-default.png";
                 List<Place> places = community.getPlaces();
 
                 for (Place place : places) {
@@ -76,7 +75,6 @@ public class CommunityService {
                         .phoneNum(community.getPhoneNum())
                         .cate(community.getCate())
                         .markerPic(marker_pic)
-                        .role("USER")
                         .build();
                 dtos.add(dto);
             }
