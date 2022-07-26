@@ -72,10 +72,18 @@ public class PlaceService {
     }
 
     @Transactional
-    public List<PlaceListRequestDto> placeListSearchByEmail(String email) {
-        Users user = userRepository.findByEmail(email).orElseThrow(
-                () -> new IllegalArgumentException("일치하는 메일이 없습니다.")
-        );
+    public List<PlaceListRequestDto> placeListSearch(String emailOrUserName, boolean isEmail) {
+        Users user;
+
+        if(isEmail) {
+            user = userRepository.findByEmail(emailOrUserName).orElseThrow(
+                    () -> new IllegalArgumentException("일치하는 메일이 없습니다.")
+            );
+        }else {
+            user = userRepository.findByNickname(emailOrUserName).orElseThrow(
+                    () -> new IllegalArgumentException("일치하는 메일이 없습니다.")
+            );
+        }
         List<PlaceListRequestDto> dtos = new ArrayList<PlaceListRequestDto>();
         List<Place> places = user.getPlaces();
         for(Place place : places){
@@ -91,31 +99,6 @@ public class PlaceService {
                     .communityId(place.getCommunity().getId())
                     .markerPic(user.getMarker_pic())
             .build();
-            dtos.add(dto);
-        }
-        return dtos;
-    }
-
-    @Transactional
-    public List<PlaceListRequestDto> placeListSearchByUserName(String userName) {
-        Users user = userRepository.findByNickname(userName).orElseThrow(
-                () -> new IllegalArgumentException("일치하는 회원정보가 없습니다.")
-        );
-        List<PlaceListRequestDto> dtos = new ArrayList<PlaceListRequestDto>();
-        List<Place> places = user.getPlaces();
-        for(Place place : places){
-            PlaceListRequestDto dto = PlaceListRequestDto.builder()
-                    .id(place.getId())
-                    .name(place.getName())
-                    .addr(place.getAddr())
-                    .addrRoad(place.getAddrRoad())
-                    .coordX(place.getCoordX())
-                    .coordY(place.getCoordY())
-                    .phoneNum(place.getPhoneNum())
-                    .cate(place.getCate())
-                    .communityId(place.getCommunity().getId())
-                    .markerPic(user.getMarker_pic())
-                    .build();
             dtos.add(dto);
         }
         return dtos;
