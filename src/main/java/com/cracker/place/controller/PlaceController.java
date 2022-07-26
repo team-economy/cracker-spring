@@ -41,13 +41,14 @@ public class PlaceController {
     }
 
     @GetMapping("/places")
-    public List<PlaceListRequestDto> readPlace(@AuthenticationPrincipal UserPrincipal userPrincipal, @RequestParam(name = "userMail", required = false)String userMail) {
-        if(userMail == null) {
+    public List<PlaceListRequestDto> readPlace(@AuthenticationPrincipal UserPrincipal userPrincipal, @RequestParam(name = "userName", required = false)String userName) {
+        System.out.println(userName);
+        if(userName == null) {
             String email = userPrincipal.getEmail();
 
             return placeService.placeListSearchByEmail(email);
         }else {
-            return placeService.placeListSearchByEmail(userMail);
+            return placeService.placeListSearchByUserName(userName);
         }
     }
 

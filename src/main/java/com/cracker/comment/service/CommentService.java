@@ -65,7 +65,6 @@ public class CommentService{
             CommentListResponseDto dto = CommentListResponseDto.builder()
                     .id(comment.getId())
                     .userNickname(comment.getUsers().getNickname())
-                    .userEmail(comment.getUsers().getEmail())
                     .comment(comment.getComment())
                     .createdAt(comment.getCreatedAt())
                     .modifiedAt(comment.getModifiedAt())

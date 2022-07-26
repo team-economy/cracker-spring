@@ -1,6 +1,6 @@
 $(document).ready(function () {
-    let userMail = $('#user_mail').text();
-    get_place(userMail);
+    let userName = $('#user_name').text();
+    get_place(userName);
 })
 
 var fileTarget = $('.filewrap .uploadBtn');
