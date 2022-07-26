@@ -17,11 +17,10 @@ public class CommunityPlaceListDto {
     private String phoneNum;
     private String cate;
     private String markerPic;
-    private String role;
 
     @Builder
     public CommunityPlaceListDto(Long communityId, String name, String addr, String addrRoad, String coordX,
-                               String coordY, String phoneNum, String cate, String markerPic, String role) {
+                               String coordY, String phoneNum, String cate, String markerPic) {
         this.communityId = communityId;
         this.name = name;
         this.addr = addr;
@@ -31,6 +30,5 @@ public class CommunityPlaceListDto {
         this.phoneNum = phoneNum;
         this.cate = cate;
         this.markerPic = markerPic;
-        this.role = role;
     }
 }
