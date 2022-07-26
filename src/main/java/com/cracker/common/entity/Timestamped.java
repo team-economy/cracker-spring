@@ -13,6 +13,7 @@ import java.time.LocalDateTime;
 @EntityListeners(AuditingEntityListener.class) // 생성/변경 시간을 자동으로 업데이트
 public abstract class Timestamped {
 
+
     @CreatedDate
     private LocalDateTime createdAt;
 
