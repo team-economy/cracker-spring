@@ -37,7 +37,7 @@ function post() {
     // POST /api/memos 에 data를 전달
     $.ajax({
         type: "POST",
-        url: "/comment",
+        url: "/comment/create",
         contentType: "application/json",
         data: JSON.stringify(data),
         success: function (response) {
@@ -45,10 +45,9 @@ function post() {
             window.location.reload();
         },
         error: function (response) {
-            alert("글자 수가 255자 이내여야합니다.")
+            alert("로그인해주세요.")
         },
     });
-
 }
 
 function getMessages() {
