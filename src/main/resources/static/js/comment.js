@@ -8,6 +8,10 @@ function isValidcomment(comment) {
         alert('내용을 입력해주세요');
         return false;
     }
+    if (comment.trim().length > 255) {
+        alert('255자 이하로 입력해주세요');
+        return false;
+    }
     return true;
 }
 
