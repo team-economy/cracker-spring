@@ -8,9 +8,10 @@
     </a>
   </div>
   <div class="navbar-btn">
-    <button class="button"
+    <button class="button" th:if="${userCommu != null}"
             th:onclick="|location.href ='@{/user/{nickname}(nickname=${userCommu.get().getNickname()})}'|">My Page
     </button>
-    <button class="button sign-out-btn" onclick="sign_out()">Crack OUT</button>
+    <button class="button sign-out-btn" th:if="${userCommu != null}" onclick="sign_out()">Crack OUT</button>
+    <button class="button crack-in-btn" th:if="${userCommu == null}" th:onclick="|location.href='@{/login}'|">Crack IN</button>
   </div>
 </nav>
