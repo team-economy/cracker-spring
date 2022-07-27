@@ -49,6 +49,14 @@
 .place-list-button-area {
     margin-top: 10px;
     float : right;
+    display: flex;
+    align-items: center;
+}
+
+.place-count {
+    color: #b46f7e;
+    margin-right: 10px;
+    font-weight: bold;
 }
 
 /*modal*/
