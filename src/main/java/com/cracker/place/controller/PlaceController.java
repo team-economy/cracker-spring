@@ -4,10 +4,8 @@ import com.cracker.auth.security.UserPrincipal;
 import com.cracker.auth.util.token.AuthTokenProvider;
 import com.cracker.comment.service.CommentService;
 import com.cracker.community.service.CommunityService;
-import com.cracker.place.dto.PlaceCreateRequestDto;
-import com.cracker.place.dto.PlaceCreateResponseDto;
-import com.cracker.place.dto.PlaceDeleteResponseDto;
-import com.cracker.place.dto.PlaceListRequestDto;
+import com.cracker.place.dto.*;
+import com.cracker.place.entity.Place;
 import com.cracker.place.service.PlaceService;
 import com.cracker.user.entity.UserRole;
 import com.cracker.user.entity.Users;
@@ -80,5 +78,8 @@ public class PlaceController {
         return placeDeleteResponseDto;
     }
 
-
+    @PostMapping("/places/count/{addr}")
+    public PlaceCountDto countPlace(@PathVariable String addr) {
+        return placeService.countPlace(addr);
+    }
 }

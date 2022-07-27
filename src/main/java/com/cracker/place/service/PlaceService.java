@@ -2,8 +2,11 @@ package com.cracker.place.service;
 
 import com.cracker.comment.entity.Comment;
 import com.cracker.comment.repository.CommentRepository;
+import com.cracker.community.dto.CommunityPlaceListDto;
 import com.cracker.community.entity.Community;
 import com.cracker.community.repository.CommunityRepository;
+import com.cracker.place.dto.PlaceCountDto;
+import com.cracker.place.dto.PlaceDeleteResponseDto;
 import com.cracker.place.entity.Place;
 import com.cracker.place.dto.PlaceCreateRequestDto;
 import com.cracker.place.dto.PlaceListRequestDto;
@@ -132,6 +135,18 @@ public class PlaceService {
             communityRepository.deleteById(communityId);
         }
         return id;
+    }
+
+    /**
+     * 맛집 세기
+     */
+    @Transactional
+    public PlaceCountDto countPlace(String addr) {
+        List<Place> countPlaces = placeRepository.findByAddr(addr);
+        int placeCount = countPlaces.size();
+        PlaceCountDto dto = new PlaceCountDto();
+        dto.setCount(placeCount);
+        return dto;
     }
 
     /**
