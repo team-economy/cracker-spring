@@ -228,8 +228,9 @@ function save_place() {
         success: function (response) {
             if (response["msg"] == "저장 완료!!") {
                 alert(response["msg"])
+                let id = response.id;
                 $("#modal-post").removeClass("is-active")
-                window.location.reload()
+                window.location.href = "/community/" + id;
             } else {
                 alert(response["msg"])
                 $("#modal-post").removeClass("is-active")

@@ -31,9 +31,9 @@ public class PlaceController {
         String email = userPrincipal.getEmail();
         Long retId = placeService.save(placeCreateRequestDto, email);
 
-
         PlaceCreateResponseDto placeCreateResponseDto = new PlaceCreateResponseDto();
         placeCreateResponseDto.setMsg("저장 완료!!");
+        placeCreateResponseDto.setId(retId);
 
         return placeCreateResponseDto;
     }
