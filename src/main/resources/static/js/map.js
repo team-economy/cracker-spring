@@ -37,9 +37,9 @@ function make_marker(coordX, coordY, user_marker) {
 }
 
 // 마커 클릭 시 정보 출력
-function add_info(i, marker, place) {
+function add_info(i, marker, place, link) {
     let html_temp = `<div class="iw-inner">
-                                    <h3 class = "place-name"><b>${place.name}</b></h3>
+                                    <h3 class = "place-name"><a href="https://place.map.kakao.com/${link}" target="_blank">${place.name}</a></h3>
                                     <p class="card-text"><b style="color:#8d8b8b;">지번 주소</b><br> <i>${place.addr}</i></p>
                                     <p class="card-text"><b style="color:#8d8b8b;">도로명 주소</b><br><i>${place.addrRoad}</i></p>
                                     <p class="card-text"><b style="color:#8d8b8b;">전화번호</b><br><span>${place.phoneNum}</span></p>

@@ -42,7 +42,8 @@ public class CommunityService {
                         .coordY(community.getCoordY())
                         .phoneNum(community.getPhoneNum())
                         .cate(community.getCate())
-                        .markerPic("/marker_pics/marker-default.png")
+                        .markerPic(community.getMarkerPic())
+                        .url(community.getUrl())
                         .build();
                 dtos.add(dto);
             }
@@ -57,7 +58,6 @@ public class CommunityService {
             for (Community community : communities) {
                 String marker_pic = "/marker_pics/marker-default.png";
                 List<Place> places = community.getPlaces();
-
                 for (Place place : places) {
                     if (place.getUsers().getEmail().equals(userMail)) {
                         marker_pic = user.getMarker_pic();
@@ -75,6 +75,7 @@ public class CommunityService {
                         .phoneNum(community.getPhoneNum())
                         .cate(community.getCate())
                         .markerPic(marker_pic)
+                        .url(community.getUrl())
                         .build();
                 dtos.add(dto);
             }

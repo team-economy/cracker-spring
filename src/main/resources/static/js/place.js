@@ -53,9 +53,10 @@ function get_all_place() {
             for (let i = 0; i < response.length; i++) {
                 let place = response[i]
                 let addr = place.addr;
+                let link = place.url;
                 let count = count_place(addr);
                 let marker = make_marker(place.coordX, place.coordY, place.markerPic)
-                add_info(i, marker, place)
+                add_info(i, marker, place, link);
                 make_all_card(i, place, count);
             }
         }
@@ -164,8 +165,8 @@ function get_address() {
             header.setRequestHeader("Authorization", 'KakaoAK b2cd5fe8152984068e62cf5b85fbb75a');
         },
         success: function (response) {
-
             let result = response['documents'];
+            console.log(result)
 
             if (result == "") {
                 alert("일치하는 정보가 없습니다.");
@@ -176,7 +177,7 @@ function get_address() {
 
                     let html_temp = `<div class="form-check place-search-info place-card">
                                             <input class="form-check-input" type="radio" name="place" id="place${i}"
-                                            value="${info['place_name']},${info['address_name']},${info['road_address_name']},${info['x']},${info['y']},${info['phone']},${info['category_name']}">
+                                            value="${info['place_name']},${info['address_name']},${info['road_address_name']},${info['x']},${info['y']},${info['phone']},${info['category_name']},${info['id']}">
                                             <label class="form-check-label" for="${info['place_name']}" id="label">
                                                 <p id="place_name"><b>${info['place_name']}</b></a>
                                                 <p>${info['category_name']}</p>
@@ -186,7 +187,6 @@ function get_address() {
                     $("#place_list").append(html_temp);
                 }
             }
-
         },
         error: function (response) {
             alert("검색어를 입력하세요");
@@ -207,6 +207,8 @@ function save_place() {
     let phone = radio_button.split(',')[5];
     let category = radio_button.split(',')[6];
 
+    let url = radio_button.split(',')[7];
+
     let param = {
         name: place,
         addr: addr,
@@ -214,11 +216,9 @@ function save_place() {
         coordX: x,
         coordY: y,
         phoneNum: phone,
-        cate: category
+        cate: category,
+        url: url
     }
-    console.log(place)
-    console.log(addr)
-    console.log(addr_road)
 
     $.ajax({
         type: "POST",
