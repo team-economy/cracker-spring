@@ -52,7 +52,7 @@ public class SecurityConfig {
                 .and()
                 .authorizeRequests()
                 .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()  // cors 때문에 추가
-                .antMatchers("/comment", "/places", "/places/all", "/community/**").permitAll()
+                .antMatchers("/comment", "/places", "/places/all", "/places/count/**", "/community/**").permitAll()
                 .antMatchers("/comment/create").hasAnyAuthority("USER", "ADMIN")
                 .antMatchers("/places/**").hasAnyAuthority("USER", "ADMIN")
                 .antMatchers("/user/**").hasAnyAuthority("USER", "ADMIN")
