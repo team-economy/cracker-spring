@@ -42,7 +42,7 @@ public class CommunityService {
                         .coordY(community.getCoordY())
                         .phoneNum(community.getPhoneNum())
                         .cate(community.getCate())
-                        .markerPic(community.getMarkerPic())
+                        .markerPic("/marker_pics/marker-default.png")
                         .url(community.getUrl())
                         .build();
                 dtos.add(dto);
