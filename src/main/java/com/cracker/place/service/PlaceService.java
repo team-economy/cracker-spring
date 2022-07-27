@@ -65,8 +65,8 @@ public class PlaceService {
         }else{
             place.placeCommunity(savedCommunity);
         }
-
-        return placeRepository.save(place).getId();
+        placeRepository.save(place);
+        return place.getCommunity().getId();
     }
 
     @Transactional
