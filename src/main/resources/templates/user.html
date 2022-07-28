@@ -17,7 +17,6 @@
                 <div class="content">
                     <p class="status-msg">
                         <strong id="user_name"><span th:text="${userInfo.nickname}"></span></strong>
-                        <small id="user_mail"><span th:text="${userInfo.email}"></span></small>
                         <br><br>
                         <span id="user_about" th:text="${userInfo.statusMessage}"></span>
                     </p>
@@ -54,7 +53,8 @@
                             <div class="field has-addons">
                                 <div class="control has-icons-left" style="width:100%">
                                     <input id="input-user_name" class="input" type="text" placeholder="별명"
-                                           value="">
+                                           th:value="${userInfo.nickname}" >
+
                                     <span class="icon is-small is-left"><i class="fa fa-user"></i></span>
                                 </div>
                                 <div id="btn-check-dup-username" class="control">
@@ -69,12 +69,12 @@
                             <div class="control is-expanded">
                                 <div class="file has-name">
                                     <label class="file-label" style="width:100%">
-                                        <input id="input-pic" class="file-input" type="file" name="resume">
+                                        <input id="input-pic" class="file-input" type="file" name="resume" accept="image/jpg, image/jpeg, image/png, image/gif">
                                         <span class="file-cta">
                                         <span class="file-icon"><i class="fa fa-upload"></i></span>
                                         <span class="file-label">파일 선택</span>
                                         </span>
-                                        <span id="profile-file-name" class="file-name"
+                                        <span id="profile-file-name"
                                               style="width:100%;max-width:100%"></span>
                                     </label>
                                 </div>
@@ -84,8 +84,8 @@
                         <div class="field">
                             <label class="label" for="textarea-about">자기소개</label>
                             <p class="control">
-                        <textarea id="textarea-about" class="textarea"
-                                  placeholder="자기소개하기"></textarea>
+                        <textarea id="textarea-about" class="textarea" placeholder="자기소개하기"
+                                  th:value="${userInfo.statusMessage}" th:text="${userInfo.statusMessage}"></textarea>
                             </p>
                         </div>
                         <nav class="level is-mobile">
@@ -123,7 +123,7 @@
                             <div class="control is-expanded">
                                 <div class="file has-name">
                                     <label class="file-label" style="width:100%">
-                                        <input id="input-marker" class="file-input" type="file" name="resume">
+                                        <input id="input-marker" class="file-input" type="file" name="resume" accept="image/jpg, image/jpeg, image/png, image/gif">
                                         <span class="file-cta">
                                         <span class="file-icon"><i class="fa fa-upload"></i></span>
                                         <span class="file-label">파일 선택</span>
@@ -162,7 +162,7 @@
 <section class="user place-area">
     <div class="user map-placelist">
         <div class="place-list" id="place-box">
-        <!--       맛집 리스트         -->
+            <!--       맛집 리스트         -->
         </div>
     </div>
 </section>
