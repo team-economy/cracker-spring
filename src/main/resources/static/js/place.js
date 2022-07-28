@@ -113,7 +113,7 @@ function make_all_card(i, place, count) {
                            
                             <div class="place-list-button-area">
                              
-                                    <span class="place-count float-right">추천수 : ${count}</span>
+                                    <span class="place-count float-right">Added : ${count}</span>
                                     <button class="button is-success community-btn float-right" onclick="location.href='/community/'+'${place.communityId}'">커뮤니티</button>
                                 
                             </div>
