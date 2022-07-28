@@ -222,7 +222,7 @@ function editComment(id) {
 }
 
 function updateEdit(id) {
-    let comment = $(`#${id}-textarea`).val().replace(/(?:\r\n|\r|\n)/g, '<br />');
+    let comment = $(`#${id}-textarea`).val();
     if (isValidcomment(comment) == false) {
         return;
     }
