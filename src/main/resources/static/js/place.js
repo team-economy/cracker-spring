@@ -18,9 +18,10 @@ function get_place(flag) {
                 console.log(response);
                 for (let i = 0; i < response.length; i++) {
                     let place = response[i]
+                    let user = checkUsername();
                     let marker = make_marker(place.coordX, place.coordY, place.markerPic)
                     add_info(i, marker, place)
-                    make_card(i, place, null);
+                    make_card(i, place, user, user);
                 }
             }
         });
@@ -83,10 +84,13 @@ function make_card(i, place, flag, user) {
 
     let html_temp;
 
-    if(flag !== user) {
+    if (flag == null) {
         html_temp = html_temp_start + html_temp_end;
     } else {
-        html_temp = html_temp_start + html_temp_my_place + html_temp_end;
+        html_temp = html_temp_start + html_temp_end;
+        if (flag == user) {
+            html_temp = html_temp_start + html_temp_my_place + html_temp_end;
+        }
     }
     $('#place-box').append(html_temp);
 }
