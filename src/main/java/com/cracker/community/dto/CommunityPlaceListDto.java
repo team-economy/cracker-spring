@@ -19,9 +19,11 @@ public class CommunityPlaceListDto {
     private String markerPic;
     private String url;
 
+    private Integer countPlaces;
+
     @Builder
     public CommunityPlaceListDto(Long communityId, String name, String addr, String addrRoad, String coordX,
-                               String coordY, String phoneNum, String cate, String markerPic, String url) {
+                               String coordY, String phoneNum, String cate, String markerPic, String url, Integer countPlaces) {
         this.communityId = communityId;
         this.name = name;
         this.addr = addr;
@@ -32,5 +34,6 @@ public class CommunityPlaceListDto {
         this.cate = cate;
         this.markerPic = markerPic;
         this.url = url;
+        this.countPlaces = countPlaces;
     }
 }

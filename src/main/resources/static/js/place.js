@@ -56,7 +56,7 @@ function get_all_place() {
                 let place = response[i]
                 let addr = place.addr;
                 let link = place.url;
-                let count = count_place(addr);
+                let count = place.countPlaces;
                 let marker = make_marker(place.coordX, place.coordY, place.markerPic)
                 add_info(i, marker, place, link);
                 make_all_card(i, place, count);
@@ -134,20 +134,6 @@ function checkUsername() {
         }
     });
     return user;
-}
-
-function count_place(addr) {
-    let output;
-    $.ajax({
-        type: "POST",
-        async: false,
-        url: `/places/count/${addr}`,
-        success: function (response) {
-            output = response.count;
-            console.log(output)
-        }
-    });
-    return output;
 }
 
 function place_delete_confirm(place_id, place_name) {

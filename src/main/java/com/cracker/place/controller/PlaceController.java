@@ -84,11 +84,6 @@ public class PlaceController {
         return placeDeleteResponseDto;
     }
 
-    @PostMapping("/places/count/{addr}")
-    public PlaceCountDto countPlace(@PathVariable String addr) {
-        return placeService.countPlace(addr);
-    }
-
     @PostMapping("/places/add/{communityId}")
     public PlaceCreateResponseDto placeAdd(@PathVariable Long communityId, @AuthenticationPrincipal UserPrincipal userPrincipal) {
 
