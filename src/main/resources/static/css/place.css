@@ -48,8 +48,9 @@
 
 .place-list-button-area {
     margin-top: 10px;
-    float : right;
     display: flex;
+    justify-content: flex-end;
+    width: 100%;
     align-items: center;
 }
 
@@ -79,4 +80,27 @@
 .place-search-info:last-child {
 
     border-bottom:none;
+}
+
+.add-place-allplace {
+    border: none;
+    background-color: #FDF6EC;
+}
+
+.allplce-place-info {
+    width: 70%;
+    float: left;
+}
+
+.add-place-button{
+    float: right;
+}
+
+.info-addButton-section {
+    width: 100%;
+}
+
+.recommend-community {
+    align-items: center;
+    float: right;
 }
