@@ -42,13 +42,18 @@ public class PlaceService {
                 .cate(placeCreateRequestDto.getCate())
         .build();
 
-        if (placeRepository.findByAddr(place.getAddr()) != null) {
-            return null;
-        }
 
         Users user = userRepository.findByEmail(email).orElseThrow(
                 () -> new IllegalArgumentException("일치하는 메일이 없습니다")
         );
+
+        List<Place> places = user.getPlaces();
+        for (Place eachPlace : places) {
+            if (place.getAddr().equals(eachPlace.getAddr())) {
+                return null;
+            }
+        }
+
         place.registUser(user);
 
         Community savedCommunity = communityRepository.findByAddr(place.getAddr());
