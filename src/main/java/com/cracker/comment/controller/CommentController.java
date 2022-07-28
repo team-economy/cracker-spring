@@ -71,7 +71,7 @@ public class CommentController {
             if (retId == 0) {
                 commentUpdateResponseDto.setMsg("본인이 아니라 변경할 수 없습니다.");
             } else {
-                commentUpdateResponseDto.setMsg("삭제 완료!!");
+                commentUpdateResponseDto.setMsg("업데이트 완료!!");
             }
         } else {
             commentUpdateResponseDto.setMsg("로그인해주세요.");
