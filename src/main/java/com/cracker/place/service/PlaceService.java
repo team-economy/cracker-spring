@@ -204,4 +204,25 @@ public class PlaceService {
     public Place placeSearch(Long id){
         return placeRepository.getById(id);
     }
+
+    @Transactional
+    public Long addPlace(Long communityId, String email){
+        Community community = communityRepository.findById(communityId).orElseThrow(
+                () -> new NoSuchElementException("일치하는 커뮤니티가 없습니다.")
+        );
+
+        PlaceCreateRequestDto placeCreateRequestDt = PlaceCreateRequestDto.builder()
+                .name(community.getName())
+                .addr(community.getAddr())
+                .addrRoad(community.getAddrRoad())
+                .coordX(community.getCoordX())
+                .coordY(community.getCoordY())
+                .phoneNum(community.getPhoneNum())
+                .cate(community.getCate())
+                .markerPic(community.getMarkerPic())
+                .url(community.getUrl())
+            .build();
+
+        return save(placeCreateRequestDt, email);
+    }
 }

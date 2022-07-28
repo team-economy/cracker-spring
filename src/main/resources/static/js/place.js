@@ -95,13 +95,24 @@ function make_card(i, place, flag, user) {
 function make_all_card(i, place, count) {
     let html_temp = `<div class="card" id="card-${i}">
                         <div class="card-body" id="card-body-${i}" style="background-color: #FDF6EC">
-                            <h5 class="card-title"><a href="javascript:click2center(${i})" class="place-title">${place.name}</a></h5>
-                            <p class="card-text">카테고리 : ${place.cate}</p>
-                            <p class="card-text">지번 주소 : ${place.addr}</p>
-                            <p class="place-list-button-area">
-                                <span class="place-count">추천수 : ${count}</span>
-                                <button class="button is-success community-btn" onclick="location.href='/community/'+'${place.communityId}'">커뮤니티</button>
-                            </p>
+                            
+                            <div class="allplce-place-info">
+                                <h5 class="card-title"><a href="javascript:click2center(${i})" class="place-title">${place.name}</a></h5>
+                                <p class="card-text">카테고리 : ${place.cate}</p>
+                                <p class="card-text">지번 주소 : ${place.addr}</p>
+                            </div>
+                            <div class="add-place-button">
+                                <button type="button" class="button add-place-allplace" onclick="add_place(${place.communityId})">
+                                    <img src="https://img.icons8.com/sf-regular/48/000000/add.png"/>
+                                </button>                        
+                            </div>
+                           
+                            <div class="place-list-button-area">
+                             
+                                    <span class="place-count float-right">추천수 : ${count}</span>
+                                    <button class="button is-success community-btn float-right" onclick="location.href='/community/'+'${place.communityId}'">커뮤니티</button>
+                                
+                            </div>
                         </div>
                     </div>`;
 
@@ -125,7 +136,7 @@ function count_place(addr) {
     let output;
     $.ajax({
         type: "POST",
-        async : false,
+        async: false,
         url: `/places/count/${addr}`,
         success: function (response) {
             output = response.count;
@@ -135,7 +146,7 @@ function count_place(addr) {
     return output;
 }
 
-function place_delete_confirm(place_id, place_name){
+function place_delete_confirm(place_id, place_name) {
     let html_temp_delete_modal = `
                                 <div class="modal" id="confirm-deletion">
                                     <div class="modal-background" onclick='$("#confirm-deletion").removeClass("is-active")'></div>
@@ -270,5 +281,31 @@ function delete_place(id) {
 
         }
 
+    })
+}
+
+
+function add_place(communityId) {
+
+    let community_id = communityId;
+
+    $.ajax({
+        type: "POST",
+        url: `/places/add/${community_id}`,
+        success: function (response) {
+            if (response["msg"] == "저장 완료!!") {
+                alert(response["msg"])
+                let id = response.id;
+                $("#modal-post").removeClass("is-active")
+                window.location.href = "/community/" + id;
+            } else {
+                alert(response["msg"])
+                $("#modal-post").removeClass("is-active")
+            }
+        },
+        error: function (response) {
+            alert("GUEST 유저입니다.")
+            $("#modal-post").removeClass("is-active")
+        }
     })
 }

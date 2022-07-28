@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 
 
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -81,5 +82,19 @@ public class PlaceController {
     @PostMapping("/places/count/{addr}")
     public PlaceCountDto countPlace(@PathVariable String addr) {
         return placeService.countPlace(addr);
+    }
+
+    @PostMapping("/places/add/{communityId}")
+    public PlaceCreateResponseDto placeAdd(@PathVariable Long communityId, @AuthenticationPrincipal UserPrincipal userPrincipal) {
+
+        String email = userPrincipal.getEmail();
+
+        Long retId = placeService.addPlace(communityId, email);
+
+        PlaceCreateResponseDto placeCreateResponseDto = new PlaceCreateResponseDto();
+        placeCreateResponseDto.setMsg("저장 완료!!");
+        placeCreateResponseDto.setId(retId);
+
+        return placeCreateResponseDto;
     }
 }
