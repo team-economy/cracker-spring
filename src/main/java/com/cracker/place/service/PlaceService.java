@@ -42,9 +42,18 @@ public class PlaceService {
                 .cate(placeCreateRequestDto.getCate())
         .build();
 
+
         Users user = userRepository.findByEmail(email).orElseThrow(
                 () -> new IllegalArgumentException("일치하는 메일이 없습니다")
         );
+
+        List<Place> places = user.getPlaces();
+        for (Place eachPlace : places) {
+            if (place.getAddr().equals(eachPlace.getAddr())) {
+                return null;
+            }
+        }
+
         place.registUser(user);
 
         Community savedCommunity = communityRepository.findByAddr(place.getAddr());
@@ -60,10 +69,13 @@ public class PlaceService {
                     .cate(placeCreateRequestDto.getCate())
                     .markerPic(placeCreateRequestDto.getMarkerPic())
                     .url(placeCreateRequestDto.getUrl())
+                    .count(0)
             .build();
+            community.increaseCount();
             place.placeCommunity(community);
             communityRepository.save(community);
         }else{
+            savedCommunity.increaseCount();
             place.placeCommunity(savedCommunity);
         }
         placeRepository.save(place);
@@ -139,18 +151,6 @@ public class PlaceService {
     }
 
     /**
-     * 맛집 세기
-     */
-    @Transactional
-    public PlaceCountDto countPlace(String addr) {
-        List<Place> countPlaces = placeRepository.findByAddr(addr);
-        int placeCount = countPlaces.size();
-        PlaceCountDto dto = new PlaceCountDto();
-        dto.setCount(placeCount);
-        return dto;
-    }
-
-    /**
      * 유저 정보와 일치하는 맛집 지우기
      */
     @Transactional
@@ -160,6 +160,7 @@ public class PlaceService {
                 ()-> new NoSuchElementException("일치하는 저장된 맛집이 없습니다.")
         );
         Community community = communityRepository.findByAddr(place.getAddr());
+        community.decreaseCount();
         Long communityId = place.getCommunity().getId();
         List<Comment> comments = commentRepository.findAll();
         if (comments.size() != 0) {

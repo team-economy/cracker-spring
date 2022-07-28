@@ -33,8 +33,13 @@ public class PlaceController {
         Long retId = placeService.save(placeCreateRequestDto, email);
 
         PlaceCreateResponseDto placeCreateResponseDto = new PlaceCreateResponseDto();
-        placeCreateResponseDto.setMsg("저장 완료!!");
-        placeCreateResponseDto.setId(retId);
+        if (retId == null) {
+            placeCreateResponseDto.setMsg("이미 저장된 장소입니다.");
+            placeCreateResponseDto.setId(null);
+        } else {
+            placeCreateResponseDto.setMsg("저장 완료!!");
+            placeCreateResponseDto.setId(retId);
+        }
 
         return placeCreateResponseDto;
     }
@@ -77,11 +82,6 @@ public class PlaceController {
         }
 
         return placeDeleteResponseDto;
-    }
-
-    @PostMapping("/places/count/{addr}")
-    public PlaceCountDto countPlace(@PathVariable String addr) {
-        return placeService.countPlace(addr);
     }
 
     @PostMapping("/places/add/{communityId}")

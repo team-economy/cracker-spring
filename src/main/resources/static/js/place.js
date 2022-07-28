@@ -18,9 +18,10 @@ function get_place(flag) {
                 console.log(response);
                 for (let i = 0; i < response.length; i++) {
                     let place = response[i]
+                    let user = checkUsername();
                     let marker = make_marker(place.coordX, place.coordY, place.markerPic)
                     add_info(i, marker, place)
-                    make_card(i, place, null);
+                    make_card(i, place, user, user);
                 }
             }
         });
@@ -55,7 +56,7 @@ function get_all_place() {
                 let place = response[i]
                 let addr = place.addr;
                 let link = place.url;
-                let count = count_place(addr);
+                let count = place.countPlaces;
                 let marker = make_marker(place.coordX, place.coordY, place.markerPic)
                 add_info(i, marker, place, link);
                 make_all_card(i, place, count);
@@ -83,10 +84,13 @@ function make_card(i, place, flag, user) {
 
     let html_temp;
 
-    if(flag !== user) {
+    if (flag == null) {
         html_temp = html_temp_start + html_temp_end;
     } else {
-        html_temp = html_temp_start + html_temp_my_place + html_temp_end;
+        html_temp = html_temp_start + html_temp_end;
+        if (flag == user) {
+            html_temp = html_temp_start + html_temp_my_place + html_temp_end;
+        }
     }
     $('#place-box').append(html_temp);
 }
@@ -130,20 +134,6 @@ function checkUsername() {
         }
     });
     return user;
-}
-
-function count_place(addr) {
-    let output;
-    $.ajax({
-        type: "POST",
-        async: false,
-        url: `/places/count/${addr}`,
-        success: function (response) {
-            output = response.count;
-            console.log(output)
-        }
-    });
-    return output;
 }
 
 function place_delete_confirm(place_id, place_name) {
