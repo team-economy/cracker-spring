@@ -1,22 +1,28 @@
 package com.cracker.user.controller;
 
 import com.cracker.auth.dto.TokenDto;
+import com.cracker.auth.security.UserPrincipal;
+import com.cracker.auth.service.AuthService;
 import com.cracker.common.ResponseDetails;
 import com.cracker.user.dto.JoinDto;
+import com.cracker.user.entity.Users;
 import com.cracker.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Map;
+import java.util.Optional;
 
 @RestController
 @RequiredArgsConstructor
 public class UserController {
     private final UserService userService;
+    private final AuthService authService;
 
     @PostMapping("/api/cracker/signup")
     public ResponseEntity<?> join(HttpServletRequest request, HttpServletResponse response, @RequestBody JoinDto requestJoinDTO) {
@@ -69,5 +75,29 @@ public class UserController {
         }
         ResponseDetails responseDetails = ResponseDetails.success(msg, "/api/cracker/duplicate-nickname-check");
         return new ResponseEntity<>(responseDetails, HttpStatus.CREATED);
+    }
+
+    @GetMapping("/api/cracker/check-user")
+    public Long checkUser(@AuthenticationPrincipal UserPrincipal userPrincipal) {
+        String email;
+        if (userPrincipal == null) {
+            return null;
+        } else {
+            email = userPrincipal.getEmail();
+        }
+        Optional<Users> user = authService.getUserByEmail(email);
+        return user.get().getId();
+    }
+
+    @GetMapping("/api/cracker/check-username")
+    public String checkUserName(@AuthenticationPrincipal UserPrincipal userPrincipal) {
+        String email;
+        if (userPrincipal == null) {
+            return null;
+        } else {
+            email = userPrincipal.getEmail();
+        }
+        Optional<Users> user = authService.getUserByEmail(email);
+        return user.get().getNickname();
     }
 }

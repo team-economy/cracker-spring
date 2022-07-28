@@ -70,17 +70,31 @@ function getMessages() {
                 let userProfileImg = message['userProfileImg'];
                 let userId = message['userId'];
                 let isModified = message['modified'];
+                let user = checkUser();
 
-                console.log(comment)
+                console.log(userId)
+                console.log(user)
 
-                addHTML(id, username, comment, time_past, userProfileImg, userId, isModified);
+                addHTML(id, username, comment, time_past, userProfileImg, userId, isModified, user);
             }
         }
     })
 }
 
+function checkUser() {
+    let user;
+    $.ajax({
+        type: "GET",
+        async: false,
+        url: `/api/cracker/check-user`,
+        success: function (response) {
+            user = response;
+        }
+    });
+    return user;
+}
 
-function addHTML(id, userName, comment, time_past, userProfileImg, userId, isModified) {
+function addHTML(id, userName, comment, time_past, userProfileImg, userId, isModified, user) {
     let tempHtml_start = `
         <div class="box comment-list">
             <article class="media">
@@ -93,17 +107,19 @@ function addHTML(id, userName, comment, time_past, userProfileImg, userId, isMod
                     <div class="content">
                         <div class="comment-userinfo">                         
                             `;
-    let tempHtml_not_modified = `<strong>${userName}</strong><small class="comment-time">${time_past}</small>`;
+    let tempHtml_not_modified = `<strong>${userName}</strong><small class="comment-time">${time_past}</small>
+                                </div>`;
 
-    let tempHtml_is_modified = `<strong>${userName}</strong><small class="comment-time">${time_past} (수정됨)</small>`;
+    let tempHtml_is_modified = `<strong>${userName}</strong><small class="comment-time">${time_past} (수정됨)</small>
+                                </div>`;
 
-    let tempHtml_end = `
-                            </div>
-                        <div class = "comment-buttons-area">
+    let tempHtml_isMe = `<div class = "comment-buttons-area">
                             <a id="${id}-delete" type="button" class="delete-comment" onclick="comment_delete_confirm('${id}')"><i class="fa fa-trash" aria-hidden="true"></i></a>     
                             <a id="${id}-edit" type="button" class="edit-comment" onclick="editComment('${id}')"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
                             <a id="${id}-update" type="button" class="update-comment" onclick="updateEdit('${id}')"><i class="fa fa-check" aria-hidden="true"></i></a>                                                                                                                         
-                        </div>
+                        </div>`
+
+    let tempHtml_end = `
                     </div>
                     <div class="text-area">
                         <div id="${id}-comment">
@@ -119,11 +135,20 @@ function addHTML(id, userName, comment, time_past, userProfileImg, userId, isMod
 
     let tempHtml;
 
-    if(isModified) {
-        tempHtml = tempHtml_start + tempHtml_is_modified + tempHtml_end;
+    if (user === userId) {
+        if(isModified) {
+            tempHtml = tempHtml_start + tempHtml_is_modified + tempHtml_isMe + tempHtml_end;
+        } else {
+            tempHtml = tempHtml_start + tempHtml_not_modified + tempHtml_isMe + tempHtml_end;
+        }
     } else {
-        tempHtml = tempHtml_start + tempHtml_not_modified + tempHtml_end;
+        if(isModified) {
+            tempHtml = tempHtml_start + tempHtml_is_modified + tempHtml_end;
+        } else {
+            tempHtml = tempHtml_start + tempHtml_not_modified + tempHtml_end;
+        }
     }
+
     $('#post-box').append(tempHtml);
 }
 
