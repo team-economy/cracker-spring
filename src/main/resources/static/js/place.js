@@ -33,7 +33,8 @@ function get_place(flag) {
                 console.log(response);
                 for (let i = 0; i < response.length; i++) {
                     let place = response[i]
-                    make_card(i, place, false);
+                    let user = checkUsername();
+                    make_card(i, place, flag, user);
                 }
             }
         });
@@ -64,7 +65,7 @@ function get_all_place() {
 }
 
 // 맛집 카드 만들기
-function make_card(i, place, flag) {
+function make_card(i, place, flag, user) {
     let html_temp_start = `<div class="card" id="card-${i}">
                                 <div class="card-body" id="card-body-${i}" style="background-color: #FDF6EC">
                                     <h5 class="card-title"><a href="javascript:click2center(${i})" class="place-title">${place.name}</a></h5>
@@ -82,7 +83,7 @@ function make_card(i, place, flag) {
 
     let html_temp;
 
-    if (flag) {
+    if(flag !== user) {
         html_temp = html_temp_start + html_temp_end;
     } else {
         html_temp = html_temp_start + html_temp_my_place + html_temp_end;
@@ -116,6 +117,19 @@ function make_all_card(i, place, count) {
                     </div>`;
 
     $('#place-box').append(html_temp);
+}
+
+function checkUsername() {
+    let user;
+    $.ajax({
+        type: "GET",
+        async: false,
+        url: `/api/cracker/check-username`,
+        success: function (response) {
+            user = response;
+        }
+    });
+    return user;
 }
 
 function count_place(addr) {
