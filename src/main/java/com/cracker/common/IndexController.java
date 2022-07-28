@@ -78,11 +78,13 @@ public class IndexController {
         Community community = communityService.communitySearch(id);
         if(community == null) {
             return "error/500html";
+        } else if (user.isEmpty()) {
+            model.addAttribute("userCommu", null);
         } else {
-            model.addAttribute("communityInfo", community);
             model.addAttribute("userCommu", user);
-            return "community";
         }
+        model.addAttribute("communityInfo", community);
+        return "community";
     }
 
     //user page 연결

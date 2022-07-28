@@ -20,4 +20,18 @@ public class PlaceCreateRequestDto {
     String phoneNum;
     String cate;
     String markerPic;
+    String url;
+
+    @Builder
+    public PlaceCreateRequestDto(String name, String addr, String addrRoad, String coordX, String coordY, String phoneNum, String cate, String markerPic, String url) {
+        this.name = name;
+        this.addr = addr;
+        this.addrRoad = addrRoad;
+        this.coordX = coordX;
+        this.coordY = coordY;
+        this.phoneNum = phoneNum;
+        this.cate = cate;
+        this.markerPic = markerPic;
+        this.url = url;
+    }
 }

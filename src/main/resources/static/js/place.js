@@ -20,7 +20,7 @@ function get_place(flag) {
                     let place = response[i]
                     let marker = make_marker(place.coordX, place.coordY, place.markerPic)
                     add_info(i, marker, place)
-                    make_card(i, place);
+                    make_card(i, place, null);
                 }
             }
         });
@@ -33,7 +33,8 @@ function get_place(flag) {
                 console.log(response);
                 for (let i = 0; i < response.length; i++) {
                     let place = response[i]
-                    make_card(i, place, false);
+                    let user = checkUsername();
+                    make_card(i, place, flag, user);
                 }
             }
         });
@@ -52,16 +53,19 @@ function get_all_place() {
             console.log(response);
             for (let i = 0; i < response.length; i++) {
                 let place = response[i]
+                let addr = place.addr;
+                let link = place.url;
+                let count = count_place(addr);
                 let marker = make_marker(place.coordX, place.coordY, place.markerPic)
-                add_info(i, marker, place)
-                make_all_card(i, place, place.role);
+                add_info(i, marker, place, link);
+                make_all_card(i, place, count);
             }
         }
     });
 }
 
 // 맛집 카드 만들기
-function make_card(i, place, flag) {
+function make_card(i, place, flag, user) {
     let html_temp_start = `<div class="card" id="card-${i}">
                                 <div class="card-body" id="card-body-${i}" style="background-color: #FDF6EC">
                                     <h5 class="card-title"><a href="javascript:click2center(${i})" class="place-title">${place.name}</a></h5>
@@ -79,7 +83,7 @@ function make_card(i, place, flag) {
 
     let html_temp;
 
-    if(flag) {
+    if(flag !== user) {
         html_temp = html_temp_start + html_temp_end;
     } else {
         html_temp = html_temp_start + html_temp_my_place + html_temp_end;
@@ -88,31 +92,61 @@ function make_card(i, place, flag) {
 }
 
 // 모든 맛집 카드 만들기
-function make_all_card(i, place, role) {
-    let html_temp_start = `<div class="card" id="card-${i}">
-                                <div class="card-body" id="card-body-${i}" style="background-color: #FDF6EC">
-                                    <h5 class="card-title"><a href="javascript:click2center(${i})" class="place-title">${place.name}</a></h5>
-                                    <p class="card-text">지번 주소 : ${place.addr}</p>
-                                    <p class="card-text">도로명 주소 : ${place.addrRoad}</p>
-                                    <p class="place-list-button-area">`
+function make_all_card(i, place, count) {
+    let html_temp = `<div class="card" id="card-${i}">
+                        <div class="card-body" id="card-body-${i}" style="background-color: #FDF6EC">
+                            
+                            <div class="allplce-place-info">
+                                <h5 class="card-title"><a href="javascript:click2center(${i})" class="place-title">${place.name}</a></h5>
+                                <p class="card-text">카테고리 : ${place.cate}</p>
+                                <p class="card-text">지번 주소 : ${place.addr}</p>
+                            </div>
+                            <div class="add-place-button">
+                                <button type="button" class="button add-place-allplace" onclick="add_place(${place.communityId})">
+                                    <img src="https://img.icons8.com/sf-regular/48/000000/add.png"/>
+                                </button>                        
+                            </div>
+                           
+                            <div class="place-list-button-area">
+                             
+                                    <span class="place-count float-right">추천수 : ${count}</span>
+                                    <button class="button is-success community-btn float-right" onclick="location.href='/community/'+'${place.communityId}'">커뮤니티</button>
+                                
+                            </div>
+                        </div>
+                    </div>`;
 
-    let html_temp_my_place = `<button class="button is-success community-btn" onclick="location.href='/community/'+'${place.communityId}'">커뮤니티</button>`;
-
-    let html_temp_end = `</p>
-                    </div>
-             </div>`
-
-    let html_temp;
-
-    if(role == "GUEST") {
-        html_temp = html_temp_start + html_temp_end;
-    } else {
-        html_temp = html_temp_start + html_temp_my_place + html_temp_end;
-    }
     $('#place-box').append(html_temp);
 }
 
-function place_delete_confirm(place_id, place_name){
+function checkUsername() {
+    let user;
+    $.ajax({
+        type: "GET",
+        async: false,
+        url: `/api/cracker/check-username`,
+        success: function (response) {
+            user = response;
+        }
+    });
+    return user;
+}
+
+function count_place(addr) {
+    let output;
+    $.ajax({
+        type: "POST",
+        async: false,
+        url: `/places/count/${addr}`,
+        success: function (response) {
+            output = response.count;
+            console.log(output)
+        }
+    });
+    return output;
+}
+
+function place_delete_confirm(place_id, place_name) {
     let html_temp_delete_modal = `
                                 <div class="modal" id="confirm-deletion">
                                     <div class="modal-background" onclick='$("#confirm-deletion").removeClass("is-active")'></div>
@@ -156,8 +190,8 @@ function get_address() {
             header.setRequestHeader("Authorization", 'KakaoAK b2cd5fe8152984068e62cf5b85fbb75a');
         },
         success: function (response) {
-
             let result = response['documents'];
+            console.log(result)
 
             if (result == "") {
                 alert("일치하는 정보가 없습니다.");
@@ -168,7 +202,7 @@ function get_address() {
 
                     let html_temp = `<div class="form-check place-search-info place-card">
                                             <input class="form-check-input" type="radio" name="place" id="place${i}"
-                                            value="${info['place_name']},${info['address_name']},${info['road_address_name']},${info['x']},${info['y']},${info['phone']},${info['category_name']}">
+                                            value="${info['place_name']},${info['address_name']},${info['road_address_name']},${info['x']},${info['y']},${info['phone']},${info['category_name']},${info['id']}">
                                             <label class="form-check-label" for="${info['place_name']}" id="label">
                                                 <p id="place_name"><b>${info['place_name']}</b></a>
                                                 <p>${info['category_name']}</p>
@@ -178,7 +212,6 @@ function get_address() {
                     $("#place_list").append(html_temp);
                 }
             }
-
         },
         error: function (response) {
             alert("검색어를 입력하세요");
@@ -199,6 +232,8 @@ function save_place() {
     let phone = radio_button.split(',')[5];
     let category = radio_button.split(',')[6];
 
+    let url = radio_button.split(',')[7];
+
     let param = {
         name: place,
         addr: addr,
@@ -206,11 +241,9 @@ function save_place() {
         coordX: x,
         coordY: y,
         phoneNum: phone,
-        cate: category
+        cate: category,
+        url: url
     }
-    console.log(place)
-    console.log(addr)
-    console.log(addr_road)
 
     $.ajax({
         type: "POST",
@@ -220,8 +253,9 @@ function save_place() {
         success: function (response) {
             if (response["msg"] == "저장 완료!!") {
                 alert(response["msg"])
+                let id = response.id;
                 $("#modal-post").removeClass("is-active")
-                window.location.reload()
+                window.location.href = "/community/" + id;
             } else {
                 alert(response["msg"])
                 $("#modal-post").removeClass("is-active")
@@ -247,5 +281,31 @@ function delete_place(id) {
 
         }
 
+    })
+}
+
+
+function add_place(communityId) {
+
+    let community_id = communityId;
+
+    $.ajax({
+        type: "POST",
+        url: `/places/add/${community_id}`,
+        success: function (response) {
+            if (response["msg"] == "저장 완료!!") {
+                alert(response["msg"])
+                let id = response.id;
+                $("#modal-post").removeClass("is-active")
+                window.location.href = "/community/" + id;
+            } else {
+                alert(response["msg"])
+                $("#modal-post").removeClass("is-active")
+            }
+        },
+        error: function (response) {
+            alert("GUEST 유저입니다.")
+            $("#modal-post").removeClass("is-active")
+        }
     })
 }
